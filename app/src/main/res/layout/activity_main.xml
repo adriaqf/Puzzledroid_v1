@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/inicio_3"
 
+    android:background="@drawable/inicio_3"
     tools:context=".MainActivity">
 
 
@@ -39,40 +40,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/b_single" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/b_multi"
-        android:layout_marginTop="129dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_toStartOf="@+id/imageView1"
-        android:layout_toLeftOf="@+id/imageView1"
-        android:src="@drawable/ic_build_black_24dp"
-        android:tint="@android:color/holo_purple"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b_multi" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="49dp"
-        android:layout_height="43dp"
-        android:layout_below="@+id/b_multi"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="129dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:src="@drawable/ic_error_black_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
-        app:layout_constraintStart_toEndOf="@+id/imageButton5"
-        app:layout_constraintTop_toBottomOf="@+id/b_multi" />
 
 </RelativeLayout>
