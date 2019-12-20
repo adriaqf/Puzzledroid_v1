@@ -2,4 +2,5 @@
     <string name="app_name">Puzzledroid</string>
     <string name="btn_single_player">Un Jugador</string>
     <string name="btn_multiplayer">Multijugador</string>
+    <string name="listView">Seleccione puzzle a resolver:</string>
 </resources>
