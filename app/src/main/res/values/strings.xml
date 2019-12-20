@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Puzzledroid</string>
+    <string name="btn_single_player">Un Jugador</string>
+    <string name="btn_multiplayer">Multijugador</string>
 </resources>
