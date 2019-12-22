@@ -1,8 +1,10 @@
 package com.sds.puzzledroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,10 +22,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        LinearLayout linearLayoutV = (LinearLayout) findViewById(R.id.LinearLayoutV);
+        AnimationDrawable animationDrawable = (AnimationDrawable) linearLayoutV.getBackground();
+        animationDrawable.setEnterFadeDuration(4000);
+        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.start();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.ToolBar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
-
+        toolbar.bringToFront();
     }
 
     //Método boton Individual
@@ -37,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Shows Action Bar Menu
-    public boolean onCreateOptionsMenu(Menu menu) {
+    /*public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
-    }
+    }*/
 
     //Adds Action Bar Buttons' actions
     public boolean onOptionsItemSelected(MenuItem item) {

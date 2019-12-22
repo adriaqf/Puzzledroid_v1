@@ -1,39 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayoutV"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backgroundColorTest"
-    android:fitsSystemWindows="true"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/ToolBar"
+        layout="@layout/toolbar_home"></include>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_list"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_app" />
+
+        <Button
+            android:id="@+id/btn_single_player"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/button_main_menu"
+            android:text="@string/btn_single_player"
+            android:textColor="@color/homeBtnText"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_multiplayer"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_main_menu"
+            android:text="@string/btn_multiplayer"
+            android:textColor="@color/homeBtnText"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/logo_app" />
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_horizontal"
+        android:text="@string/flooterText"
+        android:textColor="#0B4981"
+        android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/btn_single_player"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="80dp"
-        android:background="@color/colorAccent"
-        android:onClick="individual"
-        android:text="@string/btn_single_player" />
-
-    <Button
-        android:id="@+id/btn_multiplayer"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp"
-        android:background="@android:color/holo_orange_light"
-        android:onClick="multijugador"
-        android:text="@string/btn_multiplayer" />
-
-</LinearLayout>
+</RelativeLayout>
