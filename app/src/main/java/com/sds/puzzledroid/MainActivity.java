@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -34,12 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
     //Método boton Individual
     public void individual(View view){
-        Intent individual = new Intent(this,Individual.class);
+        Intent individual = new Intent(this,IndividualActivity.class);
         startActivity(individual);
     }
     //Método boton Multijugador
     public void multijugador(View view){
-        Intent multijugador = new Intent(this,Multijugador.class);
+        Intent multijugador = new Intent(this,MultijugadorActivity.class);
         startActivity(multijugador);
     }
 
