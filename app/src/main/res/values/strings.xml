@@ -10,4 +10,6 @@
     <string name="btn_toolbar_help">"?"</string>
     <string name="btn_toolbar_config">"⚙"️</string>
 
+    <string name="listView">Seleccione puzzle a resolver:</string>
+
 </resources>
