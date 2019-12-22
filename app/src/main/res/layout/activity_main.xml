@@ -23,6 +23,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="80dp"
         android:background="@color/colorAccent"
+        android:onClick="individual"
         android:text="@string/btn_single_player" />
 
     <Button
@@ -32,6 +33,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
         android:background="@android:color/holo_orange_light"
+        android:onClick="multijugador"
         android:text="@string/btn_multiplayer" />
 
 </LinearLayout>
