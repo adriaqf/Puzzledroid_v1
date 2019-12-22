@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00000000</color>
-    <color name="colorPrimaryDark">#00acc1</color>
-    <color name="backgroundColorTest">#85CBD4</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#1A82D4</color>
     <color name="colorAccent">#FFEB3B</color>
+
+    <color name="backgroundColor1">#6185FF</color>
+    <color name="backgroundColor2">#4DB7DF</color>
+    <color name="backgroundColor3">#329FC8</color>
+    <color name="backgroundColor4">#7FBFF1</color>
+    <color name="backgroundColor5">#6196E8</color>
+    <color name="backgroundColor6">#00A4FF</color>
+
+    <color name="homeBtnGrad1">#4D9FDF</color>
+    <color name="homeBtnGrad2">#1A82D4</color>
+    <color name="homeBtnBorder1">#00467C</color>
+    <color name="homeBtnBorder2">#4D9FDF</color>
+    <color name="homeBtnText">#FFFFFF</color>
+
+    <color name="toolBarBtnGrad1">#bedcf3</color>
+    <color name="toolBarBtnGrad2">#6bb2eb</color>
+
+
 </resources>

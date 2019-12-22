@@ -14,7 +14,7 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         wvHelp = (WebView) findViewById(R.id.wv_help);
         wvHelp.getSettings().setJavaScriptEnabled(true);
