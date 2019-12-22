@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Puzzledroid</string>
+    <string name="app_version">v 0.1</string>
+    <string name="flooterText">UOC Jesuïtes Educació 2020 · SPS Group · Puzzledroid</string>
+
+
     <string name="btn_single_player">Un Jugador</string>
     <string name="btn_multiplayer">Multijugador</string>
+
+    <string name="btn_toolbar_help">"?"</string>
+    <string name="btn_toolbar_config">"⚙"️</string>
+
 </resources>
