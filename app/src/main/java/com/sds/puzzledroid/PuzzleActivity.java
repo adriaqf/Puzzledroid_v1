@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -34,11 +35,15 @@ public class PuzzleActivity extends AppCompatActivity {
     ArrayList<PuzzlePiece> pieces;
     String mCurrentPhotoPath;
     String mCurrentPhotoUri;
+private Chronometer chrono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
+
+        chrono = findViewById(R.id.chrono);
+        chrono.start();
 
         final RelativeLayout layout = findViewById(R.id.layout);
         final ImageView imageView = findViewById(R.id.imageView);
@@ -111,9 +116,9 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     private ArrayList<PuzzlePiece> splitImage() {
-        int piecesNumber = 100;
-        int rows = 10;
-        int cols = 10;
+        int piecesNumber = 4;
+        int rows = 2;
+        int cols = 2;
 
         ImageView imageView = findViewById(R.id.imageView);
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);
@@ -287,9 +292,46 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     public void checkGameOver() {
+        CharSequence crono;
         if (isGameOver()) {
+
             finish();
+
+            chrono.stop();
+            crono = chrono.getText();
+           String cronoStr;
+           cronoStr = crono.toString();
+
+           int pos0;
+           int pos1;
+           int pos3;
+           int pos4;
+           int suma;
+           String score;
+
+           pos0 = Integer.parseInt(String.valueOf(cronoStr.charAt(0)))*10*60;
+           pos1 = Integer.parseInt(String.valueOf(cronoStr.charAt(1)))*60;
+           pos3 = Integer.parseInt(String.valueOf(cronoStr.charAt(3)))*10;
+           pos4 = Integer.parseInt(String.valueOf(cronoStr.charAt(4)));
+
+           suma = pos0+pos1+pos3+pos4;
+           score = String.valueOf(suma);
+
+
+            Toast toast1 = Toast.makeText(this,score+" segundos",Toast.LENGTH_LONG);
+            toast1.show();
         }
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private boolean isGameOver() {
