@@ -16,6 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MultijugadorActivity" />
         <activity android:name=".IndividualActivity" />
+        <activity android:name=".PuzzleActivity"/>
         <activity
             android:name=".HelpActivity"
             android:launchMode="singleTop"
