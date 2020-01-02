@@ -35,12 +35,13 @@ public class PuzzleLevelActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     String mCurrentPhotoUri;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle_level);
 
-        final RelativeLayout layout = findViewById(R.id.cLayoutPuzzleLevel);
+        final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
         final ImageView imageView = findViewById(R.id.ivPuzzle);
 
         Intent intent = getIntent();
@@ -48,8 +49,6 @@ public class PuzzleLevelActivity extends AppCompatActivity {
         mCurrentPhotoPath = intent.getStringExtra("mCurrentPhotoPath");
         mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
 
-        // run image related code after the view was laid out
-        // to have all dimensions calculated
         imageView.post(new Runnable() {
             @Override
             public void run() {
@@ -111,9 +110,9 @@ public class PuzzleLevelActivity extends AppCompatActivity {
     }
 
     private ArrayList<PuzzlePiece> splitImage() {
-        int piecesNumber = 100;
-        int rows = 10;
-        int cols = 10;
+        int piecesNumber = 4;
+        int rows = 2;
+        int cols = 2;
 
         ImageView imageView = findViewById(R.id.ivPuzzle);
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);

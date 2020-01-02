@@ -2,14 +2,24 @@ package com.sds.puzzledroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class ButtonAdapter extends BaseAdapter {
@@ -21,11 +31,22 @@ public class ButtonAdapter extends BaseAdapter {
             "4",
             "5"
     };
+    private AssetManager am;
+    private String[] files;
+
+    public ButtonAdapter(Context c) {
+        mContext = c;
+        am = mContext.getAssets();
+        try {
+            files  = am.list("img");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /** Constructor de clase */
-    public ButtonAdapter(Context c){
-        mContext = c;
-    }
+
 
     @Override
     public int getCount() {
@@ -39,8 +60,9 @@ public class ButtonAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
+
 
     @Override
     public View getView(int position, View view, ViewGroup viewgroup) {
@@ -83,5 +105,42 @@ public class ButtonAdapter extends BaseAdapter {
 
         return btn;
     }
+    private Bitmap getPicFromAsset(ImageView imageView, String assetName) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        if(targetW == 0 || targetH == 0) {
+            // view has no dimensions set
+            return null;
+        }
+
+        try {
+            InputStream is = am.open("img/" + assetName);
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+            is.reset();
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            return BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
 
 }
