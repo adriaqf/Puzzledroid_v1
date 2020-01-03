@@ -22,33 +22,20 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
 
-        AssetManager am = getAssets();
-        try {
-            final String[] files  = am.list("img");
+        GridView grid = findViewById(R.id.gidViewLevels);
+        grid.setAdapter(new ButtonAdapter(this));
 
-            GridView grid = findViewById(R.id.gidViewLevels);
-            grid.setAdapter(new ButtonAdapter(this));
-            grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(getApplicationContext(), PuzzleLevelActivity.class);
-                    intent.putExtra("assetName", files[i % files.length]);
-                    startActivity(intent);
-                }
-            });
-        } catch (IOException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT);
-        }
-
+        //Toolbar added to activiity's screen
         Toolbar toolbar = findViewById(R.id.toolbar_dynamic);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
 
-        //GidView buttons added
-       GridView gridView = findViewById( R.id.gidViewLevels);
+        //GidView buttons added to activity's screen
+        GridView gridView = findViewById( R.id.gidViewLevels);
         gridView.setAdapter(new ButtonAdapter(this));
 
+        //Background animation
         LinearLayout linearLayoutV = findViewById(R.id.singlePlayerLinearL);
         AnimationDrawable animationDrawable = (AnimationDrawable) linearLayoutV.getBackground();
         animationDrawable.setEnterFadeDuration(4000);

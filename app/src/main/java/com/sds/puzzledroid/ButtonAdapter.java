@@ -65,7 +65,7 @@ public class ButtonAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View view, ViewGroup viewgroup) {
+    public View getView(final int position, View view, ViewGroup viewgroup) {
 
         Button btn;
         if (view == null) {
@@ -98,49 +98,15 @@ public class ButtonAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), PuzzleLevelActivity.class);
+                //0 = easy, 1 = normal, 2 = difficult
+                int difficulty = buttonsTitles[position] == "1" || buttonsTitles[position] == "2" ? 0 : buttonsTitles[position] == "3" || buttonsTitles[position] == "4" ? 1 : 2;
+                i.putExtra("levelDifficulty", difficulty);
+                i.putExtra("assetName", files[position]);
                 v.getContext().startActivity(i);
-                Toast.makeText(v.getContext(), "Hello World", Toast.LENGTH_SHORT).show();
             }
         });
 
         return btn;
     }
-    private Bitmap getPicFromAsset(ImageView imageView, String assetName) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
-
-        if(targetW == 0 || targetH == 0) {
-            // view has no dimensions set
-            return null;
-        }
-
-        try {
-            InputStream is = am.open("img/" + assetName);
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-            is.reset();
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-            return BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
 
 }

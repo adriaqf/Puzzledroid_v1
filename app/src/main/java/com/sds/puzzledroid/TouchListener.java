@@ -31,9 +31,6 @@ public class TouchListener implements View.OnTouchListener{
             return true;
         }
 
-
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)  v.getLayoutParams();
-
         RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
         switch(event.getAction() & event.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
