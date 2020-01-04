@@ -1,0 +1,112 @@
+package com.sds.puzzledroid;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+
+public class ButtonAdapter extends BaseAdapter {
+    private Context mContext;
+    private String[]  buttonsTitles = {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+    };
+    private AssetManager am;
+    private String[] files;
+
+    public ButtonAdapter(Context c) {
+        mContext = c;
+        am = mContext.getAssets();
+        try {
+            files  = am.list("img");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /** Constructor de clase */
+
+
+    @Override
+    public int getCount() {
+        return buttonsTitles.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+
+    @Override
+    public View getView(final int position, View view, ViewGroup viewgroup) {
+
+        Button btn;
+        if (view == null) {
+            // if it's not recycled, initialize some attributes-ñ
+            btn = new Button(mContext);
+            btn.setLayoutParams(new GridView.LayoutParams(200, 200));
+            btn.setPadding(8, 8, 8, 8);
+        }
+        else {
+            btn = (Button) view;
+        }
+
+        if(buttonsTitles[position] == "1" || buttonsTitles[position] == "2") {
+            btn.setBackgroundResource(R.drawable.button_single_player_level0);
+        }
+        else if(buttonsTitles[position] == "3" || buttonsTitles[position] == "4") {
+            btn.setBackgroundResource(R.drawable.button_single_player_level1);
+        }
+        else {
+            btn.setBackgroundResource(R.drawable.button_single_player_level2);
+        }
+
+        btn.setText(buttonsTitles[position]);
+        btn.setTextColor(Color.WHITE);
+        btn.setTextSize((float) 20);
+        btn.setTypeface(null, Typeface.BOLD);
+        btn.setId(position);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), PuzzleLevelActivity.class);
+                //0 = easy, 1 = normal, 2 = difficult
+                int difficulty = buttonsTitles[position] == "1" || buttonsTitles[position] == "2" ? 0 : buttonsTitles[position] == "3" || buttonsTitles[position] == "4" ? 1 : 2;
+                i.putExtra("levelDifficulty", difficulty);
+                i.putExtra("assetName", files[position]);
+                v.getContext().startActivity(i);
+            }
+        });
+
+        return btn;
+    }
+
+}

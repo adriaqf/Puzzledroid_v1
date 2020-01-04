@@ -1,7 +1,6 @@
 package com.sds.puzzledroid;
 
 import android.content.Context;
-import android.widget.ImageView;
 
 public class PuzzlePiece extends  androidx.appcompat.widget.AppCompatImageView {
     public int xCoord;

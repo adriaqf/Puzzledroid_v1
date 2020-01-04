@@ -11,6 +11,16 @@
     <color name="backgroundColor5">#6196E8</color>
     <color name="backgroundColor6">#00A4FF</color>
 
+    <color name="background_text_bottom_toolbar">#003055</color>
+    <color name="background_onclick_button_bottom_toolbar">#0571C6</color>
+
+    <color name="backgroundSinglePlayerColor1">#2FA52B</color>
+    <color name="backgroundSinglePlayerColor2">#9CFF9A</color>
+    <color name="backgroundSinglePlayerColor3">#A56A2B</color>
+    <color name="backgroundSinglePlayerColor4">#FFCB9A</color>
+    <color name="backgroundSinglePlayerColor5">#A52B2B</color>
+    <color name="backgroundSinglePlayerColor6">#FF9A9A</color>
+
     <color name="homeBtnGrad1">#4D9FDF</color>
     <color name="homeBtnGrad2">#1A82D4</color>
     <color name="homeBtnBorder1">#00467C</color>
@@ -19,6 +29,21 @@
 
     <color name="toolBarBtnGrad1">#bedcf3</color>
     <color name="toolBarBtnGrad2">#6bb2eb</color>
+
+    <color name="sPBtnLvl0Border1">#67F479</color>
+    <color name="sPBtnLvl0Border2">#51A15B</color>
+    <color name="sPBtnLv0Grad1">#51A15B</color>
+    <color name="sPBtnLv0Grad2">#67F479</color>
+
+    <color name="sPBtnLvl1Border1">#F4BF67</color>
+    <color name="sPBtnLvl1Border2">#A97E3B</color>
+    <color name="sPBtnLv1Grad1">#A97E3B</color>
+    <color name="sPBtnLv1Grad2">#F4BF67</color>
+
+    <color name="sPBtnLvl2Border1">#F46767</color>
+    <color name="sPBtnLvl2Border2">#A15151</color>
+    <color name="sPBtnLv2Grad1">#A15151</color>
+    <color name="sPBtnLv2Grad2">#F46767</color>
 
 
 </resources>

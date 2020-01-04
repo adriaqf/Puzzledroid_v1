@@ -14,17 +14,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".PuzzleLevelActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MultijugadorActivity" />
-        <activity android:name=".IndividualActivity" />
-        <activity android:name=".PuzzleActivity"/>
+
+        <activity
+            android:name=".SinglePlayerActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".HelpActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -32,6 +33,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
