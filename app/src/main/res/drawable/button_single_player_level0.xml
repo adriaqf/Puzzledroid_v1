@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <stroke android:width="1dp"
+                        android:color="@color/sPBtnLvl0Border1"/>
+                    <corners android:radius="25dp"/>
+                </shape>
+            </item>
+            <item android:top="1dp" android:bottom="1dp" android:left="1dp" android:right="1dp">
+                <shape android:shape="rectangle">
+                    <gradient android:angle="90"
+                        android:startColor="@color/sPBtnLv0Grad1"
+                        android:endColor="@color/sPBtnLv0Grad1"/>
+                    <stroke android:width="3dp"
+                        android:color="@color/sPBtnLvl0Border2"/>
+                    <corners android:radius="24dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_enabled="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <stroke android:width="1dp"
+                        android:color="@color/sPBtnLvl0Border1"/>
+                    <corners android:radius="25dp"/>
+                </shape>
+            </item>
+            <item android:top="1dp" android:bottom="1dp" android:left="1dp" android:right="1dp">
+                <shape android:shape="rectangle">
+                    <gradient android:angle="90"
+                        android:startColor="@color/sPBtnLv0Grad1"
+                        android:endColor="@color/sPBtnLv0Grad2"/>
+                    <stroke android:width="2dp"
+                        android:color="@color/sPBtnLvl0Border2"/>
+                    <corners android:radius="24dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

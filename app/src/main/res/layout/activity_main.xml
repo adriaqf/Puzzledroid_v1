@@ -34,7 +34,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="80dp"
             android:background="@drawable/button_main_menu"
-            android:onClick="individual"
+            android:onClick="onClickGoTo"
             android:text="@string/btn_single_player"
             android:textColor="@color/homeBtnText"
             android:textStyle="bold" />
@@ -46,7 +46,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="50dp"
             android:background="@drawable/button_main_menu"
-            android:onClick="multijugador"
+            android:onClick="onClickGoTo"
             android:text="@string/btn_multiplayer"
             android:textColor="@color/homeBtnText"
             android:textStyle="bold" />
