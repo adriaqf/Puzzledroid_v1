@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,13 +25,18 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class PuzzleLevelActivity extends AppCompatActivity {
-    ArrayList<PuzzlePiece> pieces;
+    private ArrayList<PuzzlePiece> pieces;
+    private Chronometer chrono;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle_level);
+
+        chrono = findViewById(R.id.chrono);
+        chrono.start();
 
         final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
         final ImageView imageView = findViewById(R.id.ivPuzzle);
@@ -196,6 +202,33 @@ public class PuzzleLevelActivity extends AppCompatActivity {
     public void checkGameOver() {
         if (isGameOver()) {
             finish();
+
+            CharSequence crono;
+
+            chrono.stop();
+            crono = chrono.getText();
+            String cronoStr;
+            cronoStr = crono.toString();
+
+            int pos0;
+            int pos1;
+            int pos3;
+            int pos4;
+            int suma;
+            String score;
+
+            pos0 = Integer.parseInt(String.valueOf(cronoStr.charAt(0)))*10*60;
+            pos1 = Integer.parseInt(String.valueOf(cronoStr.charAt(1)))*60;
+            pos3 = Integer.parseInt(String.valueOf(cronoStr.charAt(3)))*10;
+            pos4 = Integer.parseInt(String.valueOf(cronoStr.charAt(4)));
+
+            suma = pos0+pos1+pos3+pos4;
+            score = String.valueOf(suma);
+
+
+            Toast toast1 = Toast.makeText(this,score+" segundos",Toast.LENGTH_LONG);
+            toast1.show();
+
         }
     }
 

@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".PuzzleLevelActivity">
 
+    <Chronometer
+        android:id="@+id/chrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/ivPuzzle"
         android:layout_width="0dp"
