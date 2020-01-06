@@ -20,8 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 import static java.lang.Math.abs;
@@ -244,6 +248,13 @@ public class JigsawActivity extends AppCompatActivity {
         return total;
     }
 
+    private String getCurrentDate() {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String todaysDate = dateFormat.format(date);
+        return todaysDate;
+    }
+
     private void registerScore(int totalScore) {
         AdminOpenHelper sqlite = new AdminOpenHelper(this);
         //Opening DB in writable mode
@@ -251,7 +262,7 @@ public class JigsawActivity extends AppCompatActivity {
 
         ContentValues register = new ContentValues();
         register.put("timeSecs", totalScore);
-        register.put("dateScore", "");
+        register.put("dateScore", getCurrentDate());
 
         db.insert("score", null, register);
         db.close();

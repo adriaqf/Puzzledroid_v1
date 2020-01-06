@@ -49,9 +49,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
             case R.id.btn_back_home:
                 finish();
                 break;
-            case R.id.btn_classification:
-                Toast.makeText(this, "Estamos trabajando en ello :)", Toast.LENGTH_SHORT).show();
-                break;
             default:
                 Toast.makeText(this, "Error: Botón inexistente", Toast.LENGTH_SHORT).show();
                 break;
