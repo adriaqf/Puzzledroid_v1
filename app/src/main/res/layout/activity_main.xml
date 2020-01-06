@@ -51,6 +51,18 @@
             android:textColor="@color/homeBtnText"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/btn_score"
+            android:layout_width="250"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_main_menu"
+            android:onClick="checkScore"
+            android:text="@string/btn_score"
+            android:textColor="@color/homeBtnText"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <TextView

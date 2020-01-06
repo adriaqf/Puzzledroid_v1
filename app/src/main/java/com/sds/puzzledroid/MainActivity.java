@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_multiplayer:
                 Toast.makeText(this, "Estamos trabajando en ello :)", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.btn_score:
+                Intent iScore = new Intent (this, ScoreActivity.class);
+                startActivity(iScore);
             case R.id.btn_help:
                 Intent iHelp = new Intent(this, HelpActivity.class);
                 startActivity(iHelp);
