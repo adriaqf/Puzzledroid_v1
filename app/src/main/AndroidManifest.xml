@@ -14,13 +14,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PuzzleLevelActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ClassificationActivity"></activity>
+        <activity
+            android:name=".JigsawActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".MultijugadorActivity" />
-
         <activity
             android:name=".SinglePlayerActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HelpActivity"
             android:launchMode="singleTop"

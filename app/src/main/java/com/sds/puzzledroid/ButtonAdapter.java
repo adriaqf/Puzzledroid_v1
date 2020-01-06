@@ -3,23 +3,15 @@ package com.sds.puzzledroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 
 public class ButtonAdapter extends BaseAdapter {
@@ -97,7 +89,7 @@ public class ButtonAdapter extends BaseAdapter {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), PuzzleLevelActivity.class);
+                Intent i = new Intent(v.getContext(), JigsawActivity.class);
                 //0 = easy, 1 = normal, 2 = difficult
                 int difficulty = buttonsTitles[position] == "1" || buttonsTitles[position] == "2" ? 0 : buttonsTitles[position] == "3" || buttonsTitles[position] == "4" ? 1 : 2;
                 i.putExtra("levelDifficulty", difficulty);

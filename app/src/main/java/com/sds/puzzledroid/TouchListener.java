@@ -13,10 +13,10 @@ public class TouchListener implements View.OnTouchListener {
 
     private float xDelta;
     private float yDelta;
-    private PuzzleLevelActivity puzzleLevelActivity;
+    private JigsawActivity jigsawActivity;
 
-    public TouchListener(PuzzleLevelActivity puzzleLevelActivity) {
-        this.puzzleLevelActivity = puzzleLevelActivity;
+    public TouchListener(JigsawActivity jigsawActivity) {
+        this.jigsawActivity = jigsawActivity;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class TouchListener implements View.OnTouchListener {
                         piece.setLayoutParams(lParams);
                         piece.canMove = false;
                         sendViewToBack(piece);
-                        puzzleLevelActivity.checkGameOver();
+                        jigsawActivity.checkGameOver();
                     }
                     break;
         }

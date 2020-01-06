@@ -5,7 +5,7 @@
     android:id="@+id/cLayoutPuzzleLevel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PuzzleLevelActivity">
+    tools:context=".JigsawActivity">
 
     <Chronometer
         android:id="@+id/chrono"

@@ -1,7 +1,9 @@
 package com.sds.puzzledroid;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -24,7 +26,7 @@ import java.util.Random;
 
 import static java.lang.Math.abs;
 
-public class PuzzleLevelActivity extends AppCompatActivity {
+public class JigsawActivity extends AppCompatActivity {
     private ArrayList<PuzzlePiece> pieces;
     private Chronometer chrono;
 
@@ -52,7 +54,7 @@ public class PuzzleLevelActivity extends AppCompatActivity {
                     setPicFromAsset(assetName, imageView);
                 }
                 pieces = splitImage(levelDifficulty);
-                TouchListener touchListener = new TouchListener(PuzzleLevelActivity.this);
+                TouchListener touchListener = new TouchListener(JigsawActivity.this);
                 // shuffle pieces order
                 Collections.shuffle(pieces);
                 for (PuzzlePiece piece : pieces) {
@@ -202,31 +204,12 @@ public class PuzzleLevelActivity extends AppCompatActivity {
     public void checkGameOver() {
         if (isGameOver()) {
             finish();
-
-            CharSequence crono;
-
             chrono.stop();
-            crono = chrono.getText();
-            String cronoStr;
-            cronoStr = crono.toString();
 
-            int pos0;
-            int pos1;
-            int pos3;
-            int pos4;
-            int suma;
-            String score;
+            int totalScore = getChronoSeconds();
+            registerScore(totalScore);
 
-            pos0 = Integer.parseInt(String.valueOf(cronoStr.charAt(0)))*10*60;
-            pos1 = Integer.parseInt(String.valueOf(cronoStr.charAt(1)))*60;
-            pos3 = Integer.parseInt(String.valueOf(cronoStr.charAt(3)))*10;
-            pos4 = Integer.parseInt(String.valueOf(cronoStr.charAt(4)));
-
-            suma = pos0+pos1+pos3+pos4;
-            score = String.valueOf(suma);
-
-
-            Toast toast1 = Toast.makeText(this,score+" segundos",Toast.LENGTH_LONG);
+            Toast toast1 = Toast.makeText(this,totalScore + " segundos",Toast.LENGTH_LONG);
             toast1.show();
 
         }
@@ -238,8 +221,41 @@ public class PuzzleLevelActivity extends AppCompatActivity {
                 return false;
             }
         }
-
         return true;
+    }
+
+    private int getChronoSeconds() {
+        CharSequence timeSecs;
+
+        timeSecs = chrono.getText();
+
+        String cronoStr;
+        cronoStr = timeSecs.toString();
+
+        int pos0, pos1, pos3, pos4, total;
+
+        pos0 = Integer.parseInt(String.valueOf(cronoStr.charAt(0)))*10*60;
+        pos1 = Integer.parseInt(String.valueOf(cronoStr.charAt(1)))*60;
+        pos3 = Integer.parseInt(String.valueOf(cronoStr.charAt(3)))*10;
+        pos4 = Integer.parseInt(String.valueOf(cronoStr.charAt(4)));
+
+        total = pos0+pos1+pos3+pos4;
+
+        return total;
+    }
+
+    private void registerScore(int totalScore) {
+        AdminOpenHelper sqlite = new AdminOpenHelper(this);
+        //Opening DB in writable mode
+        SQLiteDatabase db = sqlite.getWritableDatabase();
+
+        ContentValues register = new ContentValues();
+        register.put("timeSecs", totalScore);
+        register.put("dateScore", "");
+
+        db.insert("score", null, register);
+        db.close();
+
     }
 
 }
