@@ -17,7 +17,7 @@
         android:fitsSystemWindows="true"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".activities.MainActivity">
 
         <ImageView
             android:id="@+id/iv_logo"

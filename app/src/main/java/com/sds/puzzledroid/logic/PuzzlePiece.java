@@ -1,4 +1,4 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.logic;
 
 import android.content.Context;
 

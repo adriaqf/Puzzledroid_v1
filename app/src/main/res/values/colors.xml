@@ -45,5 +45,9 @@
     <color name="sPBtnLv2Grad1">#A15151</color>
     <color name="sPBtnLv2Grad2">#F46767</color>
 
+    <color name="popupBackground">#E1E1E1</color>
+    <color name="popupBtn">#D6D6D6</color>
+    <color name="popupBtn2">#C5C5C5</color>
+
 
 </resources>

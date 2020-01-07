@@ -1,19 +1,17 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.sds.puzzledroid.logic.ButtonAdapter;
+import com.sds.puzzledroid.R;
 
 public class SinglePlayerActivity extends AppCompatActivity {
 

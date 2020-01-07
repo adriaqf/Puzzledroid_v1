@@ -11,6 +11,11 @@
         <item name="actionBarItemBackground">@color/backgroundColor5</item>
         <item name="windowNoTitle">true</item>
     </style>
+    
+    <style name="AppTheme.PopMe">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 
 </resources>

@@ -1,4 +1,4 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.activities;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -17,6 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sds.puzzledroid.logic.PuzzlePiece;
+import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.logic.TouchListener;
+import com.sds.puzzledroid.database.AdminOpenHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -207,15 +212,15 @@ public class JigsawActivity extends AppCompatActivity {
 
     public void checkGameOver() {
         if (isGameOver()) {
-            finish();
+
             chrono.stop();
 
             int totalScore = getChronoSeconds();
             registerScore(totalScore);
 
-            Toast toast1 = Toast.makeText(this,totalScore + " segundos",Toast.LENGTH_LONG);
-            toast1.show();
-
+            Intent iPopUp = new Intent(this, PopupCustomActivity.class);
+            iPopUp.putExtra("totalScore", totalScore);
+            startActivity(iPopUp);
         }
     }
 

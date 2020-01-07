@@ -1,8 +1,10 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.sds.puzzledroid.R;
 
 public class MultijugadorActivity extends AppCompatActivity {
 

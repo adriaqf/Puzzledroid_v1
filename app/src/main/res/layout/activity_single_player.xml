@@ -48,7 +48,7 @@
             android:numColumns="3"
             android:stretchMode="spacingWidthUniform"
             android:verticalSpacing="20dp"
-            tools:context=".SinglePlayerActivity"
+            tools:context=".activities.SinglePlayerActivity"
             android:clickable="true"
             android:focusable="true"/>
 

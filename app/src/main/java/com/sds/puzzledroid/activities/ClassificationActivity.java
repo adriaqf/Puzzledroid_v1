@@ -1,9 +1,12 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
+import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.database.AdminOpenHelper;
 
 public class ClassificationActivity extends AppCompatActivity {
 

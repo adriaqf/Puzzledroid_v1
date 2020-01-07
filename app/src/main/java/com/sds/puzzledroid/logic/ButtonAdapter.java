@@ -1,4 +1,4 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.logic;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+
+import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.activities.JigsawActivity;
 
 import java.io.IOException;
 

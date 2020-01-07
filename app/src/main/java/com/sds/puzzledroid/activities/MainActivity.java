@@ -1,4 +1,4 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.sds.puzzledroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
