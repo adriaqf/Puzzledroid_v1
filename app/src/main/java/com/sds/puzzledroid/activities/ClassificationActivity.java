@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.database.AdminOpenHelper;
+import com.sds.puzzledroid.sqlite.AdminOpenHelper;
 
 public class ClassificationActivity extends AppCompatActivity {
 

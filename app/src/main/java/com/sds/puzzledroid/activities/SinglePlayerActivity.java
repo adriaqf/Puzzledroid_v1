@@ -10,7 +10,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.sds.puzzledroid.logic.ButtonAdapter;
+import com.sds.puzzledroid.adapters.ButtonGVAdapter;
 import com.sds.puzzledroid.R;
 
 public class SinglePlayerActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_player);
 
         GridView grid = findViewById(R.id.gidViewLevels);
-        grid.setAdapter(new ButtonAdapter(this));
+        grid.setAdapter(new ButtonGVAdapter(this));
 
         //Toolbar added to activiity's screen
         Toolbar toolbar = findViewById(R.id.toolbar_dynamic);
@@ -31,7 +31,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         //GidView buttons added to activity's screen
         GridView gridView = findViewById( R.id.gidViewLevels);
-        gridView.setAdapter(new ButtonAdapter(this));
+        gridView.setAdapter(new ButtonGVAdapter(this));
 
         //Background animation
         LinearLayout linearLayoutV = findViewById(R.id.singlePlayerLinearL);

@@ -20,8 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.logic.PuzzlePiece;
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.TouchListener;
-import com.sds.puzzledroid.database.AdminOpenHelper;
+import com.sds.puzzledroid.TouchListener;
+import com.sds.puzzledroid.sqlite.AdminOpenHelper;
 
 import java.io.IOException;
 import java.io.InputStream;

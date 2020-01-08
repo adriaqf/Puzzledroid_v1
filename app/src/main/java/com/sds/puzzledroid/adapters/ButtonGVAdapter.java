@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.logic;
+package com.sds.puzzledroid.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import com.sds.puzzledroid.activities.JigsawActivity;
 import java.io.IOException;
 
 
-public class ButtonAdapter extends BaseAdapter {
+public class ButtonGVAdapter extends BaseAdapter {
     private Context mContext;
     private String[]  buttonsTitles = {
             "1",
@@ -29,7 +29,7 @@ public class ButtonAdapter extends BaseAdapter {
     private AssetManager am;
     private String[] files;
 
-    public ButtonAdapter(Context c) {
+    public ButtonGVAdapter(Context c) {
         mContext = c;
         am = mContext.getAssets();
         try {

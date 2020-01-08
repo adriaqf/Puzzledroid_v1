@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.logic;
+package com.sds.puzzledroid;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.sds.puzzledroid.activities.JigsawActivity;
+import com.sds.puzzledroid.logic.PuzzlePiece;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
