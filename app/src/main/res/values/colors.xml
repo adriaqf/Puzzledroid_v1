@@ -11,6 +11,8 @@
     <color name="backgroundColor5">#6196E8</color>
     <color name="backgroundColor6">#00A4FF</color>
 
+    <color name="backgroundClassification">#FFFFFF</color>
+
     <color name="background_text_bottom_toolbar">#003055</color>
     <color name="background_onclick_button_bottom_toolbar">#0571C6</color>
 
