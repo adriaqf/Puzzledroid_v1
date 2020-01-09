@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.view.View;
 
 import com.sds.puzzledroid.logic.Score;
 
@@ -16,43 +15,46 @@ public class SQLiteScore {
     private Score score;
     private AdminOpenHelper admin;
 
+    public SQLiteScore(Context context) {
+        this.context = context;
+    }
+
     public SQLiteScore(Context context, Score score) {
         this.context = context;
         this.score = score;
     }
 
-    public boolean insertScore(Score score) {
+    public boolean insertScore() {
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("difficulty", score.getDifficulty());
-        contentValues.put("timeSecs", score.getTotalScore());
-        contentValues.put("dateScore", score.getDateTime());
+        db.execSQL("INSERT INTO scores(difficulty, time_secs, date_score) VALUES(" +
+                score.getDifficulty() + ", " + score.getTotalScore() + ", " + score.getDateTime() + ");");
 
-        db.insert("score", null, contentValues);
-
+        db.close();
         return true;
     }
 
     public ArrayList<Score> getAllScores() {
         ArrayList<Score> scoreArrayList = new ArrayList<>();
-        Score score = new Score();
+        Score pScore = new Score();
 
         admin = new AdminOpenHelper(context);
-        SQLiteDatabase db = admin.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from score", null);
+        SQLiteDatabase db = admin.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from scores;", null);
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {
-            score.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
-            score.setTotalScore(cursor.getInt(cursor.getColumnIndex("timeSecs")));
-            score.setDateTime(cursor.getString(cursor.getColumnIndex("dateScore")));
-            scoreArrayList.add(score);
+            pScore.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
+            pScore.setTotalScore(cursor.getInt(cursor.getColumnIndex("time_secs")));
+            pScore.setDateTime(cursor.getString(cursor.getColumnIndex("date_score")));
+            scoreArrayList.add(pScore);
 
             cursor.moveToNext();
         }
 
+        cursor.close();
+        db.close();
         return scoreArrayList;
     }
 

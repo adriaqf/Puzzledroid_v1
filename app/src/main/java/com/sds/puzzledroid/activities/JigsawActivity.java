@@ -21,7 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.sds.puzzledroid.logic.PuzzlePiece;
 import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.TouchListener;
+import com.sds.puzzledroid.logic.Score;
 import com.sds.puzzledroid.sqlite.AdminOpenHelper;
+import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -215,8 +217,9 @@ public class JigsawActivity extends AppCompatActivity {
 
             chrono.stop();
 
-            int totalScore = getChronoSeconds();
-            registerScore(totalScore);
+            int totalScore = getChronometerSeconds();
+            int difficulty = 0; // ***************** Have to be implemented ********************
+            registerNewScore(preparingScoreToRegister(totalScore, difficulty));
 
             Intent iPopUp = new Intent(this, PopupCustomActivity.class);
             iPopUp.putExtra("totalScore", totalScore);
@@ -233,7 +236,7 @@ public class JigsawActivity extends AppCompatActivity {
         return true;
     }
 
-    private int getChronoSeconds() {
+    private int getChronometerSeconds() {
         CharSequence timeSecs;
 
         timeSecs = chrono.getText();
@@ -253,25 +256,28 @@ public class JigsawActivity extends AppCompatActivity {
         return total;
     }
 
+    private Score preparingScoreToRegister(int timeSecs, int difficulty) {
+        Score score = new Score();
+        score.setTotalScore(timeSecs);
+        score.setDifficulty(difficulty);
+        score.setDateTime(getCurrentDate());
+
+        return score;
+    }
+
+    private void registerNewScore(Score score) {
+        AdminOpenHelper admin = new AdminOpenHelper(this);
+        SQLiteDatabase db = admin.getWritableDatabase();
+        SQLiteScore sqLiteScore = new SQLiteScore(this, score);
+        sqLiteScore.insertScore();
+        db.close();
+    }
+
     private String getCurrentDate() {
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String todaysDate = dateFormat.format(date);
-        return todaysDate;
-    }
-
-    private void registerScore(int totalScore) {
-        AdminOpenHelper sqlite = new AdminOpenHelper(this);
-        //Opening DB in writable mode
-        SQLiteDatabase db = sqlite.getWritableDatabase();
-
-        ContentValues register = new ContentValues();
-        register.put("timeSecs", totalScore);
-        register.put("dateScore", getCurrentDate());
-
-        db.insert("score", null, register);
-        db.close();
-
+        String currentDate = dateFormat.format(date);
+        return currentDate;
     }
 
 }
