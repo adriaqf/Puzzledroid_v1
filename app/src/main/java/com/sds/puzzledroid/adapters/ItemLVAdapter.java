@@ -48,7 +48,7 @@ public class ItemLVAdapter extends BaseAdapter {
         TextView tvDate = convertView.findViewById(R.id.tvDate);
 
         imageView.setBackgroundResource(R.drawable.logo_app);
-        tvSeconds.setText(score.getTotalScore());
+        tvSeconds.setText(score.getTotalScore() + "");
         tvDate.setText(score.getDateTime());
 
         return convertView;

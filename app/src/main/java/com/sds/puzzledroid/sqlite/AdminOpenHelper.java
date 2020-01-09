@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class AdminOpenHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "puzzledroid.sqlite";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 4;
 
-    private static final String SCORE_TABLE = "CREATE TABLE IF NOT EXISTS scores (id INTEGER PRIMARY KEY AUTOINCREMENT, difficulty INTEGER, time_secs INTEGER, date_score TEXT);";
+    private static final String SCORE_TABLE = "CREATE TABLE IF NOT EXISTS Scores (id INTEGER PRIMARY KEY AUTOINCREMENT, difficulty INTEGER, time_secs INTEGER, date_score TEXT);";
 
     public AdminOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

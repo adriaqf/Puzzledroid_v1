@@ -28,7 +28,7 @@ public class SQLiteScore {
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
 
-        db.execSQL("INSERT INTO scores(difficulty, time_secs, date_score) VALUES(" +
+        db.execSQL("INSERT INTO Scores(difficulty, time_secs, date_score) VALUES(" +
                 score.getDifficulty() + ", " + score.getTotalScore() + ", " + score.getDateTime() + ");");
 
         db.close();
@@ -41,7 +41,7 @@ public class SQLiteScore {
 
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from scores;", null);
+        Cursor cursor = db.rawQuery("select * from Scores;", null);
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {
