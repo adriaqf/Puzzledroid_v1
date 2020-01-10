@@ -40,7 +40,7 @@ public class SQLiteScore {
 
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from Scores;", null);
+        Cursor cursor = db.rawQuery("select * from Scores order by time_secs asc;", null);
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {
