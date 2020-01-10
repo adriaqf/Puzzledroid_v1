@@ -41,7 +41,7 @@ import static java.lang.Math.abs;
 public class JigsawActivity extends AppCompatActivity {
     private ArrayList<PuzzlePiece> pieces;
     private Chronometer chrono;
-
+    private int localdifficulty;
 
 
     @Override
@@ -58,6 +58,7 @@ public class JigsawActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
         final int levelDifficulty = intent.getIntExtra("levelDifficulty", 1);
+        this.localdifficulty = levelDifficulty;
 
         imageView.post(new Runnable() {
             @Override
@@ -219,7 +220,8 @@ public class JigsawActivity extends AppCompatActivity {
             chrono.stop();
 
             int totalScore = getChronometerSeconds();
-            int difficulty = 0; // ***************** Have to be implemented ********************
+            int difficulty = localdifficulty;
+            System.out.println(localdifficulty);// ***************** Have to be implemented ********************
             registerNewScore(preparingScoreToRegister(totalScore, difficulty));
 
             Intent iPopUp = new Intent(this, PopupCustomActivity.class);

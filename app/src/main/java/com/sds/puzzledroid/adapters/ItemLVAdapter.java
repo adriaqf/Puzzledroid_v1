@@ -1,6 +1,7 @@
 package com.sds.puzzledroid.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,17 @@ public class ItemLVAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
         }
+        if(score.getDifficulty() == 0){
+           convertView.setBackgroundResource(R.drawable.background_gradient_1);
+        }
+        else if(score.getDifficulty() == 1){
+            convertView.setBackgroundResource(R.drawable.background_gradient_2);
 
+        }
+        else if(score.getDifficulty() == 2){
+            convertView.setBackgroundResource(R.drawable.background_gradient_3);
+
+        }
         ImageView imageView = convertView.findViewById(R.id.imgTrophy);
         TextView tvSeconds = convertView.findViewById(R.id.tvSeconds);
         TextView tvDate = convertView.findViewById(R.id.tvDate);
