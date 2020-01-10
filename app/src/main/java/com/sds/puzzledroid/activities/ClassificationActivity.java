@@ -26,11 +26,11 @@ public class ClassificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_classification);
 
         listView = findViewById(R.id.lv_classification);
-        itemLVAdapter = new ItemLVAdapter(this, getScore());
+        itemLVAdapter = new ItemLVAdapter(this, getScores());
         listView.setAdapter(itemLVAdapter);
     }
 
-    private ArrayList<Score> getScore() {
+    private ArrayList<Score> getScores() {
         ArrayList<Score> scores;
         SQLiteScore sqLiteScore = new SQLiteScore(this);
 

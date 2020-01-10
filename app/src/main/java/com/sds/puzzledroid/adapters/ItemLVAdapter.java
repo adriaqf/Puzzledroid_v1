@@ -17,6 +17,7 @@ public class ItemLVAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Score> scoreArrayList;
+    private View convertView;
 
     public ItemLVAdapter(Context context, ArrayList<Score> scoreArrayList) {
         this.context = context;
@@ -42,13 +43,15 @@ public class ItemLVAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Score score = (Score) getItem(position);
 
-        convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
+        }
+
         ImageView imageView = convertView.findViewById(R.id.imgTrophy);
         TextView tvSeconds = convertView.findViewById(R.id.tvSeconds);
         TextView tvDate = convertView.findViewById(R.id.tvDate);
-
         imageView.setBackgroundResource(R.drawable.logo_app);
-        tvSeconds.setText(score.getTotalScore() + "");
+        tvSeconds.setText(String.valueOf(score.getTotalScore()));
         tvDate.setText(score.getDateTime());
 
         return convertView;

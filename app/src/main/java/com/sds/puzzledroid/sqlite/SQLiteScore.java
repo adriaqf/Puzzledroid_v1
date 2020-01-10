@@ -29,7 +29,7 @@ public class SQLiteScore {
         SQLiteDatabase db = admin.getWritableDatabase();
 
         db.execSQL("INSERT INTO Scores(difficulty, time_secs, date_score) VALUES(" +
-                score.getDifficulty() + ", " + score.getTotalScore() + ", " + score.getDateTime() + ");");
+                score.getDifficulty() + ", " + score.getTotalScore() + ", " + "datetime()" + ");");
 
         db.close();
         return true;
@@ -37,7 +37,6 @@ public class SQLiteScore {
 
     public ArrayList<Score> getAllScores() {
         ArrayList<Score> scoreArrayList = new ArrayList<>();
-        Score pScore = new Score();
 
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
@@ -45,6 +44,7 @@ public class SQLiteScore {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {
+            Score pScore = new Score();
             pScore.setDifficulty(cursor.getInt(cursor.getColumnIndex("difficulty")));
             pScore.setTotalScore(cursor.getInt(cursor.getColumnIndex("time_secs")));
             pScore.setDateTime(cursor.getString(cursor.getColumnIndex("date_score")));

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import static java.lang.Math.abs;
@@ -257,11 +258,7 @@ public class JigsawActivity extends AppCompatActivity {
     }
 
     private Score preparingScoreToRegister(int timeSecs, int difficulty) {
-        Score score = new Score();
-        score.setTotalScore(timeSecs);
-        score.setDifficulty(difficulty);
-        score.setDateTime(getCurrentDate());
-
+        Score score = new Score(timeSecs, difficulty);
         return score;
     }
 
@@ -270,14 +267,8 @@ public class JigsawActivity extends AppCompatActivity {
         SQLiteDatabase db = admin.getWritableDatabase();
         SQLiteScore sqLiteScore = new SQLiteScore(this, score);
         sqLiteScore.insertScore();
-        db.close();
-    }
 
-    private String getCurrentDate() {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String currentDate = dateFormat.format(date);
-        return currentDate;
+        db.close();
     }
 
 }

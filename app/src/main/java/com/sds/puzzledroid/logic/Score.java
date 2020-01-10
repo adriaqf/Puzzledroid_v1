@@ -8,10 +8,9 @@ public class Score {
 
     public Score() {}
 
-    public Score(int totalScore, int difficulty, String dateTime) {
+    public Score(int totalScore, int difficulty) {
         this.totalScore = totalScore;
         this.difficulty = difficulty;
-        this.dateTime = dateTime;
     }
 
 
