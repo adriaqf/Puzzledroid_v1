@@ -1,9 +1,12 @@
 package com.sds.puzzledroid.sqlite;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import androidx.annotation.Nullable;
 
 import com.sds.puzzledroid.logic.Score;
 
@@ -35,12 +38,18 @@ public class SQLiteScore {
         return true;
     }
 
-    public ArrayList<Score> getAllScores() {
+    public ArrayList<Score> getAllScores(int difficulty) {
         ArrayList<Score> scoreArrayList = new ArrayList<>();
 
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from Scores order by time_secs asc;", null);
+        //Depending on the value of difficulty parameter, Cursor will has different values
+        @SuppressLint("Recycle")
+        Cursor cursor = difficulty == 0 ? db.rawQuery("select * from Scores where difficulty = 0 order by time_secs asc;", null) :
+                difficulty == 1 ? db.rawQuery("select * from Scores where difficulty = 1 order by time_secs asc;", null) :
+                        difficulty == 2 ? db.rawQuery("select * from Scores where difficulty = 2 order by time_secs asc;", null) :
+                                db.rawQuery("select * from Scores order by time_secs asc;", null);
+
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()) {

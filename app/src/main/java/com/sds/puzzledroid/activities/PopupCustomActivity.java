@@ -15,6 +15,7 @@ import com.sds.puzzledroid.R;
 
 public class PopupCustomActivity extends AppCompatActivity {
 
+    private int difficulty;
     private TextView textView;
 
     @Override
@@ -24,6 +25,7 @@ public class PopupCustomActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int totalScore = intent.getIntExtra("totalScore", 1);
+        difficulty = intent.getIntExtra("difficulty", 1);
 
         textView = findViewById(R.id.txt_result_popup);
         textView.setText("Has tardado " + totalScore + " segundos");
@@ -52,6 +54,7 @@ public class PopupCustomActivity extends AppCompatActivity {
                 break;
             case R.id.btn_classification_popup:
                 Intent i = new Intent(this, ClassificationActivity.class);
+                i.putExtra("difficulty", difficulty);
                 startActivity(i);
                 break;
         }

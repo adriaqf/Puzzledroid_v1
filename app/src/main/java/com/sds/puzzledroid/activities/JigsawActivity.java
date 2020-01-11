@@ -220,12 +220,11 @@ public class JigsawActivity extends AppCompatActivity {
             chrono.stop();
 
             int totalScore = getChronometerSeconds();
-            int difficulty = localdifficulty;
-            System.out.println(localdifficulty);// ***************** Have to be implemented ********************
-            registerNewScore(preparingScoreToRegister(totalScore, difficulty));
+            registerNewScore(preparingScoreToRegister(totalScore, localdifficulty));
 
             Intent iPopUp = new Intent(this, PopupCustomActivity.class);
             iPopUp.putExtra("totalScore", totalScore);
+            iPopUp.putExtra("difficulty", localdifficulty);
             startActivity(iPopUp);
         }
     }

@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_config:
                 Toast.makeText(this, "Configuración no disponible.", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.btn_classification:
+                Intent iClass = new Intent(this, ClassificationActivity.class);
+                iClass.putExtra("difficulty", 3);
+                startActivity(iClass);
+                break;
             default:
                 Toast.makeText(this, "Error: Botón inexistente", Toast.LENGTH_SHORT).show();
                 break;
