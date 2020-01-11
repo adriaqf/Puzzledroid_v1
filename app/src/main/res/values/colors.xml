@@ -12,6 +12,9 @@
     <color name="backgroundColor6">#00A4FF</color>
 
     <color name="backgroundClassification">#FFFFFF</color>
+    <color name="difficultyInd0">#67F479</color>
+    <color name="difficultyInd1">#F4BF67</color>
+    <color name="difficultyInd2">#F46767</color>
 
     <color name="background_text_bottom_toolbar">#003055</color>
     <color name="background_onclick_button_bottom_toolbar">#0571C6</color>
