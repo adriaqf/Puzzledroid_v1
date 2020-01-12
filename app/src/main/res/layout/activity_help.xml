@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/single_player_screen" />
+            android:src="@drawable/single_player_screen" />
 
         <TextView
             android:id="@+id/title_classification"

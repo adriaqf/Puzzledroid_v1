@@ -58,6 +58,10 @@ public class ItemLVAdapter extends BaseAdapter {
 
         ImageView ivDifficulty = convertView.findViewById(R.id.iv_i_difficulty);
         Drawable ivdBackground = ivDifficulty.getBackground();
+        TextView tvTrophy = convertView.findViewById(R.id.tvTrophy);
+        TextView tvSeconds = convertView.findViewById(R.id.tvSeconds);
+        TextView tvDate = convertView.findViewById(R.id.tvDate);
+
 
         //Including a difficulty's indicator to every list's row
         if(score.getDifficulty() == 0){
@@ -72,7 +76,6 @@ public class ItemLVAdapter extends BaseAdapter {
         }
 
         //Showing trophies in first, second and third ranking place
-        TextView tvTrophy = convertView.findViewById(R.id.tvTrophy);
         if(position == 0) {
             tvTrophy.setText("\uD83E\uDD47");
         }
@@ -87,8 +90,6 @@ public class ItemLVAdapter extends BaseAdapter {
             tvTrophy.setTextSize(20);
         }
 
-        TextView tvSeconds = convertView.findViewById(R.id.tvSeconds);
-        TextView tvDate = convertView.findViewById(R.id.tvDate);
         tvSeconds.setText(scoreText);
         tvDate.setText(score.getDateTime());
 
