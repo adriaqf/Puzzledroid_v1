@@ -1,6 +1,5 @@
 package com.sds.puzzledroid.activities;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -27,13 +27,8 @@ import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 
 import static java.lang.Math.abs;
@@ -43,11 +38,10 @@ public class JigsawActivity extends AppCompatActivity {
     private Chronometer chrono;
     private int localdifficulty;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_puzzle_level);
+        setContentView(R.layout.activity_jigsaw);
 
         chrono = findViewById(R.id.chrono);
         chrono.start();
@@ -76,13 +70,16 @@ public class JigsawActivity extends AppCompatActivity {
                     // randomize position, on the bottom of the screen
                     RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
                     lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 100;
+                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
                     piece.setLayoutParams(lParams);
                 }
             }
         });
     }
 
+    public void onClickCloseJS(View view) {
+        finish();
+    }
 
     private void setPicFromAsset(String assetName, ImageView imageView) {
         // Get the dimensions of the View
