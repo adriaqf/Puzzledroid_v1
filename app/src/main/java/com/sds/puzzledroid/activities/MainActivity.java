@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(iHelp);
                 break;
             case R.id.btn_config:
-                Toast.makeText(this, "Configuración no disponible.", Toast.LENGTH_SHORT).show();
+                Intent iSettings = new Intent(this, SettingsActivity.class);
+                startActivity(iSettings);
                 break;
             default:
                 Toast.makeText(this, "Error: Botón inexistente", Toast.LENGTH_SHORT).show();
