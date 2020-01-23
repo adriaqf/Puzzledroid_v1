@@ -1,12 +1,9 @@
 package com.sds.puzzledroid.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +22,6 @@ public class ItemLVAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Score> scoreArrayList;
-    private View convertView;
 
     public ItemLVAdapter(Context context, ArrayList<Score> scoreArrayList) {
         this.context = context;
@@ -47,6 +43,7 @@ public class ItemLVAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Score score = (Score) getItem(position);

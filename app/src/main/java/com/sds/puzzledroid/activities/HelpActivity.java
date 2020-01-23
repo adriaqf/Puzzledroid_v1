@@ -13,9 +13,6 @@ import com.sds.puzzledroid.R;
 
 public class HelpActivity extends AppCompatActivity {
 
-    private WebView wvHelp;
-    private ImageButton backBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +20,7 @@ public class HelpActivity extends AppCompatActivity {
 
         //Modifying onClick button's event (toolbar_bottom)
         Toolbar toolbar = findViewById(R.id.toolbar_dynamic);
-        backBtn = (ImageButton) toolbar.findViewById(R.id.btn_back_home);
+        ImageButton backBtn = (ImageButton) toolbar.findViewById(R.id.btn_back_home);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,8 +28,7 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
-        wvHelp = (WebView) findViewById(R.id.wv_help);
-        wvHelp.getSettings().setJavaScriptEnabled(true);
+        WebView wvHelp = (WebView) findViewById(R.id.wv_help);
         wvHelp.loadUrl("file:///android_asset/help.html");
     }
 

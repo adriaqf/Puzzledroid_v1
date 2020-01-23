@@ -1,16 +1,14 @@
 package com.sds.puzzledroid.sqlite;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import androidx.annotation.Nullable;
-
 import com.sds.puzzledroid.logic.Score;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SQLiteScore {
 
@@ -27,15 +25,13 @@ public class SQLiteScore {
         this.score = score;
     }
 
-    public boolean insertScore() {
+    public void insertScore() {
         admin = new AdminOpenHelper(context);
         SQLiteDatabase db = admin.getWritableDatabase();
 
-        db.execSQL("INSERT INTO Scores(difficulty, time_secs, date_score) VALUES(" +
-                score.getDifficulty() + ", " + score.getTotalScore() + ", " + "datetime()" + ");");
-
+        db.execSQL(String.format(Locale.getDefault(), "INSERT INTO Scores(difficulty, time_secs, date_score) VALUES(%d, %d, datetime('now', 'localtime'));",
+                score.getDifficulty(), score.getTotalScore()));
         db.close();
-        return true;
     }
 
     public ArrayList<Score> getAllScores(int difficulty) {

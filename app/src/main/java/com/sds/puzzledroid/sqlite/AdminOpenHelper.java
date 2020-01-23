@@ -10,7 +10,7 @@ public class AdminOpenHelper extends SQLiteOpenHelper {
 
     private static final String SCORE_TABLE = "CREATE TABLE IF NOT EXISTS Scores (id INTEGER PRIMARY KEY AUTOINCREMENT, difficulty INTEGER, time_secs INTEGER, date_score TEXT);";
 
-    public AdminOpenHelper(Context context) {
+    AdminOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 

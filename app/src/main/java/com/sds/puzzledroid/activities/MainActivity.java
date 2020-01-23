@@ -27,11 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.ToolBar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
     }
 
-    //Go to another Activity
     public void onClickGoTo(View view) {
         switch(view.getId()){
             case R.id.btn_single_player:
