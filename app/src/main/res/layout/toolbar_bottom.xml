@@ -15,35 +15,17 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/btn_back_home"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/button_toolbar_bottom"
-                    android:gravity="center"
-                    android:onClick="onClickGoTo"
-                    android:text="Atrás"
-                    android:textColor="@color/background_text_bottom_toolbar"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/toolBarBtnGrad2" />
-
-
-                <Button
-                    android:id="@+id/btn_classification"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_toolbar_bottom"
-                    android:gravity="center"
-                    android:onClick="onClickGoTo"
-                    android:text="Clasificación"
-                    android:textColor="@color/background_text_bottom_toolbar"
-                    android:textStyle="bold" />
+                    android:onClick="onClickGoBack"
+                    android:padding="22dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/return_icon" />
 
         </LinearLayout>
 

@@ -9,6 +9,7 @@
 
     <string name="btn_toolbar_help">"?"</string>
     <string name="btn_toolbar_config">"⚙"️</string>
+    <string name="btn_toolbar_classification">"🏅"</string>
 
     <string name="level1_btn_title">Nivel 1</string>
     <string name="level2_btn_title">Nivel 2</string>
@@ -17,7 +18,6 @@
     <string name="level5_btn_title">Nivel 5</string>
 
     <string name="listView">Seleccione puzzle a resolver:</string>
-
 
 
 </resources>

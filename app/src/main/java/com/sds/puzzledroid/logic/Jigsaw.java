@@ -1,6 +1,6 @@
-package com.sds.puzzledroid;
+package com.sds.puzzledroid.logic;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,70 +8,44 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 import static java.lang.Math.abs;
 
-public class PuzzleLevelActivity extends AppCompatActivity {
-    ArrayList<PuzzlePiece> pieces;
+public class Jigsaw {
+    private Context context;
+    private ArrayList<PuzzlePiece> pieces;
+    private int levelDifficulty;
 
+    public Jigsaw(Context context, String assetImageName, ImageView actImageView, int levelDifficulty){
+        this.context = context;
+        this.levelDifficulty = levelDifficulty;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_puzzle_level);
-
-        final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
-        final ImageView imageView = findViewById(R.id.ivPuzzle);
-
-        Intent intent = getIntent();
-        final String assetName = intent.getStringExtra("assetName");
-        final int levelDifficulty = intent.getIntExtra("levelDifficulty", 1);
-
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (assetName != null) {
-                    setPicFromAsset(assetName, imageView);
-                }
-                pieces = splitImage(levelDifficulty);
-                TouchListener touchListener = new TouchListener(PuzzleLevelActivity.this);
-                // shuffle pieces order
-                Collections.shuffle(pieces);
-                for (PuzzlePiece piece : pieces) {
-                    piece.setOnTouchListener(touchListener);
-                    layout.addView(piece);
-                    // randomize position, on the bottom of the screen
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 100;
-                    piece.setLayoutParams(lParams);
-                }
-            }
-        });
+        if (assetImageName != null) {
+            setPicFromAsset(assetImageName, actImageView);
+        }
+        pieces = splitJigsawImage(actImageView);
     }
 
+    public ArrayList<PuzzlePiece> getPieces() {
+        return this.pieces;
+    }
 
-    private void setPicFromAsset(String assetName, ImageView imageView) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+    private void setPicFromAsset(String assetImageName, ImageView actImageView) {
+        // Get the dimensions of the activity_jigsaw's ImageView
+        int targetW = actImageView.getWidth();
+        int targetH = actImageView.getHeight();
 
-        AssetManager am = getAssets();
+        AssetManager am = context.getAssets();
 
         try {
-            InputStream is = am.open("img/" + assetName);
+            InputStream is = am.open("img/" + assetImageName);
+
             // Get the dimensions of the bitmap
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
@@ -90,28 +64,27 @@ public class PuzzleLevelActivity extends AppCompatActivity {
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            imageView.setImageBitmap(bitmap);
+            actImageView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private ArrayList<PuzzlePiece> splitImage(int levelDifficulty) {
+    private ArrayList<PuzzlePiece> splitJigsawImage(ImageView actImageView) {
 
         //Selecting difficulty of the level
         int piecesNumber = levelDifficulty == 0 ? 4 : levelDifficulty == 1 ? 9 : 16;
         int rows = piecesNumber == 4 ? 2 : piecesNumber == 9 ? 3 : 4;
         int cols = piecesNumber == 4 ? 2 : piecesNumber == 9 ? 3 : 4;
 
-        ImageView imageView = findViewById(R.id.ivPuzzle);
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);
 
         // Get the scaled bitmap of the source image
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        BitmapDrawable drawable = (BitmapDrawable) actImageView.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
 
-        int[] dimensions = getBitmapPositionInsideImageView(imageView);
+        int[] dimensions = getBitmapPositionInsideImageView(actImageView);
         int scaledBitmapLeft = dimensions[0];
         int scaledBitmapTop = dimensions[1];
         int scaledBitmapWidth = dimensions[2];
@@ -132,12 +105,11 @@ public class PuzzleLevelActivity extends AppCompatActivity {
         for (int row = 0; row < rows; row++) {
             int xCoord = 0;
             for (int col = 0; col < cols; col++) {
-
                 Bitmap pieceBitmap = Bitmap.createBitmap(croppedBitmap, xCoord, yCoord, pieceWidth, pieceHeight);
-                PuzzlePiece piece = new PuzzlePiece(getApplicationContext());
+                PuzzlePiece piece = new PuzzlePiece(context.getApplicationContext());
                 piece.setImageBitmap(pieceBitmap);
-                piece.xCoord = xCoord + imageView.getLeft();
-                piece.yCoord = yCoord + imageView.getTop();
+                piece.xCoord = xCoord + actImageView.getLeft();
+                piece.yCoord = yCoord + actImageView.getTop();
                 piece.pieceWidth = pieceWidth;
                 piece.pieceHeight = pieceHeight;
 
@@ -151,24 +123,24 @@ public class PuzzleLevelActivity extends AppCompatActivity {
         return pieces;
     }
 
-    private int[] getBitmapPositionInsideImageView(ImageView imageView) {
-        int[] ret = new int[4];
+    private int[] getBitmapPositionInsideImageView(ImageView actImageView) {
+        int[] sBmDimensions = new int[4];
 
-        if (imageView == null || imageView.getDrawable() == null) {
-            return ret;
+        if (actImageView == null || actImageView.getDrawable() == null) {
+            return sBmDimensions;
         }
 
         // Get image dimensions
         // Get image matrix values and place them in an array
         float[] f = new float[9];
-        imageView.getImageMatrix().getValues(f);
+        actImageView.getImageMatrix().getValues(f);
 
         // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
         final float scaleX = f[Matrix.MSCALE_X];
         final float scaleY = f[Matrix.MSCALE_Y];
 
         // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
-        final Drawable d = imageView.getDrawable();
+        final Drawable d = actImageView.getDrawable();
         final int origW = d.getIntrinsicWidth();
         final int origH = d.getIntrinsicHeight();
 
@@ -176,38 +148,30 @@ public class PuzzleLevelActivity extends AppCompatActivity {
         final int actW = Math.round(origW * scaleX);
         final int actH = Math.round(origH * scaleY);
 
-        ret[2] = actW;
-        ret[3] = actH;
+        sBmDimensions[2] = actW;
+        sBmDimensions[3] = actH;
 
         // Get image position
         // We assume that the image is centered into ImageView
-        int imgViewW = imageView.getWidth();
-        int imgViewH = imageView.getHeight();
+        int imgViewW = actImageView.getWidth();
+        int imgViewH = actImageView.getHeight();
 
-        int top = (int) (imgViewH - actH)/2;
-        int left = (int) (imgViewW - actW)/2;
+        int top = (imgViewH - actH)/2;
+        int left = (imgViewW - actW)/2;
 
-        ret[0] = left;
-        ret[1] = top;
+        sBmDimensions[0] = left;
+        sBmDimensions[1] = top;
 
-        return ret;
+        return sBmDimensions;
     }
 
-    public void checkGameOver() {
-        if (isGameOver()) {
-            finish();
-        }
-    }
-
-    private boolean isGameOver() {
+    public boolean isJigsawCompleted() {
         for (PuzzlePiece piece : pieces) {
             if (piece.canMove) {
                 return false;
             }
         }
-
         return true;
     }
 
 }
-
