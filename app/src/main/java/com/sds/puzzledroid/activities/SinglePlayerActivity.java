@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.sds.puzzledroid.adapters.ButtonGVAdapter;
 import com.sds.puzzledroid.R;
@@ -29,10 +28,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
 
-        //GidView buttons added to activity's screen
-        GridView gridView = findViewById( R.id.gidViewLevels);
-        gridView.setAdapter(new ButtonGVAdapter(this));
-
         //Background animation
         LinearLayout linearLayoutV = findViewById(R.id.singlePlayerLinearL);
         AnimationDrawable animationDrawable = (AnimationDrawable) linearLayoutV.getBackground();
@@ -41,16 +36,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         animationDrawable.start();
     }
 
-
-    public void onClickGoTo(View view) {
-        switch(view.getId()){
-            case R.id.btn_back_home:
-                finish();
-                break;
-            default:
-                Toast.makeText(this, "Error: Botón inexistente", Toast.LENGTH_SHORT).show();
-                break;
-        }
+    public void onClickGoBack(View view) {
+        finish();
     }
 
 }

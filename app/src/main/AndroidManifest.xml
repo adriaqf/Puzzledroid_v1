@@ -20,7 +20,6 @@
         <activity
             android:name=".activities.JigsawActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.MultijugadorActivity"/>
         <activity
             android:name=".activities.SinglePlayerActivity"
             android:screenOrientation="portrait" />

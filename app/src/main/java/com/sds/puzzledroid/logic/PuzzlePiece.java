@@ -2,7 +2,9 @@ package com.sds.puzzledroid.logic;
 
 import android.content.Context;
 
-public class PuzzlePiece extends  androidx.appcompat.widget.AppCompatImageView {
+import androidx.appcompat.widget.AppCompatImageView;
+
+public class PuzzlePiece extends AppCompatImageView {
     public int xCoord;
     public int yCoord;
     public int pieceWidth;

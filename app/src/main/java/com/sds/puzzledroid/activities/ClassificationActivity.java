@@ -25,10 +25,6 @@ import java.util.ArrayList;
 public class ClassificationActivity extends AppCompatActivity {
 
     private int difficulty;
-    private FrameLayout frameLayout;
-    private ListView listView;
-    private ItemLVAdapter itemLVAdapter;
-    private ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +34,16 @@ public class ClassificationActivity extends AppCompatActivity {
         Intent i = getIntent();
         difficulty = i.getIntExtra("difficulty", 1);
 
-        frameLayout = findViewById(R.id.fl_header_classification);
+        FrameLayout frameLayout = findViewById(R.id.fl_header_classification);
         ViewCompat.setTranslationZ(frameLayout, 1);
 
-        listView = findViewById(R.id.lv_classification);
-        itemLVAdapter = new ItemLVAdapter(this, getScores());
+        ListView listView = findViewById(R.id.lv_classification);
+        ItemLVAdapter itemLVAdapter = new ItemLVAdapter(this, getScores());
         listView.setAdapter(itemLVAdapter);
 
         //Modifying onClick button's event (toolbar_bottom)
         Toolbar toolbar = findViewById(R.id.toolbar_dynamic);
-        backBtn = toolbar.findViewById(R.id.btn_back_home);
+        ImageButton backBtn = toolbar.findViewById(R.id.btn_back_home);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +52,7 @@ public class ClassificationActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<Score> getScores() {
+    public ArrayList<Score> getScores() {
         ArrayList<Score> scores;
         SQLiteScore sqLiteScore = new SQLiteScore(this);
 
@@ -65,23 +61,4 @@ public class ClassificationActivity extends AppCompatActivity {
         return scores;
     }
 
-    /*private void onClickRefreshLV(View view) {
-        switch (view.getId()) {
-            case R.id.btn_classif0:
-                listView = findViewById(R.id.lv_classification);
-                itemLVAdapter = new ItemLVAdapter(this, getScores(0));
-                listView.setAdapter(itemLVAdapter);
-                break;
-            case R.id.btn_classif1:
-                listView = findViewById(R.id.lv_classification);
-                itemLVAdapter = new ItemLVAdapter(this, getScores(1));
-                listView.setAdapter(itemLVAdapter);
-                break;
-            case R.id.btn_classif2:
-                listView = findViewById(R.id.lv_classification);
-                itemLVAdapter = new ItemLVAdapter(this, getScores(2));
-                listView.setAdapter(itemLVAdapter);
-                break;
-        }
-    }*/
 }

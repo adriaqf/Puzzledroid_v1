@@ -16,7 +16,6 @@ import com.sds.puzzledroid.R;
 public class PopupCustomActivity extends AppCompatActivity {
 
     private int difficulty;
-    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +26,9 @@ public class PopupCustomActivity extends AppCompatActivity {
         int totalScore = intent.getIntExtra("totalScore", 1);
         difficulty = intent.getIntExtra("difficulty", 1);
 
-        textView = findViewById(R.id.txt_result_popup);
-        textView.setText("Has tardado " + totalScore + " segundos");
+        TextView textView = findViewById(R.id.txt_result_popup);
+        String txtResult = "Has tardado " + totalScore + " segundos";
+        textView.setText(txtResult);
 
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -40,9 +40,9 @@ public class PopupCustomActivity extends AppCompatActivity {
         getWindow().setLayout((int)(width*0.8), (int)(heigh*0.7));
 
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.gravity = Gravity.TOP;
         layoutParams.x = 0;
-        layoutParams.y = -20;
+        layoutParams.y = 100;
 
         getWindow().setAttributes(layoutParams);
     }

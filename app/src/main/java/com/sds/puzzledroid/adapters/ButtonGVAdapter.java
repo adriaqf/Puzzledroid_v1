@@ -26,12 +26,11 @@ public class ButtonGVAdapter extends BaseAdapter {
             "4",
             "5"
     };
-    private AssetManager am;
     private String[] files;
 
     public ButtonGVAdapter(Context c) {
         mContext = c;
-        am = mContext.getAssets();
+        AssetManager am = mContext.getAssets();
         try {
             files  = am.list("img");
         } catch (IOException e) {
@@ -39,9 +38,6 @@ public class ButtonGVAdapter extends BaseAdapter {
         }
 
     }
-
-    /** Constructor de clase */
-
 
     @Override
     public int getCount() {
@@ -60,23 +56,22 @@ public class ButtonGVAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(final int position, View view, ViewGroup viewgroup) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         Button btn;
-        if (view == null) {
-            // if it's not recycled, initialize some attributes-ñ
+        if (convertView == null) {
             btn = new Button(mContext);
             btn.setLayoutParams(new GridView.LayoutParams(200, 200));
             btn.setPadding(8, 8, 8, 8);
         }
         else {
-            btn = (Button) view;
+            btn = (Button) convertView;
         }
 
-        if(buttonsTitles[position] == "1" || buttonsTitles[position] == "2") {
+        if(buttonsTitles[position].equals("1") || buttonsTitles[position].equals("2")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level0);
         }
-        else if(buttonsTitles[position] == "3" || buttonsTitles[position] == "4") {
+        else if(buttonsTitles[position].equals("3") || buttonsTitles[position].equals("4")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level1);
         }
         else {
@@ -94,7 +89,8 @@ public class ButtonGVAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent i = new Intent(v.getContext(), JigsawActivity.class);
                 //0 = easy, 1 = normal, 2 = difficult
-                int difficulty = buttonsTitles[position] == "1" || buttonsTitles[position] == "2" ? 0 : buttonsTitles[position] == "3" || buttonsTitles[position] == "4" ? 1 : 2;
+                int difficulty = buttonsTitles[position].equals("1") || buttonsTitles[position].equals("2") ? 0 :
+                        buttonsTitles[position].equals("3") || buttonsTitles[position].equals("4") ? 1 : 2;
                 i.putExtra("levelDifficulty", difficulty);
                 i.putExtra("assetName", files[position]);
                 v.getContext().startActivity(i);
