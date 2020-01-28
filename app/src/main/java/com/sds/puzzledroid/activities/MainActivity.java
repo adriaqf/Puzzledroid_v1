@@ -3,14 +3,17 @@ package com.sds.puzzledroid.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
+import android.content.SharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.bringToFront();
+
+        MediaPlayer mp;
+        mp = MediaPlayer.create(this,R.raw.zelda_music);
+        //loadConfig();
+        //Chequeo de las opciones de settings
+         int music_bakcground;
+        SharedPreferences prefs = getSharedPreferences("files_settings", Context.MODE_PRIVATE);
+        music_bakcground = prefs.getInt("music",1);
+
     }
 
     //Go to another Activity
