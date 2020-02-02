@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
 import android.content.SharedPreferences;
+import com.sds.puzzledroid.activities.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,14 +33,18 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
+
         MediaPlayer mp;
-        mp = MediaPlayer.create(this,R.raw.zelda_music);
-        //loadConfig();
+       mp = MediaPlayer.create(this,R.raw.zelda_music);
+
         //Chequeo de las opciones de settings
          int music_bakcground;
-        SharedPreferences prefs = getSharedPreferences("files_settings", Context.MODE_PRIVATE);
+       SharedPreferences prefs = getSharedPreferences("files_settings", Context.MODE_PRIVATE);
         music_bakcground = prefs.getInt("music",1);
 
+    }
+
+    private void loadConfig() {
     }
 
     public void onClickGoTo(View view) {

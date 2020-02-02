@@ -32,10 +32,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_Reproduction = sp.load(this,R.raw.gay_sound,1);
-
+        mp = MediaPlayer.create(this,R.raw.zelda_music);
 
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
        music_switch.setChecked(prefs.getBoolean("music_settings",false));
+
 
     }
    public void AudioSoundPool(View view){
@@ -43,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void AudioMediaPlayer(View view){
+
             if (!music_switch.isChecked()){
                 mp.stop();
                 Toast.makeText(this,"Pausa",Toast.LENGTH_SHORT).show();
@@ -75,10 +77,9 @@ public class SettingsActivity extends AppCompatActivity {
     //en el evento "Cerrar aplicación" guardar los datos en fichero xml
     @Override
     public void onDestroy()
-    {   Toast.makeText(this,"Saved",Toast.LENGTH_SHORT);
+    {
         super.onDestroy();
         saveConfig();
-
     }
 
     //en el evento "Abrir aplicación" leemos los datos de configuración del fichero xml
