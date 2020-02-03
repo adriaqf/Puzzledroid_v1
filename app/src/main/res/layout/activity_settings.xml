@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_list"
         android:orientation="vertical">
 
         <TextView
@@ -26,7 +27,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
-            android:text="Music"
+            android:text="@string/music_background"
             tools:checked="true" />
 
         <Switch
@@ -37,7 +38,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
-            android:text="Sound Pieces" />
+            android:text="@string/sound_pool" />
 
         <Switch
             android:id="@+id/switch3"
@@ -47,5 +48,18 @@
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
             android:text="Switch" />
+
+        <Button
+            android:id="@+id/btn_saveSettings"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/button_main_menu"
+            android:gravity="center_horizontal|center_vertical"
+            android:onClick="onClickGoTo"
+            android:text="@string/save_settings"
+            android:textColor="@color/homeBtnText"
+            android:textStyle="bold" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.sds.puzzledroid.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -69,7 +70,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
         editor.commit();
 
+
     }
+   /* public void onClickGoTo(View view) {
+        switch(view.getId()) {
+            case R.id.btn_saveSettings:
+                Intent iMain = new Intent(this, MainActivity.class);
+
+                startActivity(iMain);
+                break;
+        }*/
+
+    /*
     public void loadConfig(){
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         music_switch.setChecked(pref.getBoolean("music_settings",false));
@@ -88,5 +100,5 @@ public class SettingsActivity extends AppCompatActivity {
     {
         super.onResume();
         loadConfig();
-    }
-}
+    }*/
+}}

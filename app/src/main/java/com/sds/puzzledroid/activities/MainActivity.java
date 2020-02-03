@@ -61,11 +61,18 @@ public class MainActivity extends AppCompatActivity {
 
         if(value){
             vectormp[0].start();
+            vectormp[0].setLooping(true);
         }
         else{
-            vectormp[0].pause();
+            if(vectormp[0].isPlaying()){
+                vectormp[0].pause();
+            }
+
+
         }
     }
+
+
 
     public void onClickGoTo(View view) {
         switch(view.getId()){
