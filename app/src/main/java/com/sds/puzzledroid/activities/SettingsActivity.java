@@ -101,4 +101,4 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
         loadConfig();
     }*/
-}}
+}
