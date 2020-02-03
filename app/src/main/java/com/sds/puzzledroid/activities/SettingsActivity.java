@@ -32,30 +32,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_Reproduction = sp.load(this,R.raw.gay_sound,1);
-        mp = MediaPlayer.create(this,R.raw.zelda_music);
+      //  mp = MediaPlayer.create(this,R.raw.zelda_music);
 
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
        music_switch.setChecked(prefs.getBoolean("music_settings",false));
 
-
+        //Intent algo = getIntent().get
     }
    public void AudioSoundPool(View view){
         sp.play(sound_Reproduction,1,1,1,0,0);
     }
 
-    public void AudioMediaPlayer(View view){
+ /*  public void AudioMediaPlayer(View view){
 
             if (!music_switch.isChecked()){
-                mp.stop();
+               //mp.stop();
                 Toast.makeText(this,"Pausa",Toast.LENGTH_SHORT).show();
             }
             else if (music_switch.isChecked()){
-                mp.start();
+              //  mp.start();
                 Toast.makeText(this,"Reproduciendo",Toast.LENGTH_SHORT).show();
             }
-    }
+    }*/
 
-   public void saveConfig(){
+   public void AudioMediaPlayer(View view){
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
        Toast.makeText(this,"config",Toast.LENGTH_SHORT);
@@ -63,12 +63,12 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putBoolean("music_settings", true);
             Toast.makeText(this,"True",Toast.LENGTH_SHORT);
         }
-        else if(!music_switch.isChecked()){
+        else{
             editor.putBoolean("music_settings", false);
             Toast.makeText(this,"false",Toast.LENGTH_SHORT);
         }
         editor.commit();
-       // editor.putInt("music_settings",)
+
     }
     public void loadConfig(){
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
@@ -79,14 +79,14 @@ public class SettingsActivity extends AppCompatActivity {
     public void onDestroy()
     {
         super.onDestroy();
-        saveConfig();
+       // saveConfig();
     }
 
     //en el evento "Abrir aplicación" leemos los datos de configuración del fichero xml
     @Override
-    protected void onStart()
+    protected void onResume()
     {
-        super.onStart();
+        super.onResume();
         loadConfig();
     }
 }

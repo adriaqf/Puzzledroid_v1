@@ -18,6 +18,10 @@ import com.sds.puzzledroid.activities.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    MediaPlayer vectormp [] = new MediaPlayer [2];
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
+         vectormp[0] = MediaPlayer.create(this,R.raw.sparta_music);
+         vectormp[1] = MediaPlayer.create(this,R.raw.zelda_music);
 
-        MediaPlayer mp;
-       mp = MediaPlayer.create(this,R.raw.zelda_music);
+
+
+
+
 
         //Chequeo de las opciones de settings
          int music_bakcground;
@@ -43,8 +51,20 @@ public class MainActivity extends AppCompatActivity {
         music_bakcground = prefs.getInt("music",1);
 
     }
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("music_settings",true);
 
-    private void loadConfig() {
+
+        if(value){
+            vectormp[0].start();
+        }
+        else{
+            vectormp[0].pause();
+        }
     }
 
     public void onClickGoTo(View view) {
@@ -62,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_config:
                 Intent iSettings = new Intent(this, SettingsActivity.class);
+                //iSettings.putExtra("vector", vectormp);
                 startActivity(iSettings);
                 break;
             case R.id.btn_classification:
