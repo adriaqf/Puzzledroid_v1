@@ -1,10 +1,15 @@
 package com.sds.puzzledroid;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.sds.puzzledroid.activities.JigsawActivity;
 import com.sds.puzzledroid.logic.PuzzlePiece;
@@ -16,8 +21,12 @@ public class TouchListener implements View.OnTouchListener {
 
     private float xDelta, yDelta;
     private JigsawActivity jigsawActivity;
+    SoundPool sp;
+    int sound_piece;
 
     public TouchListener(JigsawActivity jigsawActivity) {
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sound_piece = sp.load(jigsawActivity,R.raw.piece,1);
         this.jigsawActivity = jigsawActivity;
     }
 
@@ -28,9 +37,10 @@ public class TouchListener implements View.OnTouchListener {
         final double tolerance = sqrt(v.getWidth() * v.getHeight())/10; // (1/10) of the piece's square root
         PuzzlePiece piece = (PuzzlePiece) v;
 
+
         //The piece is already in the right jigsaw's position
         if (!piece.canMove) {
-            return true;
+                return true;
         }
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
@@ -56,11 +66,14 @@ public class TouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_UP:
                 int xDifference = abs(piece.xCoord - layoutParams.leftMargin);
                 int yDifference = abs(piece.yCoord - layoutParams.topMargin);
+
                 if (xDifference <= tolerance && yDifference <= tolerance) {
                     layoutParams.leftMargin = piece.xCoord;
                     layoutParams.topMargin = piece.yCoord;
                     piece.setLayoutParams(layoutParams);
                     piece.canMove = false;
+                    soundPoolPiece();
+                    Toast.makeText(jigsawActivity,"Pausa",Toast.LENGTH_SHORT).show();
                     sendViewToBack(piece);
                     jigsawActivity.checkGameOver();
                 }
@@ -77,4 +90,14 @@ public class TouchListener implements View.OnTouchListener {
             parent.addView(child, 0);
         }
     }
+    public void soundPoolPiece(){
+        SharedPreferences pref = jigsawActivity.getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("effects_sound",true);
+
+        if(value){
+            sp.play(sound_piece,1,1,1,0,0);
+        }
+
+    }
+
 }

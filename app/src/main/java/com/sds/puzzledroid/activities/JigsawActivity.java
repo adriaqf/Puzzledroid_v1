@@ -1,7 +1,11 @@
 package com.sds.puzzledroid.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
@@ -25,10 +29,18 @@ public class JigsawActivity extends AppCompatActivity {
     private Chronometer chronometer;
     private int localDifficulty;
 
+    SoundPool sp;
+    int succefull;
+    int piece;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jigsaw);
+
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        succefull = sp.load(this,R.raw.succefull,1);
+        piece = sp.load(this,R.raw.piece,1);
 
         chronometer = findViewById(R.id.chrono);
 
@@ -70,6 +82,11 @@ public class JigsawActivity extends AppCompatActivity {
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
 
+            SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+            boolean value = pref.getBoolean("effects_sound",true);
+            if(value){
+                sp.play(succefull,1,1,1,0,0);
+            }
             chronometer.stop();
 
             int totalScore = getChronometerSeconds();

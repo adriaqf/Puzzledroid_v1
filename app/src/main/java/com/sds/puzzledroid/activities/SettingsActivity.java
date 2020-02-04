@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -18,10 +19,9 @@ import com.sds.puzzledroid.R;
 public class SettingsActivity extends AppCompatActivity {
 
     private Switch music_switch;
+    private Switch effect_switch;
     SoundPool sp;
-    MediaPlayer mp;
     int sound_Reproduction;
-
 
 
     @Override
@@ -29,22 +29,52 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        effect_switch = (Switch)findViewById(R.id.switch_sp);
         music_switch = (Switch)findViewById(R.id.switch1);
+
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_Reproduction = sp.load(this,R.raw.gay_sound,1);
-      //  mp = MediaPlayer.create(this,R.raw.zelda_music);
+
 
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-       music_switch.setChecked(prefs.getBoolean("music_settings",false));
+        effect_switch.setChecked(prefs.getBoolean("effects_sound",true));
+        music_switch.setChecked(prefs.getBoolean("music_settings",true));
 
-        //Intent algo = getIntent().get
-    }
-   public void AudioSoundPool(View view){
-        sp.play(sound_Reproduction,1,1,1,0,0);
-    }
 
- /*  public void AudioMediaPlayer(View view){
+
+    }
+    //arrancar un SoundPool
+   //sp.play(sound_Reproduction,1,1,1,0,0);
+   public void AudioSoundpool(View view) {
+
+       SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+       SharedPreferences.Editor editor = prefs.edit();
+
+       if (effect_switch.isChecked()) {
+           editor.putBoolean("effects_sound", true);
+       }else {
+           editor.putBoolean("effects_sound", false);
+       }
+       editor.commit();
+   }
+
+
+   public void AudioMediaPlayer(View view){
+        SharedPreferences prefs = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if(music_switch.isChecked()) {
+            editor.putBoolean("music_settings", true);
+        }else{
+            editor.putBoolean("music_settings", false);
+        }
+        editor.commit();
+    }
+    public void Guardar (View view){ finish();}
+
+
+    /*  public void AudioMediaPlayer(View view){
 
             if (!music_switch.isChecked()){
                //mp.stop();
@@ -55,23 +85,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(this,"Reproduciendo",Toast.LENGTH_SHORT).show();
             }
     }*/
-
-   public void AudioMediaPlayer(View view){
-        SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-       Toast.makeText(this,"config",Toast.LENGTH_SHORT);
-        if(music_switch.isChecked()) {
-            editor.putBoolean("music_settings", true);
-            Toast.makeText(this,"True",Toast.LENGTH_SHORT);
-        }
-        else{
-            editor.putBoolean("music_settings", false);
-            Toast.makeText(this,"false",Toast.LENGTH_SHORT);
-        }
-        editor.commit();
-
-
-    }
    /* public void onClickGoTo(View view) {
         switch(view.getId()) {
             case R.id.btn_saveSettings:

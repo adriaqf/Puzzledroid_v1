@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,7 +23,6 @@
             android:id="@+id/switch1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:onClick="AudioMediaPlayer"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -31,14 +31,15 @@
             tools:checked="true" />
 
         <Switch
-            android:id="@+id/switch2"
+            android:id="@+id/switch_sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="AudioSoundPool"
+            android:onClick="AudioSoundpool"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
-            android:text="@string/sound_pool" />
+            android:text="@string/sound_pool"
+            tools:checked="true" />
 
         <Switch
             android:id="@+id/switch3"
@@ -47,7 +48,14 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
-            android:text="Switch" />
+            android:text="Switch"
+            tools:checked="true" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="63dp"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
         <Button
             android:id="@+id/btn_saveSettings"
@@ -57,9 +65,10 @@
             android:layout_marginLeft="50dp"
             android:background="@drawable/button_main_menu"
             android:gravity="center_horizontal|center_vertical"
-            android:onClick="onClickGoTo"
+            android:onClick="Guardar"
             android:text="@string/save_settings"
             android:textColor="@color/homeBtnText"
             android:textStyle="bold" />
+
     </LinearLayout>
 </RelativeLayout>
