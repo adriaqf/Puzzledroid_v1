@@ -68,15 +68,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-    public void onClickGoTo(View view) {
-        //Mira en sharedpreferences si la opcion esta de efectos de sonidos esta activa
+    public void soundPool () {
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         boolean value = pref.getBoolean("effects_sound",true);
         if(value){
             sp.play(sound_clic,1,1,1,0,0);
         }
+    }
+
+    public void onClickGoTo(View view) {
+        //Mira en sharedpreferences si la opcion esta de efectos de sonidos esta activa
+      soundPool();
 
         switch(view.getId()){
             case R.id.btn_single_player:

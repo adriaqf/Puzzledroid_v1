@@ -3,7 +3,11 @@ package com.sds.puzzledroid.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
@@ -13,7 +17,8 @@ import com.sds.puzzledroid.adapters.ButtonGVAdapter;
 import com.sds.puzzledroid.R;
 
 public class SinglePlayerActivity extends AppCompatActivity {
-
+    SoundPool sp;
+    int sound_clic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +39,15 @@ public class SinglePlayerActivity extends AppCompatActivity {
         animationDrawable.setEnterFadeDuration(4000);
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sound_clic = sp.load(this,R.raw.clic,1);
     }
 
     public void onClickGoBack(View view) {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("effects_sound",true);if(value){
+            sp.play(sound_clic,1,1,1,0,0);
+        }
         finish();
     }
 

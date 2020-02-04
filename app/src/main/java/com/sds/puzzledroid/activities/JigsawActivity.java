@@ -31,7 +31,7 @@ public class JigsawActivity extends AppCompatActivity {
 
     SoundPool sp;
     int succefull;
-    int piece;
+    int clic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class JigsawActivity extends AppCompatActivity {
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         succefull = sp.load(this,R.raw.succefull,1);
-        piece = sp.load(this,R.raw.piece,1);
+        clic = sp.load(this,R.raw.clic,1);
 
         chronometer = findViewById(R.id.chrono);
 
@@ -75,18 +75,28 @@ public class JigsawActivity extends AppCompatActivity {
     }
 
     public void onClickCloseJS(View view) {
+        soundPoolBtn();
         finish();
     }
-
+public void soundPoolJigsawComplete(){
+    SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+    boolean value = pref.getBoolean("effects_sound",true);
+    if(value){
+        sp.play(succefull,1,1,1,0,0);
+    }
+}
+public void soundPoolBtn(){
+    SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+    boolean value = pref.getBoolean("effects_sound",true);
+    if(value){
+        sp.play(clic,1,1,1,0,0);
+    }
+};
 
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
 
-            SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-            boolean value = pref.getBoolean("effects_sound",true);
-            if(value){
-                sp.play(succefull,1,1,1,0,0);
-            }
+          soundPoolJigsawComplete();
             chronometer.stop();
 
             int totalScore = getChronometerSeconds();
