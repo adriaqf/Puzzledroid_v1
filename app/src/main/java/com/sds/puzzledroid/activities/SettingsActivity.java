@@ -3,12 +3,16 @@ package com.sds.puzzledroid.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -16,10 +20,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.R;
 
-public class SettingsActivity extends AppCompatActivity {
+import java.io.IOException;
+
+public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Switch music_switch;
     private Switch effect_switch;
+    MediaPlayer mediaPlayer = new MediaPlayer();
+    Button btn_examinar,btn_play,btn_stop;
+    private final int PICKER = 1;
+    private int State = 1;
+    private final int Playing = 1;
+    private final int Pausing = 2;
+
     SoundPool sp;
     int sound_Reproduction;
 
@@ -28,6 +41,17 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        btn_examinar =(Button) findViewById(R.id.btn_examinar);
+        btn_play =(Button) findViewById(R.id.btn_play);
+        btn_stop =(Button) findViewById(R.id.btn_stop);
+        btn_examinar.setOnClickListener(this);
+        btn_play.setOnClickListener(this);
+        btn_stop.setOnClickListener(this);
+
+        /*mediaPlayer = MediaPlayer.create(this,R.raw.sparta_music);
+        mediaPlayer.setLooping(true);*/
+
 
         effect_switch = (Switch)findViewById(R.id.switch_sp);
         music_switch = (Switch)findViewById(R.id.switch1);
@@ -72,8 +96,74 @@ public class SettingsActivity extends AppCompatActivity {
         editor.commit();
     }
     public void Guardar (View view){ finish();}
+/*
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_examinar:
+                    PickFile();
+                break;
+            case R.id.btn_play:
+                if (State== 1){
+                    mediaPlayer.start();
+                    btn_play.setText("PAUSE");
+                    State = Pausing;
+                }else if(State == 2){
+                    mediaPlayer.pause();
+                    btn_play.setText("PLAY");
+                    State = Playing;
+            }
+                mediaPlayer.start();
+                break;
+            case R.id.btn_stop:
+                mediaPlayer.stop();
 
+                break;
+        }
+    }
+    private void PickFile(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("audio/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try{
+            startActivityForResult(Intent.createChooser(intent,"Instale un admin de archivos"),PICKER);
+        }catch (android.content.ActivityNotFoundException ex){
 
+        }
+    }
+@Override
+    protected  void onActivityResult(int requestCode, int resultCode, Intent data){
+    super.onActivityResult(requestCode,resultCode,data);
+        switch (requestCode){
+            case PICKER:
+                if(resultCode == RESULT_OK){
+                    Uri FilePath = data.getData();
+                    String FilePathAudio = getRealPathFromURI(FilePath);
+                    //String FilePath = data.getData().getPath();
+                    try{
+                        mediaPlayer.setDataSource(FilePathAudio);
+                        mediaPlayer.prepare();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
+}
+public String getRealPathFromURI(Uri contentUri){
+        Cursor cursor = null;
+        try{
+            String [] proj = {MediaStore.Audio.Media.DATA};
+            cursor = getApplicationContext().getContentResolver().query(contentUri,proj,null,null,null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if(cursor != null){
+                cursor.close();
+            }
+        }
+}*/
     /*  public void AudioMediaPlayer(View view){
 
             if (!music_switch.isChecked()){
