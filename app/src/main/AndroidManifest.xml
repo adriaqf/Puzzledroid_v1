@@ -29,6 +29,9 @@
             android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.FileMusic"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.HelpActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

@@ -14,24 +14,34 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.R;
 
-import java.io.IOException;
+import org.w3c.dom.Text;
 
-public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class SettingsActivity extends AppCompatActivity  {
 
     private Switch music_switch;
     private Switch effect_switch;
     MediaPlayer mediaPlayer = new MediaPlayer();
     Button btn_examinar,btn_play,btn_stop;
+    TextView tv_songname;
     private final int PICKER = 1;
     private int State = 1;
     private final int Playing = 1;
     private final int Pausing = 2;
+String sname;
+    static MediaPlayer mp;
+    int position;
+    ArrayList<File>mySongs;
 
     SoundPool sp;
     int sound_Reproduction;
@@ -45,9 +55,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         btn_examinar =(Button) findViewById(R.id.btn_examinar);
         btn_play =(Button) findViewById(R.id.btn_play);
         btn_stop =(Button) findViewById(R.id.btn_stop);
-        btn_examinar.setOnClickListener(this);
-        btn_play.setOnClickListener(this);
-        btn_stop.setOnClickListener(this);
+
+
+      //btn_examinar.setOnClickListener(this);
+       // btn_play.setOnClickListener(this);
+       // btn_stop.setOnClickListener(this);
 
         /*mediaPlayer = MediaPlayer.create(this,R.raw.sparta_music);
         mediaPlayer.setLooping(true);*/
@@ -65,9 +77,41 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         effect_switch.setChecked(prefs.getBoolean("effects_sound",true));
         music_switch.setChecked(prefs.getBoolean("music_settings",true));
 
+        prefs.getBoolean("examinar",false);
+        SharedPreferences.Editor editor = prefs.edit();
 
+if (prefs.getBoolean("examinar",false)){
+        if (mp != null) {
+            mp.stop();
+            mp.release();
+        }
+    Intent i = getIntent();
+    Bundle bundle = i.getExtras();
+    mySongs = (ArrayList) bundle.getParcelableArrayList("songs");
 
+        sname = mySongs.get(position).getName().toString();
+        String songName = i.getStringExtra("songname");
+
+        position = bundle.getInt("pos", 0);
+        Uri u = Uri.parse(mySongs.get(position).toString());
+
+        mp = MediaPlayer.create(getApplicationContext(), u);
+
+        mp.start();
+
+    }   editor.putBoolean("examinar",false);
+        editor.commit();
     }
+
+    public void onClickGo(View view) {
+
+        switch(view.getId()) {
+            case R.id.btn_examinar:
+                Intent iFileMusic = new Intent(this, FileMusic.class);
+                startActivity(iFileMusic);
+                finish();
+                break;
+        }}
     //arrancar un SoundPool
    //sp.play(sound_Reproduction,1,1,1,0,0);
    public void AudioSoundpool(View view) {
@@ -94,6 +138,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             editor.putBoolean("music_settings", false);
         }
         editor.commit();
+    }
+    @Override
+    public void onDestroy()
+    {
+        SharedPreferences prefs = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("examinar", false);
+        editor.commit();
+        super.onDestroy();
+
     }
     public void Guardar (View view){ finish();}
 /*

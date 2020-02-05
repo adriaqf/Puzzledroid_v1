@@ -30,6 +30,21 @@
             android:text="@string/music_background"
             tools:checked="true" />
 
+        <TextView
+            android:id="@+id/tv_songname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Song Name" />
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/ic_pause_black_24dp"
+             />
+
         <Switch
             android:id="@+id/switch_sp"
             android:layout_width="match_parent"
@@ -51,17 +66,13 @@
             android:text="Switch"
             tools:checked="true" />
 
+
         <Button
             android:id="@+id/btn_examinar"
             android:layout_width="121dp"
             android:layout_height="wrap_content"
+            android:onClick="onClickGo"
             android:text="examinar" />
-
-        <Button
-            android:id="@+id/btn_play"
-            android:layout_width="69dp"
-            android:layout_height="wrap_content"
-            android:text="play" />
 
         <Button
             android:id="@+id/btn_stop"
