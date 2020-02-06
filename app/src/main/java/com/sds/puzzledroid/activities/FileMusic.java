@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,26 +61,35 @@ public class FileMusic extends AppCompatActivity {
             }
         }).check();
     }
-    public ArrayList<File> findSong(File file){
+    public ArrayList<File> findSong(File file) {
         ArrayList<File> arrayList = new ArrayList<>();
 
         File[] files = file.listFiles();
+        try {
 
-        for(File singleFile: files){
+            for (File singleFile : files) {
 
-            if(singleFile.isDirectory() && !singleFile.isHidden()){
-                arrayList.addAll(findSong(singleFile));
-            }else{
-                if(singleFile.getName().endsWith(".mp3")|| singleFile.getName().endsWith(".wav")){
-                    arrayList.add(singleFile);
+                if (singleFile.isDirectory() && !singleFile.isHidden()) {
+                    arrayList.addAll(findSong(singleFile));
+                } else {
+                    if (singleFile.getName().endsWith(".mp3") || singleFile.getName().endsWith(".wav")) {
+                        arrayList.add(singleFile);
+                    }
                 }
+
             }
 
-        }return  arrayList;
-    }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),"No tienes archivos Mp3",Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+        }
+        return arrayList;
 
+       }
     void display(){
         final ArrayList<File> mySongs = findSong(Environment.getExternalStorageDirectory());
+
 
         items = new String[mySongs.size()];
 
@@ -95,7 +105,9 @@ public class FileMusic extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
                 String songName = myListVewForSongs.getItemAtPosition(i).toString();
+                if(mySongs.isEmpty()){
 
+                }else{
                 startActivity(new Intent(getApplicationContext(),SettingsActivity.class)
                         .putExtra("songs",mySongs)
                         .putExtra("songname",songName)
@@ -109,7 +121,7 @@ public class FileMusic extends AppCompatActivity {
                 editor.commit();
                 finish();
 
-            }
+            }}
 
         });
     }

@@ -123,6 +123,7 @@ public class SettingsActivity extends AppCompatActivity  {
         editor.commit();
     }
 
+
     public void onClickGo(View view) {
 
         switch(view.getId()) {

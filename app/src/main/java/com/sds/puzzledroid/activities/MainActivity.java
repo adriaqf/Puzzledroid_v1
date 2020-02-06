@@ -11,6 +11,8 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -57,11 +59,89 @@ public class MainActivity extends AppCompatActivity {
          sound_clic = sp.load(this,R.raw.clic,1);
 
     }
+    private PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
+    @Override
+    public void onCallStateChanged(int state, String incomingNumber) {
+        // Test for incoming call, dialing call, active or on hold
+        if (state== TelephonyManager.CALL_STATE_RINGING || state==TelephonyManager.CALL_STATE_OFFHOOK)
+        {
+            mp.stop();  // Put here the code to stop your music
+        }
+        super.onCallStateChanged(state, incomingNumber);
+    }
+};
     @Override
     protected void onStart()
     {
         super.onStart();
+        audio();
 
+        /*if(value && !pref.getBoolean("radio_default",true)){
+
+
+
+            if(!mp.isPlaying()) {
+                mp.start();
+            }else if(mp.isPlaying()){
+                mp.pause();
+            }*/
+           /* if(value){
+                vectormp[0].start();
+                vectormp[0].setLooping(true);
+            }else{
+                if(vectormp[0].isPlaying()){
+                    vectormp[0].pause();
+                }
+            }*/
+
+            /*else {
+            if (value && pref.getBoolean("radio_default", true)) {
+                vectormp[0].start();
+                vectormp[0].setLooping(true);
+            } else {
+                if (vectormp[0].isPlaying()) {
+                    vectormp[0].pause();
+
+                }
+            }
+        }*/}
+    @Override
+    protected void onPause(){
+        super.onPause();
+       /*if(mp!=null){
+            if(mp.isPlaying()){
+                mp.pause();
+            }
+        }
+        if(mpdefault!=null){
+            if(mpdefault.isPlaying()){
+                mpdefault.pause();
+            }
+        }*/
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+      /*  SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean value_music = pref.getBoolean("music_settings",true);
+        boolean valueRB = pref.getBoolean("radio_default",true);
+
+        if(value_music && valueRB){
+            if(mp!=null){
+                if(!mp.isPlaying()){
+                    mp.start();
+                }
+            }
+        }else if(value_music && valueRB ==false){
+            if(mpdefault!=null){
+                if(!mpdefault.isPlaying()){
+                    mpdefault.start();
+                }
+            }
+        }*/
+    }
+
+    public void audio(){
         //mira en sharedpreferences si la musica esta activada
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         boolean value_music = pref.getBoolean("music_settings",true);
@@ -74,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
         Uri uri_def = Uri.parse("android.resource://com.sds.puzzledroid/raw/sparta_music");
 
         SharedPreferences.Editor editor = pref.edit();
-       // editor.putString("Change_UriSong", tipo);
-       // editor.putBoolean("radio_default",true);
+        // editor.putString("Change_UriSong", tipo);
+        // editor.putBoolean("radio_default",true);
         //editor.commit();
         String change_UriSong = pref.getString("Change_UriSong",tipo);
 
@@ -119,38 +199,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }else {
-           if(mp!=null)
-            mp.pause();
-        }}
-        /*if(value && !pref.getBoolean("radio_default",true)){
-
-
-
-            if(!mp.isPlaying()) {
-                mp.start();
-            }else if(mp.isPlaying()){
+            if(mp!=null)
                 mp.pause();
-            }*/
-           /* if(value){
-                vectormp[0].start();
-                vectormp[0].setLooping(true);
-            }else{
-                if(vectormp[0].isPlaying()){
-                    vectormp[0].pause();
-                }
-            }*/
-
-            /*else {
-            if (value && pref.getBoolean("radio_default", true)) {
-                vectormp[0].start();
-                vectormp[0].setLooping(true);
-            } else {
-                if (vectormp[0].isPlaying()) {
-                    vectormp[0].pause();
-
-                }
+            if(mpdefault!=null){
+                mp.pause();
             }
-        }*/
+        }}
 
     public void soundPool () {
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
@@ -178,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_config:
                 Intent iSettings = new Intent(this, SettingsActivity.class);
-                //iSettings.putExtra("vector", vectormp);
                 startActivity(iSettings);
                 break;
             case R.id.btn_classification:
