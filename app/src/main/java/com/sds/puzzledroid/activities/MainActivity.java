@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     SoundPool sp;
     int sound_clic;
-    MediaPlayer vectormp [] = new MediaPlayer [2];
+    static MediaPlayer mp;
+    static MediaPlayer mpdefault;
+    int i = 0;
 
 
     @Override
@@ -40,10 +43,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
-        //crea objeto mediaplayer para el audio y soundpool para los efectos de sonido
-        //el vectormp1 esta creado para la opcion que escoja el usuario de su galeria de audio
-         vectormp[0] = MediaPlayer.create(this,R.raw.sparta_music);
-         vectormp[1] = MediaPlayer.create(this,R.raw.zelda_music);
+
+        String music_default="android.resource://com.sds.puzzledroid/raw/sparta_music";
+        SharedPreferences pref =getSharedPreferences("GlobalSetings",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("music_default",music_default);
+        editor.commit();
+
+        // mpdefault = MediaPlayer.create(this,uri1);
+
 
          sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
          sound_clic = sp.load(this,R.raw.clic,1);
@@ -56,18 +64,94 @@ public class MainActivity extends AppCompatActivity {
 
         //mira en sharedpreferences si la musica esta activada
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
-        boolean value = pref.getBoolean("music_settings",true);
-        //si esta activada empieza la musica en loop, si no comprueba si estaba activada antes de cerrar la app
-        //por que
-        if(value){
-            vectormp[0].start();
-            vectormp[0].setLooping(true);
-        }else{
-            if(vectormp[0].isPlaying()){
-                vectormp[0].pause();
+        boolean value_music = pref.getBoolean("music_settings",true);
+        boolean valueRB = pref.getBoolean("radio_default",true);
+
+
+
+        String tipo =pref.getString("UriSong","");
+        Uri uri_cho = Uri.parse(tipo);
+        Uri uri_def = Uri.parse("android.resource://com.sds.puzzledroid/raw/sparta_music");
+
+        SharedPreferences.Editor editor = pref.edit();
+       // editor.putString("Change_UriSong", tipo);
+       // editor.putBoolean("radio_default",true);
+        //editor.commit();
+        String change_UriSong = pref.getString("Change_UriSong",tipo);
+
+
+        //mp = MediaPlayer.create(getApplicationContext(),uri);
+
+
+        if(value_music){
+            if(valueRB){
+                if(mp!=null) {
+                    if(mp.isPlaying()) {
+                        mp.pause();
+                    }
+                }
+                if(mpdefault==null) {
+                    mpdefault = MediaPlayer.create(getApplicationContext(), uri_def);
+                }
+                if(!mpdefault.isPlaying()){
+                    mpdefault.start();
+                    mpdefault.setLooping(true);
+                }
+            }else{
+                if(mpdefault!=null) {
+                    if(mpdefault.isPlaying()) {
+                        mpdefault.pause();
+                    }
+                }
+                if(!change_UriSong.equals(tipo) || i == 0){
+                    if(mp!=null){
+                        mp.stop();
+                        mp.release();
+                    }
+                    mp = MediaPlayer.create(getApplicationContext(),uri_cho);
+                    i=1;
+                    editor.putString("Change_UriSong",tipo);
+                    editor.commit();
+                }
+                if(!mp.isPlaying()){
+                    mp.start();
+                    mp.setLooping(true);
+                }
             }
-        }
-    }
+        }else {
+           if(mp!=null)
+            mp.pause();
+        }}
+        /*if(value && !pref.getBoolean("radio_default",true)){
+
+
+
+            if(!mp.isPlaying()) {
+                mp.start();
+            }else if(mp.isPlaying()){
+                mp.pause();
+            }*/
+           /* if(value){
+                vectormp[0].start();
+                vectormp[0].setLooping(true);
+            }else{
+                if(vectormp[0].isPlaying()){
+                    vectormp[0].pause();
+                }
+            }*/
+
+            /*else {
+            if (value && pref.getBoolean("radio_default", true)) {
+                vectormp[0].start();
+                vectormp[0].setLooping(true);
+            } else {
+                if (vectormp[0].isPlaying()) {
+                    vectormp[0].pause();
+
+                }
+            }
+        }*/
+
     public void soundPool () {
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         boolean value = pref.getBoolean("effects_sound",true);
@@ -82,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
         switch(view.getId()){
             case R.id.btn_single_player:
-                sp.play(sound_clic,1,1,1,0,0);
                 Intent iSinglePlayer = new Intent(this, SinglePlayerActivity.class);
                 startActivity(iSinglePlayer);
                 break;

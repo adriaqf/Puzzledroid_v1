@@ -13,6 +13,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,20 +31,19 @@ import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity  {
 
-    private Switch music_switch;
-    private Switch effect_switch;
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    Switch sw_music_default,effect_switch,music_switch;
     Button btn_examinar,btn_play,btn_stop;
     TextView tv_songname;
-    private final int PICKER = 1;
-    private int State = 1;
-    private final int Playing = 1;
-    private final int Pausing = 2;
-String sname;
+    RadioButton rb_default,rb_select;
+    RadioGroup rg_music_select;
+
+    //Recojen valores de STORAGE SD
+    String sname;
     static MediaPlayer mp;
     int position;
     ArrayList<File>mySongs;
 
+    //SONIDOS CORTOS
     SoundPool sp;
     int sound_Reproduction;
 
@@ -55,6 +56,10 @@ String sname;
         btn_examinar =(Button) findViewById(R.id.btn_examinar);
         btn_play =(Button) findViewById(R.id.btn_play);
         btn_stop =(Button) findViewById(R.id.btn_stop);
+        tv_songname = (TextView) findViewById(R.id.tv_songname);
+
+        rb_default = (RadioButton) findViewById(R.id.rb_default);
+        rb_select = (RadioButton) findViewById(R.id.rb_select);
 
 
       //btn_examinar.setOnClickListener(this);
@@ -76,44 +81,84 @@ String sname;
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
         effect_switch.setChecked(prefs.getBoolean("effects_sound",true));
         music_switch.setChecked(prefs.getBoolean("music_settings",true));
+        rb_default.setChecked(prefs.getBoolean("radio_default",true));
+        rb_select.setChecked(!prefs.getBoolean("radio_default",true));
+
 
         prefs.getBoolean("examinar",false);
         SharedPreferences.Editor editor = prefs.edit();
 
-if (prefs.getBoolean("examinar",false)){
-        if (mp != null) {
-            mp.stop();
-            mp.release();
+        //SETTINGS RESET SI PETA LA APP
+      // editor.putBoolean("examinar",false);
+       // editor.commit();
+
+        if (prefs.getBoolean("examinar",false)){
+            if (mp != null) {
+                mp.stop();
+                mp.release();
+            }
+            Intent i = getIntent();
+            Bundle bundle = i.getExtras();
+            mySongs = (ArrayList) bundle.getParcelableArrayList("songs");
+
+            sname = mySongs.get(position).getName().toString();
+            String songName = i.getStringExtra("songname");
+
+            position = bundle.getInt("pos", 0);
+
+            Uri u = Uri.parse(mySongs.get(position).toString());
+            String a;
+            a = u.toString();
+
+            tv_songname.setText(songName);
+            tv_songname.setSelected(true);
+           // mp = MediaPlayer.create(getApplicationContext(), u);
+           // mp.start();
+
+            editor.putString("UriSong",a);
+            editor.commit();
         }
-    Intent i = getIntent();
-    Bundle bundle = i.getExtras();
-    mySongs = (ArrayList) bundle.getParcelableArrayList("songs");
 
-        sname = mySongs.get(position).getName().toString();
-        String songName = i.getStringExtra("songname");
-
-        position = bundle.getInt("pos", 0);
-        Uri u = Uri.parse(mySongs.get(position).toString());
-
-        mp = MediaPlayer.create(getApplicationContext(), u);
-
-        mp.start();
-
-    }   editor.putBoolean("examinar",false);
+        editor.putBoolean("examinar",false);
         editor.commit();
     }
 
     public void onClickGo(View view) {
 
         switch(view.getId()) {
-            case R.id.btn_examinar:
+            /*case (R.id.btn_examinar):
                 Intent iFileMusic = new Intent(this, FileMusic.class);
                 startActivity(iFileMusic);
                 finish();
-                break;
-        }}
+                break;*/
+            case (R.id.rb_select):
+                if(rb_select.isChecked()){
+                    rb_default.setChecked(false);
+                    SharedPreferences prefs =getSharedPreferences("GlobalSettings",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=prefs.edit();
+                    editor.putBoolean("radio_default",false);
+                    editor.commit();
+                    Intent iFileMusica = new Intent(this, FileMusic.class);
+                    startActivity(iFileMusica);
+                    finish();
+                    break;
+                }else{
+                    tv_songname.setText("Musica: Por defecto");
+
+                }
+        }
+  }
+  public void pausePlay(View view){
+        if(mp.isPlaying()){
+            btn_play.setBackgroundResource(R.drawable.ic_play);
+            mp.pause();
+        }else{
+            btn_play.setBackgroundResource(R.drawable.ic_pause);
+            mp.start();
+        }
+    }
     //arrancar un SoundPool
-   //sp.play(sound_Reproduction,1,1,1,0,0);
+    //sp.play(sound_Reproduction,1,1,1,0,0);
    public void AudioSoundpool(View view) {
 
        SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
@@ -126,7 +171,16 @@ if (prefs.getBoolean("examinar",false)){
        }
        editor.commit();
    }
+   public void rbdefault(View view){
+        if(rb_default.isChecked()){
+            rb_select.setChecked(false);
+            SharedPreferences prefs =getSharedPreferences("GlobalSettings",MODE_PRIVATE);
+            SharedPreferences.Editor editor=prefs.edit();
+            editor.putBoolean("radio_default",true);
+            editor.commit();
+        }
 
+   }
 
    public void AudioMediaPlayer(View view){
         SharedPreferences prefs = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
@@ -149,7 +203,8 @@ if (prefs.getBoolean("examinar",false)){
         super.onDestroy();
 
     }
-    public void Guardar (View view){ finish();}
+    public void Guardar (View view){ finish();
+    //mp.pause();}
 /*
     @Override
     public void onClick(View v) {
@@ -258,4 +313,4 @@ public String getRealPathFromURI(Uri contentUri){
         super.onResume();
         loadConfig();
     }*/
-}
+}}

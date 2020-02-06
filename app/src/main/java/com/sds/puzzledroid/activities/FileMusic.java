@@ -101,12 +101,14 @@ public class FileMusic extends AppCompatActivity {
                         .putExtra("songname",songName)
                         .putExtra("pos",i));
 
+
+                //evita error
                 SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-                prefs.getBoolean("examinar",false);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("examinar",true);
                 editor.commit();
                 finish();
+
             }
 
         });
