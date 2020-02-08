@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -100,6 +101,7 @@ public class ButtonGVAdapter extends BaseAdapter {
                 //0 = easy, 1 = normal, 2 = difficult
                 //SOUNDPOOL
                 SoundPool();
+                vibrate();
                 int difficulty = buttonsTitles[position].equals("1") || buttonsTitles[position].equals("2") ? 0 :
                         buttonsTitles[position].equals("3") || buttonsTitles[position].equals("4") ? 1 : 2;
                 i.putExtra("levelDifficulty", difficulty);
@@ -110,7 +112,14 @@ public class ButtonGVAdapter extends BaseAdapter {
 
         return btn;
     }
-
+    public void vibrate(){
+        SharedPreferences pref = mContext.getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean vibrate = pref.getBoolean("sw_vibrate",true);
+        Vibrator vibrator=(Vibrator)mContext.getApplicationContext() .getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibrate){
+            vibrator.vibrate(50);
+        }
+    }
     public void SoundPool () {
         SharedPreferences pref = mContext.getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         boolean value = pref.getBoolean("effects_sound",true);

@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -24,11 +27,13 @@ public class TouchListener implements View.OnTouchListener {
     SoundPool sp;
     int sound_piece;
 
+
     public TouchListener(JigsawActivity jigsawActivity) {
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_piece = sp.load(jigsawActivity,R.raw.piece,1);
         this.jigsawActivity = jigsawActivity;
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -72,8 +77,10 @@ public class TouchListener implements View.OnTouchListener {
                     layoutParams.topMargin = piece.yCoord;
                     piece.setLayoutParams(layoutParams);
                     piece.canMove = false;
+
+                   // piece.startAnimation(animZoomIn);
                     soundPoolPiece();
-                    Toast.makeText(jigsawActivity,"Pausa",Toast.LENGTH_SHORT).show();
+                    vibrate();
                     sendViewToBack(piece);
                     jigsawActivity.checkGameOver();
                 }
@@ -89,6 +96,15 @@ public class TouchListener implements View.OnTouchListener {
             parent.removeView(child);
             parent.addView(child, 0);
         }
+    }
+    public void vibrate(){
+        SharedPreferences pref = jigsawActivity.getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean vibrate = pref.getBoolean("sw_vibrate",true);
+        Vibrator vibrator=(Vibrator)jigsawActivity.getApplicationContext() .getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibrate){
+            vibrator.vibrate(50);
+    }
+
     }
     public void soundPoolPiece(){
         SharedPreferences pref = jigsawActivity.getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);

@@ -8,8 +8,12 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.sds.puzzledroid.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +26,8 @@ public class Jigsaw {
     private ArrayList<PuzzlePiece> pieces;
     private int levelDifficulty;
 
+
+
     public Jigsaw(Context context, String assetImageName, ImageView actImageView, int levelDifficulty){
         this.context = context;
         this.levelDifficulty = levelDifficulty;
@@ -30,6 +36,7 @@ public class Jigsaw {
             setPicFromAsset(assetImageName, actImageView);
         }
         pieces = splitJigsawImage(actImageView);
+
     }
 
     public ArrayList<PuzzlePiece> getPieces() {
@@ -171,7 +178,9 @@ public class Jigsaw {
                 return false;
             }
         }
+
         return true;
     }
+
 
 }

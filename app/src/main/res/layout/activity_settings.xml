@@ -71,31 +71,6 @@
                 </RadioGroup>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_examinar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/ic_find"
-                android:onClick="onClickGo" />
-
-            <Button
-                android:id="@+id/btn_play"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="right"
-                android:layout_marginLeft="70dp"
-                android:background="@drawable/ic_pause"
-                android:onClick="pausePlay" />
-
-            <Button
-                android:id="@+id/btn_stop"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="right"
-
-                android:background="@drawable/ic_stop" />
-
         </LinearLayout>
 
 
@@ -119,13 +94,14 @@
             tools:checked="true" />
 
         <Switch
-            android:id="@+id/switch3"
+            android:id="@+id/switch_vibrate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="switchVibrate"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
-            android:text="Switch"
+            android:text="@string/vibrate"
             tools:checked="true" />
 
 

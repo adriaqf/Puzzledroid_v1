@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -45,109 +46,28 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
-
         String music_default="android.resource://com.sds.puzzledroid/raw/sparta_music";
         SharedPreferences pref =getSharedPreferences("GlobalSetings",MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("music_default",music_default);
         editor.commit();
 
-        // mpdefault = MediaPlayer.create(this,uri1);
-
-
          sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
          sound_clic = sp.load(this,R.raw.clic,1);
 
     }
-    private PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
-    @Override
-    public void onCallStateChanged(int state, String incomingNumber) {
-        // Test for incoming call, dialing call, active or on hold
-        if (state== TelephonyManager.CALL_STATE_RINGING || state==TelephonyManager.CALL_STATE_OFFHOOK)
-        {
-            mp.stop();  // Put here the code to stop your music
-        }
-        super.onCallStateChanged(state, incomingNumber);
-    }
-};
+
     @Override
     protected void onStart()
     {
         super.onStart();
         audio();
-
-        /*if(value && !pref.getBoolean("radio_default",true)){
-
-
-
-            if(!mp.isPlaying()) {
-                mp.start();
-            }else if(mp.isPlaying()){
-                mp.pause();
-            }*/
-           /* if(value){
-                vectormp[0].start();
-                vectormp[0].setLooping(true);
-            }else{
-                if(vectormp[0].isPlaying()){
-                    vectormp[0].pause();
-                }
-            }*/
-
-            /*else {
-            if (value && pref.getBoolean("radio_default", true)) {
-                vectormp[0].start();
-                vectormp[0].setLooping(true);
-            } else {
-                if (vectormp[0].isPlaying()) {
-                    vectormp[0].pause();
-
-                }
-            }
-        }*/}
-    @Override
-    protected void onPause(){
-        super.onPause();
-       /*if(mp!=null){
-            if(mp.isPlaying()){
-                mp.pause();
-            }
-        }
-        if(mpdefault!=null){
-            if(mpdefault.isPlaying()){
-                mpdefault.pause();
-            }
-        }*/
     }
-    @Override
-    protected void onResume(){
-        super.onResume();
-      /*  SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
-        boolean value_music = pref.getBoolean("music_settings",true);
-        boolean valueRB = pref.getBoolean("radio_default",true);
-
-        if(value_music && valueRB){
-            if(mp!=null){
-                if(!mp.isPlaying()){
-                    mp.start();
-                }
-            }
-        }else if(value_music && valueRB ==false){
-            if(mpdefault!=null){
-                if(!mpdefault.isPlaying()){
-                    mpdefault.start();
-                }
-            }
-        }*/
-    }
-
     public void audio(){
         //mira en sharedpreferences si la musica esta activada
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         boolean value_music = pref.getBoolean("music_settings",true);
         boolean valueRB = pref.getBoolean("radio_default",true);
-
-
 
         String tipo =pref.getString("UriSong","");
         Uri uri_cho = Uri.parse(tipo);
@@ -159,10 +79,7 @@ public class MainActivity extends AppCompatActivity {
         //editor.commit();
         String change_UriSong = pref.getString("Change_UriSong",tipo);
 
-
         //mp = MediaPlayer.create(getApplicationContext(),uri);
-
-
         if(value_music){
             if(valueRB){
                 if(mp!=null) {
@@ -206,6 +123,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }}
 
+    public void vibrate(){
+            SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+            boolean vibrate = pref.getBoolean("sw_vibrate",true);
+            Vibrator vibrator=(Vibrator)getApplicationContext() .getSystemService(Context.VIBRATOR_SERVICE);
+            if(vibrate){
+                vibrator.vibrate(50);
+            }
+        }
+
     public void soundPool () {
         SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         boolean value = pref.getBoolean("effects_sound",true);
@@ -217,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickGoTo(View view) {
         //Mira en sharedpreferences si la opcion esta de efectos de sonidos esta activa
       soundPool();
-
+        vibrate();
         switch(view.getId()){
             case R.id.btn_single_player:
                 Intent iSinglePlayer = new Intent(this, SinglePlayerActivity.class);

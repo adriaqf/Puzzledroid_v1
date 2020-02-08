@@ -9,6 +9,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -45,8 +46,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     public void onClickGoBack(View view) {
         SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-        boolean value = pref.getBoolean("effects_sound",true);if(value){
+        boolean value = pref.getBoolean("effects_sound",true);
+        boolean vibrate = pref.getBoolean("sw_vibrate",true);
+        if(value){
             sp.play(sound_clic,1,1,1,0,0);
+        }
+        Vibrator vibrator=(Vibrator)getApplicationContext() .getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibrate){
+            vibrator.vibrate(50);
         }
         finish();
     }

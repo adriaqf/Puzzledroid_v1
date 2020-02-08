@@ -8,6 +8,8 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,10 +26,16 @@ import com.sds.puzzledroid.sqlite.SQLiteScore;
 import java.util.Collections;
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 public class JigsawActivity extends AppCompatActivity {
     private Jigsaw jigsaw;
     private Chronometer chronometer;
     private int localDifficulty;
+    ImageView ivPuzzle,piece;
+    ImageView ivwin;
+    Animation animZoomInBlind,zoom_in, piece_effect;
+    Animation alpha;
 
     SoundPool sp;
     int succefull;
@@ -46,7 +54,22 @@ public class JigsawActivity extends AppCompatActivity {
 
         final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
         final ImageView imageView = findViewById(R.id.ivPuzzle);
+         ivPuzzle = (ImageView) findViewById(R.id.ivPuzzle);
+          ivwin =(ImageView) findViewById(R.id.ivwin);
+          piece = (ImageView) findViewById(R.id.piece);
 
+
+          animZoomInBlind = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.zoom_in_blind);
+          alpha = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.keep_in_alpha_0);
+          zoom_in =AnimationUtils.loadAnimation(getApplicationContext(),
+                  R.anim.zoom_in);
+         // piece_effect =AnimationUtils.loadAnimation(getApplicationContext(),
+              //    R.anim.zoom_in_alpha_rotation);
+
+          ivwin.startAnimation(alpha);
+           // piece.startAnimation(alpha);
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
         this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);;
@@ -68,6 +91,10 @@ public class JigsawActivity extends AppCompatActivity {
                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
                    piece.setLayoutParams(lParams);
                }
+
+
+
+
            }
         });
 
@@ -92,11 +119,19 @@ public void soundPoolBtn(){
         sp.play(clic,1,1,1,0,0);
     }
 };
-
+public void onAnimationEnd(Animation animation){
+    animation.cancel();
+}
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
+           onAnimationEnd(alpha);
+            ivPuzzle.setAlpha(1f);
+             ivPuzzle.bringToFront();
+           // piece.startAnimation(piece_effect);
+            ivPuzzle.startAnimation(zoom_in);
+            ivwin.startAnimation(animZoomInBlind);
 
-          soundPoolJigsawComplete();
+            soundPoolJigsawComplete();
             chronometer.stop();
 
             int totalScore = getChronometerSeconds();
@@ -106,12 +141,27 @@ public void soundPoolBtn(){
             SQLiteScore sqLiteScore = new SQLiteScore(this, score);
             sqLiteScore.insertScore();
 
-            Intent iPopUp = new Intent(this, PopupCustomActivity.class);
+
+            final Intent iPopUp = new Intent(this, PopupCustomActivity.class);
             iPopUp.putExtra("totalScore", totalScore);
             iPopUp.putExtra("difficulty", localDifficulty);
-            startActivity(iPopUp);
+
+            Thread timer =new Thread(){
+                public void run(){
+                    try {
+                        sleep(1000);
+                        }catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
+                        finally
+                        {   ivwin.startAnimation(alpha);
+                            startActivity(iPopUp);
+                        }
+                }
+            };timer.start();
+            }
         }
-    }
+
 
     public int getChronometerSeconds() {
         int pos0, pos1, pos3, pos4, total;
