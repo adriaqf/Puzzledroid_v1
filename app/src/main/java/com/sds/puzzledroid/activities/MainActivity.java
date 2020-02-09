@@ -3,14 +3,28 @@ package com.sds.puzzledroid.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.adapters.ItemClassificationLVAdapter;
+import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
+import com.sds.puzzledroid.logic.InternalGallery;
+import com.sds.puzzledroid.logic.LCalendarEvent;
+import com.sds.puzzledroid.logic.LocalCalendar;
+import com.sds.puzzledroid.logic.Permissions;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +42,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.ToolBar);
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
+
+        // Verifies if the user has already granted the access to its external storage
+        // for gallery access
+        Permissions permissions = new Permissions(this);
+        permissions.verifyPermissions();
+
+        getCalendarEventsScores();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ListView listView = findViewById(R.id.lv_main);
+        listView.setOnItemClickListener(null);
+        ItemMainLVAdapter itemMainLVAdapter = new ItemMainLVAdapter(this, getCalendarEventsScores());
+        listView.setAdapter(itemMainLVAdapter);
     }
 
     public void onClickGoTo(View view) {
@@ -35,9 +66,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_single_player:
                 Intent iSinglePlayer = new Intent(this, SinglePlayerActivity.class);
                 startActivity(iSinglePlayer);
-                break;
-            case R.id.btn_multiplayer:
-                Toast.makeText(this, "Estamos trabajando en ello :)", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_help:
                 Intent iHelp = new Intent(this, HelpActivity.class);
@@ -55,5 +83,18 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error: Botón inexistente", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private ArrayList<LCalendarEvent> getCalendarEventsScores() {
+        ArrayList<LCalendarEvent> pEvents;
+        ArrayList<LCalendarEvent> events = new ArrayList<>();
+        LocalCalendar calendar = new LocalCalendar(this);
+        pEvents = calendar.getAllEvents();
+
+        for(int i = 1; i <= 3; i++) {
+            events.add(pEvents.get(pEvents.size() - i));
+        }
+
+        return events;
     }
 }
