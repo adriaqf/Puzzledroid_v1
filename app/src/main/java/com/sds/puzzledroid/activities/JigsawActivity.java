@@ -1,49 +1,71 @@
 package com.sds.puzzledroid.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.sds.puzzledroid.logic.ImagePuzzle;
 import com.sds.puzzledroid.logic.Jigsaw;
+import com.sds.puzzledroid.logic.LocalCalendar;
 import com.sds.puzzledroid.logic.PuzzlePiece;
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.TouchListener;
+import com.sds.puzzledroid.logic.TouchListener;
 import com.sds.puzzledroid.logic.Score;
+import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 import com.sds.puzzledroid.sqlite.SQLiteScore;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Random;
+
+import static android.app.Notification.DEFAULT_SOUND;
+import static com.sds.puzzledroid.activities.App.CHANNEL_1_ID;
 
 public class JigsawActivity extends AppCompatActivity {
     private Jigsaw jigsaw;
     private Chronometer chronometer;
+    private int totalScore;
     private int localDifficulty;
+    private Uri uImagePath;
+
+    private NotificationManagerCompat managerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jigsaw);
 
-        chronometer = findViewById(R.id.chrono);
+        managerCompat = NotificationManagerCompat.from(this);
 
         final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
         final ImageView imageView = findViewById(R.id.ivPuzzle);
+        chronometer = findViewById(R.id.chrono);
+
+        ImagePuzzle imagePuzzle = new ImagePuzzle(this, imageView);
+        uImagePath = imagePuzzle.randomizeJigsawImage();
 
         Intent intent = getIntent();
-        final String assetName = intent.getStringExtra("assetName");
-        this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);;
+        this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);
 
         imageView.post(new Runnable() {
            @SuppressLint("ClickableViewAccessibility")
            @Override
            public void run() {
-               jigsaw = new Jigsaw(getApplicationContext(), assetName, imageView, localDifficulty);
+               jigsaw = new Jigsaw(getApplicationContext(), imageView, localDifficulty);
                TouchListener touchListener = new TouchListener(JigsawActivity.this);
                //Shuffle pieces order
                Collections.shuffle(jigsaw.getPieces());
@@ -66,23 +88,53 @@ public class JigsawActivity extends AppCompatActivity {
         finish();
     }
 
+    private void sendNotificationCGameOver() {
+        Intent fullScreenIntent = new Intent(this, Jigsaw.class);
+        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
+                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intent = new Intent(this, PopupCustomActivity.class);
+        intent.putExtra("totalScore", totalScore);
+        intent.putExtra("difficulty", localDifficulty);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_notification_mood_24dp)
+                .setContentTitle("¡COMPLETADO!")
+                .setContentText("Haz click aquí para visualizar tu puntuación.")
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setTimeoutAfter(5000)
+                .setFullScreenIntent(fullScreenPendingIntent, true)
+                .build();
+
+        managerCompat.notify(1, notification);
+    }
 
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
 
             chronometer.stop();
+            totalScore = getChronometerSeconds();
 
-            int totalScore = getChronometerSeconds();
+            sendNotificationCGameOver();
+
             Score score = new Score(totalScore, localDifficulty);
 
             //Inserting the new score on the db
             SQLiteScore sqLiteScore = new SQLiteScore(this, score);
             sqLiteScore.insertScore();
 
-            Intent iPopUp = new Intent(this, PopupCustomActivity.class);
-            iPopUp.putExtra("totalScore", totalScore);
-            iPopUp.putExtra("difficulty", localDifficulty);
-            startActivity(iPopUp);
+            //Inserting the new score on the Calendar
+            LocalCalendar calendar = new LocalCalendar(this);
+            calendar.addEvent(score);
+
+            //Deleting puzzle image from data base
+            SQLiteGalleryPhoto sqLiteGalleryPhoto = new SQLiteGalleryPhoto(this);
+            sqLiteGalleryPhoto.deletePhoto(uImagePath);
         }
     }
 

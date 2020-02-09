@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/textView"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="-31dp"
+        android:layout_marginBottom="-32dp"
         android:background="@drawable/background_gradient_list"
         android:fitsSystemWindows="true"
         android:gravity="center"
@@ -26,32 +26,51 @@
             android:id="@+id/iv_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/logo_app" />
 
         <Button
             android:id="@+id/btn_single_player"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
             android:background="@drawable/button_main_menu"
             android:onClick="onClickGoTo"
             android:text="@string/btn_single_player"
+            android:textSize="16sp"
             android:textColor="@color/homeBtnText"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btn_multiplayer"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
             android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/background1_main_lv"/>
+
+       <ListView
+           android:id="@+id/lv_main"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="30dp"
+           android:layout_marginLeft="30dp"
+           android:background="@color/lv_main_background"
+           android:listSelector="@color/transparent"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/button_main_menu"
-            android:onClick="onClickGoTo"
-            android:text="@string/btn_multiplayer"
-            android:textColor="@color/homeBtnText"
-            android:textStyle="bold" />
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/background2_main_lv"/>
 
     </LinearLayout>
 
