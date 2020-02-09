@@ -24,6 +24,7 @@ public class PopupCustomActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int totalScore = intent.getIntExtra("totalScore", 1);
+        System.out.println("SCORE 2: " + totalScore);
         difficulty = intent.getIntExtra("difficulty", 1);
 
         TextView textView = findViewById(R.id.txt_result_popup);
