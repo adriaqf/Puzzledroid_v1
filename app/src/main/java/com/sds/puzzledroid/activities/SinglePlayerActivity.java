@@ -54,27 +54,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         animationDrawable.setEnterFadeDuration(4000);
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
-
-
-        //Load all gallery photos from user
-        //Permission needed READ_EXTERNAL_STORAGE
-        SharedPreferences preferences = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-        boolean firstTime = preferences.getBoolean("firstTime", false);
-        if(!firstTime) {
-            //Takes all gallery photos from the phone
-            InternalGallery internalGallery = new InternalGallery(this);
-            internalGallery.saveFullGallery();
-            //Creates a new calendar to save later scores
-            LocalCalendar localCalendar = new LocalCalendar(this);
-            localCalendar.addNewCalendar();
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("firstTime", true);
-            editor.apply();
-            System.out.println("Galería cargada.");
-        }
-        else {
-            System.out.println("Ya no se carga la galería.");
-        }
     }
 
     public void onClick(View view) {

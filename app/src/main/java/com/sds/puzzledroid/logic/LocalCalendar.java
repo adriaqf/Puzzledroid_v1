@@ -47,7 +47,7 @@ public class LocalCalendar {
         Uri result = context.getContentResolver().insert(calUri, cv);
     }
 
-    public long getLocalCalendarId() {
+    private long getLocalCalendarId() {
         final String[] EVENT_PROJECTION = new String[] {
                 CalendarContract.Calendars._ID,
                 CalendarContract.Calendars.NAME

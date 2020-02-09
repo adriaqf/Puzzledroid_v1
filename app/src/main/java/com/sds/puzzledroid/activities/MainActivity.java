@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getCalendarEventsScores();
+
         LinearLayout linearLayoutV = findViewById(R.id.LinearLayoutV);
         AnimationDrawable animationDrawable = (AnimationDrawable) linearLayoutV.getBackground();
         animationDrawable.setEnterFadeDuration(4000);
@@ -48,7 +51,25 @@ public class MainActivity extends AppCompatActivity {
         Permissions permissions = new Permissions(this);
         permissions.verifyPermissions();
 
-        getCalendarEventsScores();
+        //Load all gallery photos from user
+        //Permission needed READ_EXTERNAL_STORAGE
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!preferences.getBoolean("firstTime", false)) {
+            //Takes all gallery photos from the phone
+            InternalGallery internalGallery = new InternalGallery(this);
+            internalGallery.saveFullGallery();
+            //Creates a new calendar to save later scores
+            LocalCalendar localCalendar = new LocalCalendar(this);
+            localCalendar.addNewCalendar();
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("firstTime", true);
+            editor.apply();
+            System.out.println("Galería cargada.");
+        }
+        else {
+            System.out.println("Ya no se carga la galería.");
+        }
 
     }
 
@@ -91,10 +112,14 @@ public class MainActivity extends AppCompatActivity {
         LocalCalendar calendar = new LocalCalendar(this);
         pEvents = calendar.getAllEvents();
 
-        for(int i = 1; i <= 3; i++) {
-            events.add(pEvents.get(pEvents.size() - i));
+        try {
+            for(int i = 1; i <= 3; i++) {
+                events.add(pEvents.get(pEvents.size() - i));
+            }
+            return events;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return events;
         }
 
-        return events;
     }
 }
