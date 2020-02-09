@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#1A82D4</color>
     <color name="colorAccent">#FFEB3B</color>
 
+    <color name="transparent">#00000000</color>
+
+    <color name="lv_main_background">#20000000</color>
+
     <color name="backgroundColor1">#6185FF</color>
     <color name="backgroundColor2">#4DB7DF</color>
     <color name="backgroundColor3">#329FC8</color>

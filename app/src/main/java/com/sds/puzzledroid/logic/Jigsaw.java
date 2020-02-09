@@ -8,11 +8,13 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
@@ -22,13 +24,10 @@ public class Jigsaw {
     private ArrayList<PuzzlePiece> pieces;
     private int levelDifficulty;
 
-    public Jigsaw(Context context, String assetImageName, ImageView actImageView, int levelDifficulty){
+    public Jigsaw(Context context, ImageView actImageView, int levelDifficulty){
         this.context = context;
         this.levelDifficulty = levelDifficulty;
 
-        if (assetImageName != null) {
-            setPicFromAsset(assetImageName, actImageView);
-        }
         pieces = splitJigsawImage(actImageView);
     }
 
@@ -36,40 +35,6 @@ public class Jigsaw {
         return this.pieces;
     }
 
-    private void setPicFromAsset(String assetImageName, ImageView actImageView) {
-        // Get the dimensions of the activity_jigsaw's ImageView
-        int targetW = actImageView.getWidth();
-        int targetH = actImageView.getHeight();
-
-        AssetManager am = context.getAssets();
-
-        try {
-            InputStream is = am.open("img/" + assetImageName);
-
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-            is.reset();
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-            Bitmap bitmap = BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            actImageView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private ArrayList<PuzzlePiece> splitJigsawImage(ImageView actImageView) {
 

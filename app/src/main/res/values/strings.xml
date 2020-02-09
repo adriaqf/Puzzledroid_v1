@@ -1,23 +1,14 @@
 <resources>
     <string name="app_name">Puzzledroid</string>
-    <string name="app_version">v 0.1</string>
+    <string name="app_version">v 0.5</string>
     <string name="flooterText">UOC Jesuïtes Educació 2020 · SPS Group · Puzzledroid</string>
 
 
-    <string name="btn_single_player">Un Jugador</string>
+    <string name="btn_single_player">JUGAR</string>
     <string name="btn_multiplayer">Multijugador</string>
 
     <string name="btn_toolbar_help">"?"</string>
     <string name="btn_toolbar_config">"⚙"️</string>
     <string name="btn_toolbar_classification">"🏅"</string>
-
-    <string name="level1_btn_title">Nivel 1</string>
-    <string name="level2_btn_title">Nivel 2</string>
-    <string name="level3_btn_title">Nivel 3</string>
-    <string name="level4_btn_title">Nivel 4</string>
-    <string name="level5_btn_title">Nivel 5</string>
-
-    <string name="listView">Seleccione puzzle a resolver:</string>
-
 
 </resources>

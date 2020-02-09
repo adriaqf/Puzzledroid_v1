@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true">
-        <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+        <layer-list>
             <item>
                 <shape android:shape="rectangle">
                     <stroke android:width="2dp"
                         android:color="@color/homeBtnBorder1"/>
-                    <corners android:radius="10dp"></corners>
+                    <corners android:radius="10dp"/>
                 </shape>
             </item>
             <item android:top="2dp" android:bottom="2dp" android:left="2dp" android:right="2dp">
@@ -16,20 +16,20 @@
                         android:startColor="@color/homeBtnGrad1"
                         android:endColor="@color/homeBtnGrad1"/>
                     <stroke android:width="3dp"
-                        android:color="@color/homeBtnBorder2"></stroke>
-                    <corners android:radius="8dp"></corners>
+                        android:color="@color/homeBtnBorder2"/>
+                    <corners android:radius="8dp"/>
                 </shape>
             </item>
         </layer-list>
     </item>
 
     <item android:state_enabled="true">
-        <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+        <layer-list>
            <item>
                 <shape android:shape="rectangle">
                     <stroke android:width="2dp"
                         android:color="@color/homeBtnBorder1"/>
-                    <corners android:radius="10dp"></corners>
+                    <corners android:radius="10dp"/>
                 </shape>
            </item>
             <item android:top="2dp" android:bottom="2dp" android:left="2dp" android:right="2dp">
@@ -38,8 +38,8 @@
                         android:startColor="@color/homeBtnGrad2"
                         android:endColor="@color/homeBtnGrad1"/>
                     <stroke android:width="3dp"
-                        android:color="@color/homeBtnBorder2"></stroke>
-                    <corners android:radius="8dp"></corners>
+                        android:color="@color/homeBtnBorder2"/>
+                    <corners android:radius="8dp"/>
                 </shape>
             </item>
         </layer-list>
