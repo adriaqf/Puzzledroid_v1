@@ -58,7 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:onClick="rbdefault"
+                        android:onClick="onClickGo"
                         android:text="Predeterminada" />
 
                     <RadioButton

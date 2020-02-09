@@ -4,18 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.telephony.ServiceState;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.sds.puzzledroid.adapters.ButtonGVAdapter;
 import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.services.MyMusicService;
 
 public class SinglePlayerActivity extends AppCompatActivity {
     SoundPool sp;
@@ -42,6 +45,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         animationDrawable.start();
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_clic = sp.load(this,R.raw.clic,1);
+
     }
 
     public void onClickGoBack(View view) {

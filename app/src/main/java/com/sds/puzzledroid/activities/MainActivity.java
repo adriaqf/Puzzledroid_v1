@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.sds.puzzledroid.R;
 import android.content.SharedPreferences;
 import com.sds.puzzledroid.activities.SettingsActivity;
+import com.sds.puzzledroid.services.MyMusicService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     static MediaPlayer mp;
     static MediaPlayer mpdefault;
     int i = 0;
-
+    boolean algo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,82 +47,63 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
-        String music_default="android.resource://com.sds.puzzledroid/raw/sparta_music";
-        SharedPreferences pref =getSharedPreferences("GlobalSetings",MODE_PRIVATE);
+        String music_default = "android.resource://com.sds.puzzledroid/raw/sparta_music";
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("music_default",music_default);
+        boolean value = pref.getBoolean("music_settings", true);
+        editor.putString("music_default", music_default);
         editor.commit();
 
-         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
-         sound_clic = sp.load(this,R.raw.clic,1);
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
+        sound_clic = sp.load(this, R.raw.clic, 1);
+
+
+            editor.putInt("music_currentPosition", 0);
+            editor.commit();
+            Intent intent = new Intent(MainActivity.this, MyMusicService.class);
+            startService(intent);
+
 
     }
+  /*@Override
+    protected void onStop()
+    {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("pause",true);
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, MyMusicService.class);
+        stopService(intent);
+         algo = true;
+        super.onStop();
+        // audio();
+    }
 
+    @Override
+    protected void onResume()
+
+    {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("pause",false);
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, MyMusicService.class);
+        if(algo){
+            startService(intent);
+            algo = false;
+        }
+        super.onResume();
+        // audio();
+    }
+
+*/
     @Override
     protected void onStart()
     {
         super.onStart();
-        audio();
+      // audio();
     }
-    public void audio(){
-        //mira en sharedpreferences si la musica esta activada
-        SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
-        boolean value_music = pref.getBoolean("music_settings",true);
-        boolean valueRB = pref.getBoolean("radio_default",true);
 
-        String tipo =pref.getString("UriSong","");
-        Uri uri_cho = Uri.parse(tipo);
-        Uri uri_def = Uri.parse("android.resource://com.sds.puzzledroid/raw/sparta_music");
-
-        SharedPreferences.Editor editor = pref.edit();
-        // editor.putString("Change_UriSong", tipo);
-        // editor.putBoolean("radio_default",true);
-        //editor.commit();
-        String change_UriSong = pref.getString("Change_UriSong",tipo);
-
-        //mp = MediaPlayer.create(getApplicationContext(),uri);
-        if(value_music){
-            if(valueRB){
-                if(mp!=null) {
-                    if(mp.isPlaying()) {
-                        mp.pause();
-                    }
-                }
-                if(mpdefault==null) {
-                    mpdefault = MediaPlayer.create(getApplicationContext(), uri_def);
-                }
-                if(!mpdefault.isPlaying()){
-                    mpdefault.start();
-                    mpdefault.setLooping(true);
-                }
-            }else{
-                if(mpdefault!=null) {
-                    if(mpdefault.isPlaying()) {
-                        mpdefault.pause();
-                    }
-                }
-                if(!change_UriSong.equals(tipo) || i == 0){
-                    if(mp!=null){
-                        mp.stop();
-                        mp.release();
-                    }
-                    mp = MediaPlayer.create(getApplicationContext(),uri_cho);
-                    i=1;
-                    editor.putString("Change_UriSong",tipo);
-                    editor.commit();
-                }
-                if(!mp.isPlaying()){
-                    mp.start();
-                    mp.setLooping(true);
-                }
-            }
-        }else {
-            if(mp!=null)
-                mp.pause();
-            if(mpdefault!=null){
-                mp.pause();
-            }
-        }}
 
     public void vibrate(){
             SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);

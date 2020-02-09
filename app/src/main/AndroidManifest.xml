@@ -16,7 +16,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-      />
+        <service
+            android:name=".services.MyMusicService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".activities.PopupCustomActivity"
             android:theme="@style/AppTheme.PopMe" />

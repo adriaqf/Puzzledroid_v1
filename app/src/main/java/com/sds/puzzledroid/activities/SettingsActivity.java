@@ -22,6 +22,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.logic.Settings;
+import com.sds.puzzledroid.services.MyMusicService;
 
 import org.w3c.dom.Text;
 
@@ -34,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity  {
     Switch effect_switch,music_switch,switch_vibrate;
     TextView tv_songname;
     RadioButton rb_default,rb_select;
-
+    boolean algo;
 
     //Recojen valores de STORAGE SD
     String sname;
@@ -52,7 +54,6 @@ public class SettingsActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-
         tv_songname = (TextView)findViewById(R.id.tv_songname);
         rb_default = (RadioButton)findViewById(R.id.rb_default);
         rb_select = (RadioButton)findViewById(R.id.rb_select);
@@ -69,14 +70,20 @@ public class SettingsActivity extends AppCompatActivity  {
         rb_default.setChecked(prefs.getBoolean("radio_default",true));
         rb_select.setChecked(!prefs.getBoolean("radio_default",true));
         switch_vibrate.setChecked(prefs.getBoolean("sw_vibrate",true));
+        Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
+        startService(intent);
+        explorar();
 
 
+    }
+   public void explorar(){
+        SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
         prefs.getBoolean("examinar",false);
         SharedPreferences.Editor editor = prefs.edit();
 
         //SETTINGS RESET SI PETA LA APP
-      // editor.putBoolean("examinar",false);
-       // editor.commit();
+        // editor.putBoolean("examinar",false);
+        // editor.commit();
 
         if (prefs.getBoolean("examinar",false)){
             if (mp != null) {
@@ -98,19 +105,23 @@ public class SettingsActivity extends AppCompatActivity  {
 
             tv_songname.setText(songName);
             tv_songname.setSelected(true);
-           // mp = MediaPlayer.create(getApplicationContext(), u);
-           // mp.start();
+            // mp = MediaPlayer.create(getApplicationContext(), u);
+            // mp.start();
 
             editor.putString("UriSong",a);
             editor.commit();
+            boolean value = prefs.getBoolean("music_settings",true);
+            if(value){
+                Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
+                stopService(intent);
+                startService(intent);
+            }
         }
 
         editor.putBoolean("examinar",false);
         editor.commit();
     }
-
-
-    public void onClickGo(View view) {
+   public void onClickGo(View view) {
 
         switch(view.getId()) {
             case (R.id.rb_select):
@@ -128,11 +139,21 @@ public class SettingsActivity extends AppCompatActivity  {
             case (R.id.rb_default):
                 if(rb_default.isChecked()){
                     rb_select.setChecked(false);
+
                     SharedPreferences prefs =getSharedPreferences("GlobalSettings",MODE_PRIVATE);
                     SharedPreferences.Editor editor=prefs.edit();
                     editor.putBoolean("radio_default",true);
+                    editor.putString("UriSong","android.resource://com.sds.puzzledroid/raw/sparta_music");
                     editor.commit();
+                    boolean value = prefs.getBoolean("music_settings",true);
+
+                    if(value){
+                        Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
+                        stopService(intent);
+                        startService(intent);
+                    }
                     tv_songname.setText("Musica: Por defecto");
+                    break;
                 }
         }
   }
@@ -148,25 +169,54 @@ public class SettingsActivity extends AppCompatActivity  {
        }
        editor.commit();
    }
-   /*public void rbdefault(View view){
-        if(rb_default.isChecked()){
-            rb_select.setChecked(false);
 
-        }
-
-   }*/
 
    public void AudioMediaPlayer(View view){
         SharedPreferences prefs = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
+        Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
+
         if(music_switch.isChecked()) {
             editor.putBoolean("music_settings", true);
+            startService(intent);
         }else{
             editor.putBoolean("music_settings", false);
+            stopService(intent);
         }
-        editor.commit();
+       editor.commit();
     }
+ /*   @Override
+    protected void onStop()
+    {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("pause",true);
+        editor.commit();
+        Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
+        stopService(intent);
+        algo = true;
+        super.onStop();
+        // audio();
+    }
+
+    @Override
+    protected void onResume()
+
+    {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("pause",false);
+        editor.commit();
+        Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
+        if(algo){
+            startService(intent);
+            algo = false;
+        }
+        super.onResume();
+        // audio();
+    }*/
+
     public void switchVibrate(View view){
     SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
     SharedPreferences.Editor editor = prefs.edit();
