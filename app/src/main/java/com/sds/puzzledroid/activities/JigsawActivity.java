@@ -93,11 +93,12 @@ public class JigsawActivity extends AppCompatActivity {
         PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
                 fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        System.out.println("SCORE: " + totalScore);
         Intent intent = new Intent(this, PopupCustomActivity.class);
         intent.putExtra("totalScore", totalScore);
         intent.putExtra("difficulty", localDifficulty);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_notification_mood_24dp)
