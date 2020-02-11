@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.activities;
+package com.sds.puzzledroid.logic;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,6 +21,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.activities.SettingsActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,16 +30,17 @@ public class FileMusic extends AppCompatActivity {
 
     ListView myListVewForSongs;
     String[] items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fileselect);
 
-        myListVewForSongs = (ListView) findViewById(R.id.mySongListView);
+        myListVewForSongs = findViewById(R.id.mySongListView);
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("examinar",false);
-        editor.commit();
+        editor.apply();
         runtimePermission();
     }
 
@@ -47,7 +49,6 @@ public class FileMusic extends AppCompatActivity {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {
                 display();
-
             }
 
             @Override
@@ -61,44 +62,38 @@ public class FileMusic extends AppCompatActivity {
             }
         }).check();
     }
-    public ArrayList<File> findSong(File file) {
+
+    private ArrayList<File> findSong(File file) {
         ArrayList<File> arrayList = new ArrayList<>();
-
         File[] files = file.listFiles();
+
         try {
-
             for (File singleFile : files) {
-
                 if (singleFile.isDirectory() && !singleFile.isHidden()) {
                     arrayList.addAll(findSong(singleFile));
-                } else {
-                    if (singleFile.getName().endsWith(".mp3") || singleFile.getName().endsWith(".wav")) {
+                } else if (singleFile.getName().endsWith(".mp3") || singleFile.getName().endsWith(".wav")) {
                         arrayList.add(singleFile);
-                    }
                 }
-
             }
-
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),"No tienes archivos Mp3",Toast.LENGTH_SHORT).show();
             finish();
-            startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
         }
+
         return arrayList;
+    }
 
-       }
-    void display(){
+    private void display(){
+        //Gets all songs inside external storage
         final ArrayList<File> mySongs = findSong(Environment.getExternalStorageDirectory());
-
-
         items = new String[mySongs.size()];
 
-        for(int i=0;i<mySongs.size();i++){
+        for(int i=0; i<mySongs.size(); i++){
             items[i] = mySongs.get(i).getName().replace(".mp3","").replace(".wav","");
-
         }
 
-        ArrayAdapter<String>myAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
         myListVewForSongs.setAdapter(myAdapter);
 
         myListVewForSongs.setOnItemClickListener (new AdapterView.OnItemClickListener(){
@@ -113,12 +108,11 @@ public class FileMusic extends AppCompatActivity {
                         .putExtra("songname",songName)
                         .putExtra("pos",i));
 
-
                 //evita error
                 SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("examinar",true);
-                editor.commit();
+                editor.apply();
                 finish();
 
             }}

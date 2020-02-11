@@ -91,10 +91,6 @@ public class JigsawActivity extends AppCompatActivity {
                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
                    piece.setLayoutParams(lParams);
                }
-
-
-
-
            }
         });
 
@@ -105,23 +101,27 @@ public class JigsawActivity extends AppCompatActivity {
         soundPoolBtn();
         finish();
     }
-public void soundPoolJigsawComplete(){
-    SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-    boolean value = pref.getBoolean("effects_sound",true);
-    if(value){
-        sp.play(succefull,1,1,1,0,0);
+
+    public void soundPoolJigsawComplete() {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("effects_sound",true);
+        if(value){
+            sp.play(succefull,1,1,1,0,0);
+        }
     }
-}
-public void soundPoolBtn(){
-    SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-    boolean value = pref.getBoolean("effects_sound",true);
-    if(value){
-        sp.play(clic,1,1,1,0,0);
+    public void soundPoolBtn() {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("effects_sound",true);
+
+        if(value){
+            sp.play(clic,1,1,1,0,0);
+        }
     }
-};
-public void onAnimationEnd(Animation animation){
-    animation.cancel();
-}
+
+    public void onAnimationEnd(Animation animation){
+        animation.cancel();
+    }
+
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
            onAnimationEnd(alpha);
@@ -146,22 +146,22 @@ public void onAnimationEnd(Animation animation){
             iPopUp.putExtra("totalScore", totalScore);
             iPopUp.putExtra("difficulty", localDifficulty);
 
-            Thread timer =new Thread(){
+            Thread timer = new Thread(){
                 public void run(){
                     try {
                         sleep(1000);
-                        }catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        finally
-                        {   ivwin.startAnimation(alpha);
-                            startActivity(iPopUp);
-                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        ivwin.startAnimation(alpha);
+                        startActivity(iPopUp);
+                    }
                 }
-            };timer.start();
-            }
-        }
+            };
 
+            timer.start();
+        }
+    }
 
     public int getChronometerSeconds() {
         int pos0, pos1, pos3, pos4, total;
