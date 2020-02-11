@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         String music_default = "android.resource://com.sds.puzzledroid/raw/sparta_music";
         SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
+        pref.getString("Uri",music_default);
+
         SharedPreferences.Editor editor = pref.edit();
         boolean value = pref.getBoolean("music_settings", true);
         editor.putString("music_default", music_default);

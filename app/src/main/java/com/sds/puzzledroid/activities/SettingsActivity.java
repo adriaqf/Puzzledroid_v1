@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity  {
         rb_select.setChecked(!prefs.getBoolean("radio_default",true));
         switch_vibrate.setChecked(prefs.getBoolean("sw_vibrate",true));
         Intent intent = new Intent(SettingsActivity.this, MyMusicService.class);
-        startService(intent);
+       // startService(intent);
         explorar();
 
 
