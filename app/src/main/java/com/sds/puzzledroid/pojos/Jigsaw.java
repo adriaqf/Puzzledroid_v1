@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import static java.lang.Math.abs;
 
 public class Jigsaw {
-
     private Context context;
     private ArrayList<PuzzlePiece> pieces;
     private int levelDifficulty;
@@ -23,7 +22,6 @@ public class Jigsaw {
         this.levelDifficulty = levelDifficulty;
 
         pieces = splitJigsawImage(actImageView);
-
     }
 
     public ArrayList<PuzzlePiece> getPieces() {
@@ -56,6 +54,7 @@ public class Jigsaw {
         Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, abs(scaledBitmapLeft), abs(scaledBitmapTop), croppedImageWidth, croppedImageHeight);
 
         // Calculate the with and height of the pieces
+
         int pieceWidth = croppedImageWidth / cols;
         int pieceHeight = croppedImageHeight / rows;
 
@@ -132,6 +131,5 @@ public class Jigsaw {
         }
         return true;
     }
-
 
 }

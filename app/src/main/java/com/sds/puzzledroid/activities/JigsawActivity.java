@@ -10,6 +10,9 @@ import android.media.SoundPool;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+
+import android.content.Intent;
+
 import android.net.Uri;
 
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import com.sds.puzzledroid.pojos.Jigsaw;
 import com.sds.puzzledroid.pojos.LocalCalendar;
 import com.sds.puzzledroid.pojos.PuzzlePiece;
 import com.sds.puzzledroid.R;
+
 import com.sds.puzzledroid.pojos.TouchListener;
 import com.sds.puzzledroid.pojos.Score;
 import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
@@ -36,6 +40,7 @@ import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.util.Collections;
 import java.util.Random;
+
 
 import static com.sds.puzzledroid.activities.AppNotChannels.CHANNEL_1_ID;
 

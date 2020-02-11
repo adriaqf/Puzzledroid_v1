@@ -9,6 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.SoundPool;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
+
 import android.os.Bundle;
 import android.os.Vibrator;
 
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.sds.puzzledroid.R;
 
 import com.sds.puzzledroid.services.MusicService;
+
 import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
 import com.sds.puzzledroid.pojos.InternalGallery;
 import com.sds.puzzledroid.pojos.LCalendarEvent;

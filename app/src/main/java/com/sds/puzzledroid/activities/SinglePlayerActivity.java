@@ -5,8 +5,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import android.content.Context;
-
 import android.content.SharedPreferences;
+import android.content.Intent;
+
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
