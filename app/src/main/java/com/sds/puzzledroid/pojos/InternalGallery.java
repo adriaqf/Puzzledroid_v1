@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.logic;
+package com.sds.puzzledroid.pojos;
 
 import android.content.Context;
 import android.database.Cursor;
