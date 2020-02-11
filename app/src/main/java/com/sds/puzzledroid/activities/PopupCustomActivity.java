@@ -31,7 +31,6 @@ public class PopupCustomActivity extends AppCompatActivity {
         String txtResult = "Has tardado " + totalScore + " segundos";
         textView.setText(txtResult);
 
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 

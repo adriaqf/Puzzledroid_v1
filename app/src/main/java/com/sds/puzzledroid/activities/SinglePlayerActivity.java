@@ -4,12 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
+
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Vibrator;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -25,6 +34,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SinglePlayerActivity extends AppCompatActivity {
+    SoundPool sp;
+    int sound_clic;
 
     private static final int REQUEST_TAKE_PHOTO = 1;
     private Uri currentPhotoUri;
@@ -49,9 +60,17 @@ public class SinglePlayerActivity extends AppCompatActivity {
         animationDrawable.setEnterFadeDuration(4000);
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
+
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
+        sound_clic = sp.load(this, R.raw.clic, 1);
+
     }
 
     public void onClick(View view) {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("effects_sound", true);
+        boolean vibrate = pref.getBoolean("sw_vibrate", true);
+
         switch (view.getId()) {
             case R.id.btn_back_home:
                 finish();
@@ -77,6 +96,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
                         startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                     }
                 }
+        }
+
+        if (value) {
+            sp.play(sound_clic, 1, 1, 1, 0, 0);
+        }
+        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrate) {
+            vibrator.vibrate(50);
         }
     }
 
