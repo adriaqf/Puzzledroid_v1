@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.Score;
+import com.sds.puzzledroid.pojos.Score;
 
 import java.util.ArrayList;
 

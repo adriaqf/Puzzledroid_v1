@@ -3,7 +3,6 @@ package com.sds.puzzledroid.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.LCalendarEvent;
-import com.sds.puzzledroid.logic.Score;
+import com.sds.puzzledroid.pojos.LCalendarEvent;
 
 import java.util.ArrayList;
 

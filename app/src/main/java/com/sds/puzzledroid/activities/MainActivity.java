@@ -3,13 +3,9 @@ package com.sds.puzzledroid.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -18,12 +14,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.adapters.ItemClassificationLVAdapter;
 import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
-import com.sds.puzzledroid.logic.InternalGallery;
-import com.sds.puzzledroid.logic.LCalendarEvent;
-import com.sds.puzzledroid.logic.LocalCalendar;
-import com.sds.puzzledroid.logic.Permissions;
+import com.sds.puzzledroid.pojos.InternalGallery;
+import com.sds.puzzledroid.pojos.LCalendarEvent;
+import com.sds.puzzledroid.pojos.LocalCalendar;
+import com.sds.puzzledroid.pojos.Permissions;
 
 import java.util.ArrayList;
 

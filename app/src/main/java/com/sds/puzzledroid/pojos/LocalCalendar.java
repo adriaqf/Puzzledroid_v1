@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.logic;
+package com.sds.puzzledroid.pojos;
 
 import android.Manifest;
 import android.content.ContentResolver;

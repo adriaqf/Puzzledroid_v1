@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.adapters.ItemClassificationLVAdapter;
-import com.sds.puzzledroid.logic.Score;
+import com.sds.puzzledroid.pojos.Score;
 import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.util.ArrayList;

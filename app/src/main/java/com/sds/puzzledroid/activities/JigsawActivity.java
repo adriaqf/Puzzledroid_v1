@@ -3,36 +3,31 @@ package com.sds.puzzledroid.activities;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.sds.puzzledroid.logic.ImagePuzzle;
-import com.sds.puzzledroid.logic.Jigsaw;
-import com.sds.puzzledroid.logic.LocalCalendar;
-import com.sds.puzzledroid.logic.PuzzlePiece;
+import com.sds.puzzledroid.pojos.ImagePuzzle;
+import com.sds.puzzledroid.pojos.Jigsaw;
+import com.sds.puzzledroid.pojos.LocalCalendar;
+import com.sds.puzzledroid.pojos.PuzzlePiece;
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.TouchListener;
-import com.sds.puzzledroid.logic.Score;
+import com.sds.puzzledroid.listeners.TouchListener;
+import com.sds.puzzledroid.pojos.Score;
 import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 import com.sds.puzzledroid.sqlite.SQLiteScore;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Random;
 
-import static android.app.Notification.DEFAULT_SOUND;
 import static com.sds.puzzledroid.activities.App.CHANNEL_1_ID;
 
 public class JigsawActivity extends AppCompatActivity {

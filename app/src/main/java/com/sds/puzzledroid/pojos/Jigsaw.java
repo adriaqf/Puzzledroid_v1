@@ -1,20 +1,12 @@
-package com.sds.puzzledroid.logic;
+package com.sds.puzzledroid.pojos;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
