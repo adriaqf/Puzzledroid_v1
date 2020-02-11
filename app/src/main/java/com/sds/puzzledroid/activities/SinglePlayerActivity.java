@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,8 +16,6 @@ import android.widget.LinearLayout;
 
 import com.sds.puzzledroid.adapters.ButtonGVAdapter;
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.InternalGallery;
-import com.sds.puzzledroid.logic.LocalCalendar;
 import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 
 import java.io.File;

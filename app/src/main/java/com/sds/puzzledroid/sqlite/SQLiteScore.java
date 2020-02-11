@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sds.puzzledroid.logic.Score;
+import com.sds.puzzledroid.pojos.Score;
 
 import java.util.ArrayList;
 import java.util.Locale;
