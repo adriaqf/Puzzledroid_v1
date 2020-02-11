@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.MusicExplorer;
+import com.sds.puzzledroid.pojos.MusicExplorer;
 import com.sds.puzzledroid.services.MusicService;
 
 import java.io.File;
@@ -29,9 +29,6 @@ public class SettingsActivity extends AppCompatActivity  {
     //Used to select own music
     ArrayList<File> mySongs;
     int position;
-    //Sound effects
-    SoundPool sp;
-    int sound_Reproduction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +41,6 @@ public class SettingsActivity extends AppCompatActivity  {
         switch_vibrate= findViewById(R.id.switch_vibrate);
         effect_switch = findViewById(R.id.switch_sp);
         music_switch = findViewById(R.id.switch1);
-
-        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
-        sound_Reproduction = sp.load(this,R.raw.gay_sound,1);
 
         //All switch buttons are true by default
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
@@ -79,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity  {
                     SharedPreferences prefs =getSharedPreferences("GlobalSettings",MODE_PRIVATE);
                     SharedPreferences.Editor editor=prefs.edit();
                     editor.putBoolean("radio_default",true);
-                    editor.putString("UriSong","android.resource://com.sds.puzzledroid/raw/sparta_music");
+                    editor.putString("UriSong","android.resource://com.sds.puzzledroid/raw/zelda_music");
                     editor.apply();
 
                     Intent intent = new Intent(SettingsActivity.this, MusicService.class);

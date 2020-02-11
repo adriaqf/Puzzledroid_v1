@@ -6,22 +6,20 @@ import androidx.core.view.ViewCompat;
 
 import android.content.Context;
 import android.content.Intent;
+
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.SoundPool;
+
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.adapters.ItemLVAdapter;
-import com.sds.puzzledroid.logic.Score;
-import com.sds.puzzledroid.sqlite.AdminOpenHelper;
+import com.sds.puzzledroid.adapters.ItemClassificationLVAdapter;
+import com.sds.puzzledroid.pojos.Score;
 import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.util.ArrayList;
@@ -44,7 +42,7 @@ public class ClassificationActivity extends AppCompatActivity {
         ViewCompat.setTranslationZ(frameLayout, 1);
 
         ListView listView = findViewById(R.id.lv_classification);
-        ItemLVAdapter itemLVAdapter = new ItemLVAdapter(this, getScores());
+        ItemClassificationLVAdapter itemLVAdapter = new ItemClassificationLVAdapter(this, getScores());
         listView.setAdapter(itemLVAdapter);
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);

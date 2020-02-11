@@ -6,18 +6,28 @@ import android.media.AudioManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
+
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
-import android.content.SharedPreferences;
 
 import com.sds.puzzledroid.services.MusicService;
+import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
+import com.sds.puzzledroid.pojos.InternalGallery;
+import com.sds.puzzledroid.pojos.LCalendarEvent;
+import com.sds.puzzledroid.pojos.LocalCalendar;
+import com.sds.puzzledroid.pojos.Permissions;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getCalendarEventsScores();
 
         // Background Animation
         LinearLayout linearLayoutV = findViewById(R.id.LinearLayoutV);
@@ -58,6 +70,40 @@ public class MainActivity extends AppCompatActivity {
         // Starts the MusicService service
         Intent intent = new Intent(MainActivity.this, MusicService.class);
         startService(intent);
+
+        // Verifies if the user has already granted the access to its external storage
+        // for gallery access
+        Permissions permissions = new Permissions(this);
+        permissions.verifyPermissions();
+
+        //Load all gallery photos from user
+        //Permission needed READ_EXTERNAL_STORAGE
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!preferences.getBoolean("firstTime", false)) {
+            //Takes all gallery photos from the phone
+            InternalGallery internalGallery = new InternalGallery(this);
+            internalGallery.saveFullGallery();
+            //Creates a new calendar to save later scores
+            LocalCalendar localCalendar = new LocalCalendar(this);
+            localCalendar.addNewCalendar();
+
+            editor.putBoolean("firstTime", true);
+            editor.apply();
+            System.out.println("Galería cargada.");
+        }
+        else {
+            System.out.println("Ya no se carga la galería.");
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ListView listView = findViewById(R.id.lv_main);
+        listView.setOnItemClickListener(null);
+        ItemMainLVAdapter itemMainLVAdapter = new ItemMainLVAdapter(this, getCalendarEventsScores());
+        listView.setAdapter(itemMainLVAdapter);
     }
 
     public void onClickGoTo(View view) {
@@ -65,9 +111,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_single_player:
                 Intent iSinglePlayer = new Intent(this, SinglePlayerActivity.class);
                 startActivity(iSinglePlayer);
-                break;
-            case R.id.btn_multiplayer:
-                Toast.makeText(this, "Estamos trabajando en ello :)", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_help:
                 Intent iHelp = new Intent(this, HelpActivity.class);
@@ -106,5 +149,22 @@ public class MainActivity extends AppCompatActivity {
         if(soundActive) { //If sound is activated in Settings
             sp.play(clickSound,1,1,1,0,0);
         }
+    }
+
+    private ArrayList<LCalendarEvent> getCalendarEventsScores() {
+        ArrayList<LCalendarEvent> pEvents;
+        ArrayList<LCalendarEvent> events = new ArrayList<>();
+        LocalCalendar calendar = new LocalCalendar(this);
+        pEvents = calendar.getAllEvents();
+
+        try {
+            for(int i = 1; i <= 3; i++) {
+                events.add(pEvents.get(pEvents.size() - i));
+            }
+            return events;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return events;
+        }
+
     }
 }

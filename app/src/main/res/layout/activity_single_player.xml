@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar_dynamic"
-        layout="@layout/toolbar_bottom"/>
+        layout="@layout/toolbar_bottom_sp"/>
 
     <LinearLayout
         android:id="@+id/singlePlayerLinearL"
@@ -45,13 +45,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:numColumns="3"
-            android:stretchMode="spacingWidthUniform"
-            android:verticalSpacing="20dp"
-            tools:context=".activities.SinglePlayerActivity"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:gravity="center"
+            android:numColumns="1"
+            android:verticalSpacing="20dp"
+            tools:context=".activities.SinglePlayerActivity" />
 
     </LinearLayout>
 

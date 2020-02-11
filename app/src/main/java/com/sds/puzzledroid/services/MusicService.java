@@ -38,8 +38,7 @@ public class MusicService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Gets default music
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-
-        String uriSongOld = prefs.getString("UriSong", "android.resource://com.sds.puzzledroid/raw/sparta_music");
+        String uriSongOld = prefs.getString("UriSong", "android.resource://com.sds.puzzledroid/raw/zelda_music");
         // Gets music position (resume)
         currentPos = prefs.getInt("music_currentPosition",0);
         // Playing song

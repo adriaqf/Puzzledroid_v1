@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="25dp"
-            android:text="¡COMPLETADO!"
+            android:text="¡ENHORABUENA!"
             android:textSize="20sp"
             android:textStyle="bold" />
 
