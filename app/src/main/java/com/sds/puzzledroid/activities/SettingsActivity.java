@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -16,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.logic.FileMusic;
+import com.sds.puzzledroid.logic.MusicExplorer;
 import com.sds.puzzledroid.services.MusicService;
 
 import java.io.File;
@@ -70,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity  {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("radio_default", false);
                     editor.apply();
-                    Intent iFileMusic = new Intent(this, FileMusic.class);
+                    Intent iFileMusic = new Intent(this, MusicExplorer.class);
                     startActivity(iFileMusic);
                     finish();
                     break;
@@ -92,7 +90,9 @@ public class SettingsActivity extends AppCompatActivity  {
                     break;
                 }
 
-            //case (R.id)
+            case (R.id.btn_saveSettings):
+                finish();
+                break;
         }
     }
 
@@ -185,5 +185,4 @@ public class SettingsActivity extends AppCompatActivity  {
 
     }
 
-    public void Guardar (View view){ finish();}
 }

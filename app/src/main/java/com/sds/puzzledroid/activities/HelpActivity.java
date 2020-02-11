@@ -20,7 +20,7 @@ public class HelpActivity extends AppCompatActivity {
 
         //Modifying onClick button's event (toolbar_bottom)
         Toolbar toolbar = findViewById(R.id.toolbar_dynamic);
-        ImageButton backBtn = (ImageButton) toolbar.findViewById(R.id.btn_back_home);
+        ImageButton backBtn = toolbar.findViewById(R.id.btn_back_home);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -28,7 +28,7 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
-        WebView wvHelp = (WebView) findViewById(R.id.wv_help);
+        WebView wvHelp = findViewById(R.id.wv_help);
         wvHelp.loadUrl("file:///android_asset/help.html");
     }
 

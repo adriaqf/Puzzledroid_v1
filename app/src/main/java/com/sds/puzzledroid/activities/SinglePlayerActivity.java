@@ -20,6 +20,7 @@ import com.sds.puzzledroid.R;
 public class SinglePlayerActivity extends AppCompatActivity {
     SoundPool sp;
     int sound_clic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,20 +41,21 @@ public class SinglePlayerActivity extends AppCompatActivity {
         animationDrawable.setEnterFadeDuration(4000);
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
-        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
-        sound_clic = sp.load(this,R.raw.clic,1);
+
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
+        sound_clic = sp.load(this, R.raw.clic, 1);
 
     }
 
     public void onClickGoBack(View view) {
         SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-        boolean value = pref.getBoolean("effects_sound",true);
-        boolean vibrate = pref.getBoolean("sw_vibrate",true);
-        if(value){
-            sp.play(sound_clic,1,1,1,0,0);
+        boolean value = pref.getBoolean("effects_sound", true);
+        boolean vibrate = pref.getBoolean("sw_vibrate", true);
+        if (value) {
+            sp.play(sound_clic, 1, 1, 1, 0, 0);
         }
-        Vibrator vibrator=(Vibrator)getApplicationContext() .getSystemService(Context.VIBRATOR_SERVICE);
-        if(vibrate){
+        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrate) {
             vibrator.vibrate(50);
         }
         finish();

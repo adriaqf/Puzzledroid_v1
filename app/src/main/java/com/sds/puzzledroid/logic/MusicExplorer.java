@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +27,7 @@ import com.sds.puzzledroid.activities.SettingsActivity;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FileMusic extends AppCompatActivity {
+public class MusicExplorer extends AppCompatActivity {
 
     ListView myListVewForSongs;
     String[] items;
@@ -39,12 +40,14 @@ public class FileMusic extends AppCompatActivity {
         myListVewForSongs = findViewById(R.id.mySongListView);
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("examinar",false);
+        editor.putBoolean("examinar", false); //"Examinar" should be false when it's not used
         editor.apply();
+
         runtimePermission();
     }
 
-    public void runtimePermission(){
+    // Manages permissions' exeptions
+    public void runtimePermission() {
         Dexter.withActivity(this).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {
@@ -53,7 +56,7 @@ public class FileMusic extends AppCompatActivity {
 
             @Override
             public void onPermissionDenied(PermissionDeniedResponse response) {
-
+                //Nothing happens
             }
 
             @Override
@@ -63,6 +66,7 @@ public class FileMusic extends AppCompatActivity {
         }).check();
     }
 
+    //Searches and saves all songs saved by user
     private ArrayList<File> findSong(File file) {
         ArrayList<File> arrayList = new ArrayList<>();
         File[] files = file.listFiles();
@@ -76,7 +80,7 @@ public class FileMusic extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),"No tienes archivos Mp3",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"No tienes archivos .mp3 o .wav",Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
         }
@@ -101,22 +105,23 @@ public class FileMusic extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
                 String songName = myListVewForSongs.getItemAtPosition(i).toString();
                 if(mySongs.isEmpty()){
-
-                }else{
+                    System.out.println("mySongs is empty.");
+                } else {
                 startActivity(new Intent(getApplicationContext(),SettingsActivity.class)
-                        .putExtra("songs",mySongs)
-                        .putExtra("songname",songName)
-                        .putExtra("pos",i));
+                        .putExtra("songs", mySongs)
+                        .putExtra("songname", songName)
+                        .putExtra("pos", i));
 
-                //evita error
+                //Avoids some errors
                 SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("examinar",true);
+                editor.putBoolean("examinar", true);
                 editor.apply();
                 finish();
-
-            }}
+                }
+            }
 
         });
     }
+
 }

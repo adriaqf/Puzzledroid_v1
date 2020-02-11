@@ -26,72 +26,66 @@ import com.sds.puzzledroid.sqlite.SQLiteScore;
 import java.util.Collections;
 import java.util.Random;
 
-import static java.lang.Thread.sleep;
-
 public class JigsawActivity extends AppCompatActivity {
     private Jigsaw jigsaw;
     private Chronometer chronometer;
     private int localDifficulty;
-    ImageView ivPuzzle,piece;
+    ImageView ivPuzzle;
     ImageView ivwin;
-    Animation animZoomInBlind,zoom_in, piece_effect;
+    Animation animZoomInBlind, zoomOutIn;
     Animation alpha;
 
     SoundPool sp;
-    int succefull;
-    int clic;
+    int succefullSound;
+    int clickSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jigsaw);
 
-        sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
-        succefull = sp.load(this,R.raw.succefull,1);
-        clic = sp.load(this,R.raw.clic,1);
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
+        succefullSound = sp.load(this, R.raw.succefull, 1);
+        clickSound = sp.load(this, R.raw.clic, 1);
 
         chronometer = findViewById(R.id.chrono);
 
         final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
         final ImageView imageView = findViewById(R.id.ivPuzzle);
-         ivPuzzle = (ImageView) findViewById(R.id.ivPuzzle);
-          ivwin =(ImageView) findViewById(R.id.ivwin);
-          piece = (ImageView) findViewById(R.id.piece);
+        ivPuzzle = findViewById(R.id.ivPuzzle); // Alpha background (puzzle)
+        ivwin = findViewById(R.id.ivwin); // Victory stars (for animation)
 
+        animZoomInBlind = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.zoom_in_blind); // Parpadeo de stars
+        alpha = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.keep_in_alpha_0); // Puts stars in alpha 0
+        zoomOutIn = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.zoom_in); // Zoom out + in
 
-          animZoomInBlind = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.zoom_in_blind);
-          alpha = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.keep_in_alpha_0);
-          zoom_in =AnimationUtils.loadAnimation(getApplicationContext(),
-                  R.anim.zoom_in);
-         // piece_effect =AnimationUtils.loadAnimation(getApplicationContext(),
-              //    R.anim.zoom_in_alpha_rotation);
+        ivwin.startAnimation(alpha); // Hides stars picture
 
-          ivwin.startAnimation(alpha);
-           // piece.startAnimation(alpha);
         Intent intent = getIntent();
         final String assetName = intent.getStringExtra("assetName");
-        this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);;
+        this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);
 
         imageView.post(new Runnable() {
-           @SuppressLint("ClickableViewAccessibility")
-           @Override
-           public void run() {
-               jigsaw = new Jigsaw(getApplicationContext(), assetName, imageView, localDifficulty);
-               TouchListener touchListener = new TouchListener(JigsawActivity.this);
-               //Shuffle pieces order
-               Collections.shuffle(jigsaw.getPieces());
-               for (PuzzlePiece piece : jigsaw.getPieces()) {
-                   piece.setOnTouchListener(touchListener);
-                   layout.addView(piece);
-                   // randomize position, on the bottom of the screen
-                   RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                   lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                   lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
-                   piece.setLayoutParams(lParams);
-               }
-           }
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public void run() {
+                jigsaw = new Jigsaw(getApplicationContext(), assetName, imageView, localDifficulty);
+                TouchListener touchListener = new TouchListener(JigsawActivity.this);
+                //Shuffle pieces order
+                Collections.shuffle(jigsaw.getPieces());
+                for (PuzzlePiece piece : jigsaw.getPieces()) {
+                    piece.setOnTouchListener(touchListener);
+                    layout.addView(piece);
+                    // randomize position, on the bottom of the screen
+                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
+                    piece.setLayoutParams(lParams);
+                }
+            }
         });
 
         chronometer.start();
@@ -102,36 +96,36 @@ public class JigsawActivity extends AppCompatActivity {
         finish();
     }
 
+    // Winning sound
     public void soundPoolJigsawComplete() {
         SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-        boolean value = pref.getBoolean("effects_sound",true);
-        if(value){
-            sp.play(succefull,1,1,1,0,0);
+        boolean value = pref.getBoolean("effects_sound", true);
+        if (value) {
+            sp.play(succefullSound, 1, 1, 1, 0, 0);
         }
     }
+
     public void soundPoolBtn() {
         SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
-        boolean value = pref.getBoolean("effects_sound",true);
+        boolean value = pref.getBoolean("effects_sound", true);
 
-        if(value){
-            sp.play(clic,1,1,1,0,0);
+        if (value) {
+            sp.play(clickSound, 1, 1, 1, 0, 0);
         }
     }
 
-    public void onAnimationEnd(Animation animation){
-        animation.cancel();
-    }
 
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
-           onAnimationEnd(alpha);
-            ivPuzzle.setAlpha(1f);
-             ivPuzzle.bringToFront();
-           // piece.startAnimation(piece_effect);
-            ivPuzzle.startAnimation(zoom_in);
-            ivwin.startAnimation(animZoomInBlind);
 
+            //Hide puzzle animation
+            ivPuzzle.setAlpha(1f);
+            ivPuzzle.bringToFront();
+            ivPuzzle.startAnimation(zoomOutIn);
+            ivwin.startAnimation(animZoomInBlind);
+            //Completed puzzle sound
             soundPoolJigsawComplete();
+
             chronometer.stop();
 
             int totalScore = getChronometerSeconds();
@@ -146,21 +140,21 @@ public class JigsawActivity extends AppCompatActivity {
             iPopUp.putExtra("totalScore", totalScore);
             iPopUp.putExtra("difficulty", localDifficulty);
 
-            Thread timer = new Thread(){
-                public void run(){
+            Thread timer = new Thread() {
+                public void run() {
                     try {
-                        sleep(1000);
-                    }catch (Exception e) {
+                        sleep(2800);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
                         ivwin.startAnimation(alpha);
-                        startActivity(iPopUp);
                     }
                 }
             };
-
             timer.start();
+            startActivity(iPopUp);
         }
+
     }
 
     public int getChronometerSeconds() {
@@ -170,12 +164,12 @@ public class JigsawActivity extends AppCompatActivity {
 
         timeSecs = chronometer.getText();
         sChronometer = timeSecs.toString();
-        pos0 = Integer.parseInt(String.valueOf(sChronometer.charAt(0)))*10*60;
-        pos1 = Integer.parseInt(String.valueOf(sChronometer.charAt(1)))*60;
-        pos3 = Integer.parseInt(String.valueOf(sChronometer.charAt(3)))*10;
+        pos0 = Integer.parseInt(String.valueOf(sChronometer.charAt(0))) * 10 * 60;
+        pos1 = Integer.parseInt(String.valueOf(sChronometer.charAt(1))) * 60;
+        pos3 = Integer.parseInt(String.valueOf(sChronometer.charAt(3))) * 10;
         pos4 = Integer.parseInt(String.valueOf(sChronometer.charAt(4)));
 
-        total = pos0+pos1+pos3+pos4;
+        total = pos0 + pos1 + pos3 + pos4;
 
         return total;
     }
