@@ -2,11 +2,20 @@ package com.sds.puzzledroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import android.media.AudioManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.SoundPool;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
+
 import android.os.Bundle;
+import android.os.Vibrator;
+
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,6 +23,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
+
+import com.sds.puzzledroid.services.MusicService;
+
 import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
 import com.sds.puzzledroid.pojos.InternalGallery;
 import com.sds.puzzledroid.pojos.LCalendarEvent;
@@ -24,6 +36,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SoundPool sp;
+    private int clickSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +46,35 @@ public class MainActivity extends AppCompatActivity {
 
         getCalendarEventsScores();
 
+        // Background Animation
         LinearLayout linearLayoutV = findViewById(R.id.LinearLayoutV);
         AnimationDrawable animationDrawable = (AnimationDrawable) linearLayoutV.getBackground();
         animationDrawable.setEnterFadeDuration(4000);
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
 
+        // Brings Toolbar to front
         Toolbar toolbar = findViewById(R.id.ToolBar);
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
+
+        SharedPreferences pref = getSharedPreferences("GlobalSettings", MODE_PRIVATE);
+        // By first time sounds Spartan music
+        SharedPreferences.Editor editor = pref.edit();
+        pref.getBoolean("music_settings", true);
+        editor.apply();
+
+        // Configurates button's sound
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
+        clickSound = sp.load(this, R.raw.clic, 1);
+
+        //When you open the app, the music will start at the begining
+        editor.putInt("music_currentPosition", 0);
+        editor.commit();
+
+        // Starts the MusicService service
+        Intent intent = new Intent(MainActivity.this, MusicService.class);
+        startService(intent);
 
         // Verifies if the user has already granted the access to its external storage
         // for gallery access
@@ -57,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             LocalCalendar localCalendar = new LocalCalendar(this);
             localCalendar.addNewCalendar();
 
-            SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("firstTime", true);
             editor.apply();
             System.out.println("Galería cargada.");
@@ -88,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(iHelp);
                 break;
             case R.id.btn_config:
-                Toast.makeText(this, "Configuración no disponible.", Toast.LENGTH_SHORT).show();
+                Intent iSettings = new Intent(this, SettingsActivity.class);
+                startActivity(iSettings);
                 break;
             case R.id.btn_classification:
                 Intent iClass = new Intent(this, ClassificationActivity.class);
@@ -98,6 +133,26 @@ public class MainActivity extends AppCompatActivity {
             default:
                 Toast.makeText(this, "Error: Botón inexistente", Toast.LENGTH_SHORT).show();
                 break;
+        }
+        //Sound and vibrate effects
+        soundPool();
+        vibrate();
+    }
+
+    public void vibrate(){
+        SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean vibrateActive = pref.getBoolean("sw_vibrate",true);
+        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibrateActive) { //If vibration is activated in Settings
+            vibrator.vibrate(50);
+        }
+    }
+
+    public void soundPool () {
+        SharedPreferences pref = getSharedPreferences("GlobalSettings",Context.MODE_PRIVATE);
+        boolean soundActive = pref.getBoolean("effects_sound",true);
+        if(soundActive) { //If sound is activated in Settings
+            sp.play(clickSound,1,1,1,0,0);
         }
     }
 

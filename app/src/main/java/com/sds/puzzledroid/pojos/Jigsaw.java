@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class Jigsaw {
     private ArrayList<PuzzlePiece> pieces;
     private int levelDifficulty;
 
-    public Jigsaw(Context context, ImageView actImageView, int levelDifficulty){
+    public Jigsaw(Context context, ImageView actImageView, int levelDifficulty) {
         this.context = context;
         this.levelDifficulty = levelDifficulty;
 
@@ -26,7 +27,6 @@ public class Jigsaw {
     public ArrayList<PuzzlePiece> getPieces() {
         return this.pieces;
     }
-
 
     private ArrayList<PuzzlePiece> splitJigsawImage(ImageView actImageView) {
 
@@ -54,8 +54,9 @@ public class Jigsaw {
         Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, abs(scaledBitmapLeft), abs(scaledBitmapTop), croppedImageWidth, croppedImageHeight);
 
         // Calculate the with and height of the pieces
-        int pieceWidth = croppedImageWidth/cols;
-        int pieceHeight = croppedImageHeight/rows;
+
+        int pieceWidth = croppedImageWidth / cols;
+        int pieceHeight = croppedImageHeight / rows;
 
         // Create each bitmap piece and add it to the resulting array
         int yCoord = 0;
@@ -113,8 +114,8 @@ public class Jigsaw {
         int imgViewW = actImageView.getWidth();
         int imgViewH = actImageView.getHeight();
 
-        int top = (imgViewH - actH)/2;
-        int left = (imgViewW - actW)/2;
+        int top = (imgViewH - actH) / 2;
+        int left = (imgViewW - actW) / 2;
 
         sBmDimensions[0] = left;
         sBmDimensions[1] = top;

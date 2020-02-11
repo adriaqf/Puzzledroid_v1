@@ -11,4 +11,10 @@
     <string name="btn_toolbar_config">"⚙"️</string>
     <string name="btn_toolbar_classification">"🏅"</string>
 
+    <string name="save_settings">Guardar cambios</string>
+    <string name="music_background">Musica</string>
+    <string name="sound_pool">Efectos de sonido</string>
+    <string name="music_default">Musica oficial</string>
+    <string name="vibrate">Vibracion</string>
+
 </resources>

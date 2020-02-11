@@ -3,9 +3,11 @@ package com.sds.puzzledroid.pojos;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -20,8 +22,8 @@ public class Permissions {
     private Context context;
 
     private static final int MY_PERMISSIONS = 100;
-    private final String[] permissions = new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, READ_CALENDAR, WRITE_CALENDAR};
 
+    private final String[] permissions = new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, READ_CALENDAR, WRITE_CALENDAR};
 
     public Permissions(Context context) {
         this.context = context;
