@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="73dp"
             android:gravity="center"
-            android:text="Settings"
-            android:textSize="20dp"/>
+            android:text="@string/Settings"
+            android:textSize="20dp" />
 
         <Switch
             android:id="@+id/switch1"
@@ -59,15 +59,15 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:onClick="onClickGo"
-                        android:text="Predeterminada" />
+                        android:text="@string/rb_default" />
 
                     <RadioButton
                         android:id="@+id/rb_select"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="onClickGo"
                         android:checked="true"
-                        android:text="Explorar" />
+                        android:onClick="onClickGo"
+                        android:text="@string/rb_select" />
                 </RadioGroup>
             </LinearLayout>
 

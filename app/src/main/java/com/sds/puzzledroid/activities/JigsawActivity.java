@@ -39,6 +39,7 @@ import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -155,20 +156,56 @@ public class JigsawActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_notification_mood_24dp)
-                .setContentTitle("¡COMPLETADO!")
-                .setContentText("Haz click aquí para visualizar tu puntuación.")
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setTimeoutAfter(5000)
-                .setFullScreenIntent(fullScreenPendingIntent, true)
-                .build();
+        String L8= Locale.getDefault().toString();
 
-        managerCompat.notify(1, notification);
+        switch(L8)
+        {
+            case "en_US":
+                Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                 .setSmallIcon(R.drawable.ic_notification_mood_24dp)
+                    .setContentTitle("¡COMPLETED!")
+                    .setContentText("Click here to view your score.")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setTimeoutAfter(5000)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
+                    .build();
+                     managerCompat.notify(1, notification);
+                     break;
+
+            case "fr_FR":
+                Notification notification2 = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                 .setSmallIcon(R.drawable.ic_notification_mood_24dp)
+                    .setContentTitle("¡COMPLÉTÉ!")
+                    .setContentText("Cliquez ici pour voir votre score.")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setTimeoutAfter(5000)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
+                    .build();
+                     managerCompat.notify(1, notification2);
+                     break;
+            default:
+                Notification notification3 = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                    .setSmallIcon(R.drawable.ic_notification_mood_24dp)
+                    .setContentTitle("¡COMPLETADO!")
+                    .setContentText("Haz click aquí para visualizar tu puntuación.")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setTimeoutAfter(5000)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
+                    .build();
+                     managerCompat.notify(1, notification3);
+        }
+
     }
+
 
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {

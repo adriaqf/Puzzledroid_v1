@@ -16,6 +16,7 @@ import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.pojos.LCalendarEvent;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ItemMainLVAdapter extends BaseAdapter {
 
@@ -45,7 +46,20 @@ public class ItemMainLVAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LCalendarEvent event = (LCalendarEvent) getItem(position);
-        String scoreText = event.getTitle() + " SEGUNDOS";
+
+        String L8= Locale.getDefault().toString();
+        switch(L8)
+        {
+            case "en_US":
+                String scoreText = event.getTitle() + " SECONDS";
+                break;
+            case "fr_FR":
+                String scoreText2 = event.getTitle() + " SECONDES";
+                break;
+            default:
+                String scoreText3 = event.getTitle() + " SEGUNDOS";
+        }
+
 
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
@@ -78,7 +92,23 @@ public class ItemMainLVAdapter extends BaseAdapter {
         tvDate.setVisibility(View.GONE);
         tvTrophy.setText("▪️");
         tvTrophy.setTextSize(20);
-        tvSeconds.setText(scoreText);
+
+        String L9= Locale.getDefault().toString();
+        switch(L8)
+        {
+            case "en_US":
+                String scoreText = event.getTitle() + " SECONDS";
+                tvSeconds.setText(scoreText);
+                break;
+            case "fr_FR":
+                String scoreText2 = event.getTitle() + " SECONDES";
+                tvSeconds.setText(scoreText2);
+                break;
+            default:
+                String scoreText3 = event.getTitle() + " SEGUNDOS";
+                tvSeconds.setText(scoreText3);
+        }
+
         tvSeconds.setTextSize(15);
 
         return convertView;
