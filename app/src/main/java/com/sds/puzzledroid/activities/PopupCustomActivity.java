@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.sds.puzzledroid.R;
 
+import java.util.Locale;
+
 public class PopupCustomActivity extends AppCompatActivity {
 
     private int difficulty;
@@ -27,9 +29,26 @@ public class PopupCustomActivity extends AppCompatActivity {
         System.out.println("SCORE 2: " + totalScore);
         difficulty = intent.getIntExtra("difficulty", 1);
 
-        TextView textView = findViewById(R.id.txt_result_popup);
-        String txtResult = "Has tardado " + totalScore + " segundos";
-        textView.setText(txtResult);
+        String L8= Locale.getDefault().toString();
+
+        switch(L8)
+        {
+            case "en_US":
+                TextView textView = findViewById(R.id.txt_result_popup);
+                String txtResult = "it took you " + totalScore + " seconds";
+                textView.setText(txtResult);
+                break;
+            case "fr_FR":
+                TextView textView2 = findViewById(R.id.txt_result_popup);
+                String txtResult2 = "il vous a fallu " + totalScore + " secondes";
+                textView2.setText(txtResult2);
+                break;
+            default:
+                TextView textView3 = findViewById(R.id.txt_result_popup);
+                String txtResult3 = "Has tardado " + totalScore + " segundos";
+                textView3.setText(txtResult3);
+        }
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

@@ -22,6 +22,7 @@ import com.sds.puzzledroid.activities.JigsawActivity;
 import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class ButtonGVAdapter extends BaseAdapter {
@@ -74,15 +75,53 @@ public class ButtonGVAdapter extends BaseAdapter {
 
         if(buttonsTitles[position].equals("1")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level0);
-            btnText = "FÁCIL";
+            String L8= Locale.getDefault().toString();
+
+            switch(L8)
+            {
+                case "en_US":
+                    btnText = "EASY";
+                    break;
+                case "fr_FR":
+                    btnText = "FACILE";
+                    break;
+                default:
+                    btnText = "FÁCIL";
+            }
+
+
         }
         else if(buttonsTitles[position].equals("2")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level1);
-            btnText = "MEDIO";
+            String L8= Locale.getDefault().toString();
+
+            switch(L8)
+            {
+                case "en_US":
+                    btnText = "MEDIUM";
+                    break;
+                case "fr_FR":
+                    btnText = "MOYENE";
+                    break;
+                default:
+                    btnText = "MEDIO";
+            }
         }
         else {
             btn.setBackgroundResource(R.drawable.button_single_player_level2);
-            btnText = "DIFÍCIL";
+            String L8= Locale.getDefault().toString();
+
+            switch(L8)
+            {
+                case "en_US":
+                    btnText = "HARD";
+                    break;
+                case "fr_FR":
+                    btnText = "DIFFICILE";
+                    break;
+                default:
+                    btnText = "DIFÍCIL";
+            }
         }
 
         btn.setText(btnText);

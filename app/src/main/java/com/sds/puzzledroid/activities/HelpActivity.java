@@ -11,6 +11,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.sds.puzzledroid.R;
 
+import java.util.Locale;
+
 public class HelpActivity extends AppCompatActivity {
 
     @Override
@@ -28,8 +30,23 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
+
         WebView wvHelp = findViewById(R.id.wv_help);
-        wvHelp.loadUrl("file:///android_asset/help.html");
+        String L8= Locale.getDefault().toString();
+
+        switch(L8)
+        {
+            case "en_US":
+                wvHelp.loadUrl("file:///android_asset/helpEn.html");
+                break;
+            case "fr_FR":
+                wvHelp.loadUrl("file:///android_asset/helpFr.html");
+                break;
+            default:
+                wvHelp.loadUrl("file:///android_asset/help.html");
+        }
+
     }
+
 
 }
