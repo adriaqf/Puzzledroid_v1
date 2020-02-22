@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.sds.puzzledroid.activities.JigsawActivity;
+import com.sds.puzzledroid.pojos.Jigsaw;
 import com.sds.puzzledroid.pojos.PuzzlePiece;
 
 import static java.lang.Math.sqrt;
@@ -17,14 +18,9 @@ public class TouchListener implements View.OnTouchListener {
 
     private float xDelta, yDelta;
     private JigsawActivity jigsawActivity;
-    Context context;
-
-    public TouchListener(JigsawActivity jigsawActivity) {
-        this.jigsawActivity = jigsawActivity;
-    }
 
     public TouchListener(Context jigsawActivity) {
-        this.context = jigsawActivity;
+        this.jigsawActivity = (JigsawActivity) jigsawActivity;
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -55,7 +55,9 @@ public class JigsawActivity extends AppCompatActivity {
     private Chronometer chronometer;
     private int totalScore;
     private int localDifficulty;
+    private JigsawActivity jigsawActivity = JigsawActivity.this;
     private Uri uImagePath;
+    PuzzleImage puzzleImage;
 
     ImageView ivPuzzle;
     ImageView ivwin;
@@ -84,7 +86,7 @@ public class JigsawActivity extends AppCompatActivity {
         chronometer = findViewById(R.id.chrono);
 
         // Gets randomized image
-        PuzzleImage puzzleImage = new PuzzleImage(this, imageView, jigsaw, localDifficulty, layout);
+        PuzzleImage puzzleImage = new PuzzleImage(this, imageView, jigsaw, localDifficulty, layout, this);
         //puzzleImage.loadImage();
         StorageReference img = puzzleImage.randomizeJigsawImage();
         GlideApp.with(this)
@@ -102,7 +104,7 @@ public class JigsawActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 jigsaw = new Jigsaw(getApplicationContext(), imageView, localDifficulty);
-                                TouchListener touchListener = new TouchListener();
+                                TouchListener touchListener = new TouchListener(JigsawActivity.this);
                                 //Shuffle pieces order
                                 Collections.shuffle(jigsaw.getPieces());
                                 for (PuzzlePiece piece : jigsaw.getPieces()) {
