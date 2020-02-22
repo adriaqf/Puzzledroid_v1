@@ -1,17 +1,15 @@
 package com.sds.puzzledroid.activities;
 
 import android.annotation.SuppressLint;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-
-import android.content.Intent;
 
 import android.net.Uri;
 
@@ -23,17 +21,24 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.sds.puzzledroid.pojos.ImagePuzzle;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.google.firebase.storage.StorageReference;
+import com.sds.puzzledroid.GlideApp;
+import com.sds.puzzledroid.listeners.TouchListener;
 import com.sds.puzzledroid.pojos.Jigsaw;
 import com.sds.puzzledroid.pojos.LocalCalendar;
-import com.sds.puzzledroid.pojos.PuzzlePiece;
+import com.sds.puzzledroid.pojos.PuzzleImage;
 import com.sds.puzzledroid.R;
 
-import com.sds.puzzledroid.pojos.TouchListener;
+import com.sds.puzzledroid.pojos.PuzzlePiece;
 import com.sds.puzzledroid.pojos.Score;
 import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 import com.sds.puzzledroid.sqlite.SQLiteScore;
@@ -79,8 +84,42 @@ public class JigsawActivity extends AppCompatActivity {
         chronometer = findViewById(R.id.chrono);
 
         // Gets randomized image
-        ImagePuzzle imagePuzzle = new ImagePuzzle(this, imageView);
-        uImagePath = imagePuzzle.randomizeJigsawImage();
+        PuzzleImage puzzleImage = new PuzzleImage(this, imageView, jigsaw, localDifficulty, layout);
+        //puzzleImage.loadImage();
+        StorageReference img = puzzleImage.randomizeJigsawImage();
+        GlideApp.with(this)
+                .load(img)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        imageView.post(new Runnable() {
+                            @SuppressLint("ClickableViewAccessibility")
+                            @Override
+                            public void run() {
+                                jigsaw = new Jigsaw(getApplicationContext(), imageView, localDifficulty);
+                                TouchListener touchListener = new TouchListener();
+                                //Shuffle pieces order
+                                Collections.shuffle(jigsaw.getPieces());
+                                for (PuzzlePiece piece : jigsaw.getPieces()) {
+                                    piece.setOnTouchListener(touchListener);
+                                    layout.addView(piece);
+                                    // randomize position, on the bottom of the screen
+                                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
+                                    piece.setLayoutParams(lParams);
+                                }
+                            }
+
+                        });
+                        return false;
+                    }})
+                .into(imageView);
 
         ivPuzzle = findViewById(R.id.ivPuzzle); // Alpha background (puzzle)
         ivwin = findViewById(R.id.ivwin); // Victory stars (for animation)
@@ -96,27 +135,6 @@ public class JigsawActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);
-
-        imageView.post(new Runnable() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public void run() {
-                jigsaw = new Jigsaw(getApplicationContext(), imageView, localDifficulty);
-                TouchListener touchListener = new TouchListener(JigsawActivity.this);
-                //Shuffle pieces order
-                Collections.shuffle(jigsaw.getPieces());
-                for (PuzzlePiece piece : jigsaw.getPieces()) {
-                    piece.setOnTouchListener(touchListener);
-                    layout.addView(piece);
-                    // randomize position, on the bottom of the screen
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
-                    piece.setLayoutParams(lParams);
-                }
-            }
-
-        });
 
         chronometer.start();
     }
@@ -235,7 +253,7 @@ public class JigsawActivity extends AppCompatActivity {
 
             //Deleting puzzle image from data base
             SQLiteGalleryPhoto sqLiteGalleryPhoto = new SQLiteGalleryPhoto(this);
-            sqLiteGalleryPhoto.deletePhoto(uImagePath);
+            //ºsqLiteGalleryPhoto.deletePhoto(uImagePath);
 
             final Intent iPopUp = new Intent(this, PopupCustomActivity.class);
             iPopUp.putExtra("totalScore", totalScore);

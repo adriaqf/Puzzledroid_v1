@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 
 import android.widget.ImageView;
 
+import com.sds.puzzledroid.R;
+
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;

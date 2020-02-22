@@ -1,6 +1,7 @@
 package com.sds.puzzledroid.listeners;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,14 @@ public class TouchListener implements View.OnTouchListener {
 
     private float xDelta, yDelta;
     private JigsawActivity jigsawActivity;
+    Context context;
 
     public TouchListener(JigsawActivity jigsawActivity) {
         this.jigsawActivity = jigsawActivity;
+    }
+
+    public TouchListener(Context jigsawActivity) {
+        this.context = jigsawActivity;
     }
 
     @SuppressLint("ClickableViewAccessibility")
