@@ -48,8 +48,8 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Score score = (Score) getItem(position);
-
-        String L8= Locale.getDefault().toString();
+        String scoreText = score.getTotalScore() + " " + context.getString(R.string.segundos2);
+        /*String L8= Locale.getDefault().toString();
         switch(L8)
         {
             case "en_US":
@@ -60,7 +60,7 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
                 break;
             default:
                 String scoreText3 = score.getTotalScore() + " SEGUNDOS";
-        }
+        }*/
 
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
@@ -100,7 +100,7 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
             tvTrophy.setTextSize(20);
         }
 
-        String L9= Locale.getDefault().toString();
+        /*String L9= Locale.getDefault().toString();
         switch(L8)
         {
             case "en_US":
@@ -114,8 +114,8 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
             default:
                 String scoreText3 = score.getTotalScore() + " SEGUNDOS";
                 tvSeconds.setText(scoreText3);
-        }
-
+        }*/
+        tvSeconds.setText(scoreText);
         tvDate.setText(score.getDateTime());
 
         return convertView;

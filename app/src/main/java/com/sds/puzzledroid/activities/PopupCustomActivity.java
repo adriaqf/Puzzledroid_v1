@@ -29,7 +29,13 @@ public class PopupCustomActivity extends AppCompatActivity {
         System.out.println("SCORE 2: " + totalScore);
         difficulty = intent.getIntExtra("difficulty", 1);
 
-        String L8= Locale.getDefault().toString();
+
+        TextView textView = findViewById(R.id.txt_result_popup);
+
+        String txtResult = getString(R.string.hastardado) + " " + totalScore + " " + getString(R.string.segundos);
+        textView.setText(txtResult);
+
+     /*   String L8= Locale.getDefault().toString();
 
         switch(L8)
         {
@@ -48,6 +54,8 @@ public class PopupCustomActivity extends AppCompatActivity {
                 String txtResult3 = "Has tardado " + totalScore + " segundos";
                 textView3.setText(txtResult3);
         }
+*/
+
 
 
         DisplayMetrics displayMetrics = new DisplayMetrics();

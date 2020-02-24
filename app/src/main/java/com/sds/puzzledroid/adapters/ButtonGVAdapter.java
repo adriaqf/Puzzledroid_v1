@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
+
 public class ButtonGVAdapter extends BaseAdapter {
     private Context mContext;
     private SoundPool sp;
@@ -75,7 +76,9 @@ public class ButtonGVAdapter extends BaseAdapter {
 
         if(buttonsTitles[position].equals("1")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level0);
-            String L8= Locale.getDefault().toString();
+            btnText= mContext.getString(R.string.facil);
+
+            /*String L8= Locale.getDefault().toString();
 
             switch(L8)
             {
@@ -87,13 +90,15 @@ public class ButtonGVAdapter extends BaseAdapter {
                     break;
                 default:
                     btnText = "FÁCIL";
-            }
+            }*/
 
 
         }
         else if(buttonsTitles[position].equals("2")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level1);
-            String L8= Locale.getDefault().toString();
+            btnText= mContext.getString(R.string.medio);
+
+            /*String L8= Locale.getDefault().toString();
 
             switch(L8)
             {
@@ -105,11 +110,12 @@ public class ButtonGVAdapter extends BaseAdapter {
                     break;
                 default:
                     btnText = "MEDIO";
-            }
+            }*/
         }
         else {
             btn.setBackgroundResource(R.drawable.button_single_player_level2);
-            String L8= Locale.getDefault().toString();
+            btnText= mContext.getString(R.string.dificil);
+            /*String L8= Locale.getDefault().toString();
 
             switch(L8)
             {
@@ -121,7 +127,7 @@ public class ButtonGVAdapter extends BaseAdapter {
                     break;
                 default:
                     btnText = "DIFÍCIL";
-            }
+            }*/
         }
 
         btn.setText(btnText);
@@ -133,12 +139,15 @@ public class ButtonGVAdapter extends BaseAdapter {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ArrayList<Uri> internalGalleryList = sqLiteGalleryPhoto.getHoleGallery();
                 for(int i = 0; i < internalGalleryList.size(); i++) {
                     System.out.println(internalGalleryList.get(i).toString());
                 }
                 if(internalGalleryList.isEmpty()) {
-                    Toast.makeText(mContext, "No hay fotos disponibles. Añade una foto para seguir jugando.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "No hay fotos disponibles. Añade una foto para seguir jugando.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getString(R.string.sinfotos), Toast.LENGTH_LONG).show();
+
                 } else {
                     Intent i = new Intent(v.getContext(), JigsawActivity.class);
                     //0 = easy, 1 = normal, 2 = difficult

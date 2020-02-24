@@ -25,7 +25,15 @@
     <string name="rb_default">Predeterminada</string>
     <string name="rb_select">Explorar</string>
     <string name="title_classification3">NIVELES</string>
-
+    <string name="hastardado">Has tardado </string>
+    <string name="segundos"> segundos</string>
+    <string name="completado">¡COMPLETADO!</string>
+    <string name="verescore">Haz click aquí para visualizar tu puntuación.</string>
+    <string name="facil">FÁCIL</string>
+    <string name="medio">MEDIO</string>
+    <string name="dificil">DIFICIL</string>
+    <string name="segundos2"> SEGUNDOS</string>
+    <string name="sinfotos"> No hay fotos disponibles. Añade una foto para seguir jugando.</string>
 
 
 
