@@ -24,4 +24,13 @@
     <string name="title_classification2">AIDER</string>
     <string name="title_classification3">NIVEAUX</string>
     <string name="vibrate">Vibration</string>
+    <string name="hastardado">il vous a fallu</string>
+    <string name="segundos">secondes</string>
+    <string name="completado">¡COMPLÉTÉ!</string>
+    <string name="verescore">Cliquez ici pour voir votre score.</string>
+    <string name="facil">FACILE</string>
+    <string name="medio">MOYENE</string>
+    <string name="dificil">DIFFICILE</string>
+    <string name="segundos2">SECONDES</string>
+    <string name="sinfotos">Pas de photos disponibles. Ajoutez une photo pour continuer à jouer.</string>
 </resources>

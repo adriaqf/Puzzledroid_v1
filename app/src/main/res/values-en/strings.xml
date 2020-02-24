@@ -24,7 +24,15 @@
     <string name="rb_default">Default</string>
     <string name="rb_select">Explore</string>
     <string name="title_classification3">LEVELS</string>
-
+    <string name="hastardado">It took you</string>
+    <string name="segundos">seconds</string>
+    <string name="completado">¡COMPLETED!</string>
+    <string name="verescore">Click here to view your score.</string>
+    <string name="facil">EASY</string>
+    ç<string name="medio">MEDIUM</string>
+    <string name="dificil">HARD</string>
+    <string name="segundos2"> SECONDS</string>
+    <string name="sinfotos">No photos available. Add a photo to keep playing.</string>
 
 
 

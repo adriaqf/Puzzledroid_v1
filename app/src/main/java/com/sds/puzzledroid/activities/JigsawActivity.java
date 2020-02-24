@@ -156,7 +156,20 @@ public class JigsawActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String L8= Locale.getDefault().toString();
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_notification_mood_24dp)
+                .setContentTitle(getString(R.string.completado) )
+                .setContentText(getString(R.string.verescore))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setTimeoutAfter(5000)
+                .setFullScreenIntent(fullScreenPendingIntent, true)
+                .build();
+        managerCompat.notify(1, notification);
+
+       /* String L8= Locale.getDefault().toString();
 
         switch(L8)
         {
@@ -203,7 +216,7 @@ public class JigsawActivity extends AppCompatActivity {
                     .build();
                      managerCompat.notify(1, notification3);
         }
-
+*/
     }
 
 
