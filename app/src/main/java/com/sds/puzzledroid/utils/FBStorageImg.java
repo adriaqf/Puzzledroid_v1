@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.pojos;
+package com.sds.puzzledroid.utils;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

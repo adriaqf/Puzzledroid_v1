@@ -16,6 +16,7 @@ import com.google.firebase.storage.StorageReference;
 import com.sds.puzzledroid.GlideApp;
 import com.sds.puzzledroid.activities.JigsawActivity;
 import com.sds.puzzledroid.listeners.TouchListener;
+import com.sds.puzzledroid.utils.FBStorageImg;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +73,6 @@ public class PuzzleImage {
                             @SuppressLint("ClickableViewAccessibility")
                             @Override
                             public void run() {
-                                jigsaw = new Jigsaw(context.getApplicationContext(), imageView, localDifficulty);
                                 TouchListener touchListener = new TouchListener(jigsawActivity);
                                 //Shuffle pieces order
                                 Collections.shuffle(jigsaw.getPieces());

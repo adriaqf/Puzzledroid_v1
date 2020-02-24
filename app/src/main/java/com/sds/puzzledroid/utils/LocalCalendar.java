@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.pojos;
+package com.sds.puzzledroid.utils;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -11,6 +11,10 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 
 import androidx.core.content.ContextCompat;
+
+import com.sds.puzzledroid.pojos.Score;
+import com.sds.puzzledroid.utils.LCalendarEvent;
+import com.sds.puzzledroid.utils.Permissions;
 
 import java.util.ArrayList;
 import java.util.Calendar;

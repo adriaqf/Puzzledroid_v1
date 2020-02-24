@@ -3,8 +3,6 @@ package com.sds.puzzledroid.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.pojos.MusicExplorer;
+import com.sds.puzzledroid.utils.MusicExplorer;
 import com.sds.puzzledroid.services.MusicService;
 
 import java.io.File;
@@ -91,6 +89,7 @@ public class SettingsActivity extends AppCompatActivity  {
     }
 
     // Explores external storage looking for music files
+    @SuppressWarnings("unchecked")
     public void toExploreMusicStorage() {
         SharedPreferences prefs = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
         prefs.getBoolean("examinar",false);

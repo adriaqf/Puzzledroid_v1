@@ -1,4 +1,4 @@
-package com.sds.puzzledroid.pojos;
+package com.sds.puzzledroid.utils;
 
 import android.app.Activity;
 import android.content.Context;

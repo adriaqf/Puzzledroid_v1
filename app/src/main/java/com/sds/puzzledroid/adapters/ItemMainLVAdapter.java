@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.pojos.LCalendarEvent;
+import com.sds.puzzledroid.utils.LCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.Locale;
