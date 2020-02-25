@@ -17,14 +17,15 @@ import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.pojos.Score;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ItemClassificationLVAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Score> scoreArrayList;
+    private List<Score> scoreArrayList;
 
-    public ItemClassificationLVAdapter(Context context, ArrayList<Score> scoreArrayList) {
+    public ItemClassificationLVAdapter(Context context, List<Score> scoreArrayList) {
         this.context = context;
         this.scoreArrayList = scoreArrayList;
     }
@@ -116,7 +117,7 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
                 tvSeconds.setText(scoreText3);
         }
 
-        tvDate.setText(score.getDateTime());
+        tvDate.setText(score.getUserName());
 
         return convertView;
     }

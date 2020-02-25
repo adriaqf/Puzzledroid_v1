@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.sds.puzzledroid.GlideApp;
 import com.sds.puzzledroid.listeners.TouchListener;
 import com.sds.puzzledroid.pojos.Jigsaw;
+import com.sds.puzzledroid.utils.FBFirestore;
 import com.sds.puzzledroid.utils.LocalCalendar;
 import com.sds.puzzledroid.pojos.PuzzleImage;
 import com.sds.puzzledroid.R;
@@ -41,7 +42,6 @@ import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.pojos.PuzzlePiece;
 import com.sds.puzzledroid.pojos.Score;
 import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
-import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -252,13 +252,13 @@ public class JigsawActivity extends AppCompatActivity {
 
             Score score = new Score(totalScore, localDifficulty);
 
-            //Inserting the new score on the db
-            SQLiteScore sqLiteScore = new SQLiteScore(this, score);
-            sqLiteScore.insertScore();
-
             //Inserting the new score on the Calendar
             LocalCalendar calendar = new LocalCalendar(this);
             calendar.addEvent(score);
+
+            //Inserting the new score on the Firestore
+            FBFirestore fb = new FBFirestore();
+            fb.addScoreDoc(score);
 
             //Deleting puzzle image from data base
             SQLiteGalleryPhoto sqLiteGalleryPhoto = new SQLiteGalleryPhoto(this);

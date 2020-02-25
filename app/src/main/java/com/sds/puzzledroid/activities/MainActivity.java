@@ -26,6 +26,7 @@ import com.sds.puzzledroid.services.MusicService;
 
 import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
 import com.sds.puzzledroid.pojos.InternalGallery;
+import com.sds.puzzledroid.utils.FBFirestore;
 import com.sds.puzzledroid.utils.LCalendarEvent;
 import com.sds.puzzledroid.utils.LocalCalendar;
 import com.sds.puzzledroid.utils.Permissions;

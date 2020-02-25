@@ -40,10 +40,6 @@ public class PuzzleImage {
         this.jigsawActivity = jigsawActivity;
     }
 
-    public Jigsaw getJigsaw() {
-        return jigsaw;
-    }
-
     // Selects an image from the Firebase Storage
     public StorageReference randomizeJigsawImage() {
         FBStorageImg fbStorageImg = new FBStorageImg();
@@ -56,40 +52,4 @@ public class PuzzleImage {
         return sRImages.get(pos);
     }
 
-    // Loads the selected image to JigsawActivity
-    public void loadImage() {
-        StorageReference img = randomizeJigsawImage();
-        GlideApp.with(context)
-                .load(img)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        imageView.post(new Runnable() {
-                            @SuppressLint("ClickableViewAccessibility")
-                            @Override
-                            public void run() {
-                                TouchListener touchListener = new TouchListener(jigsawActivity);
-                                //Shuffle pieces order
-                                Collections.shuffle(jigsaw.getPieces());
-                                for (PuzzlePiece piece : jigsaw.getPieces()) {
-                                    piece.setOnTouchListener(touchListener);
-                                    layout.addView(piece);
-                                    // randomize position, on the bottom of the screen
-                                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
-                                    piece.setLayoutParams(lParams);
-                                }
-                            }
-
-                        });
-                        return false;
-                    }})
-                .into(imageView);
-    }
 }

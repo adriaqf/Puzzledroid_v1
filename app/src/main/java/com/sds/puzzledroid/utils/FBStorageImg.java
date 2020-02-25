@@ -17,7 +17,6 @@ public class FBStorageImg {
             try {
                 StorageReference imgRef = parentRef.child("img" + i++ + ".jpg");
                 sRImages.add(imgRef);
-                System.out.println(imgRef);
             } catch (NullPointerException e) {
                 break;
             }
@@ -25,4 +24,24 @@ public class FBStorageImg {
 
         return sRImages;
     }
+
+    // Returns all images path saved inside /img's Firebase Storage folder
+    public ArrayList<String> getAllImgPathFiles() {
+        StorageReference parentRef = FirebaseStorage.getInstance().getReference("img");
+        ArrayList<String> imagesPath = new ArrayList<>();
+
+        int i = 1;
+        while(i <= 5) {
+            try {
+                StorageReference imgRef = parentRef.child("img" + i++ + ".jpg");
+                String path = imgRef.getPath();
+                imagesPath.add(path);
+                System.out.println(path);
+            } catch (NullPointerException e) {
+                break;
+            }
+        }
+        return imagesPath;
+    }
+
 }

@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sds.puzzledroid.R;
+import com.sds.puzzledroid.utils.FBFirestore;
 import com.sds.puzzledroid.utils.GoogleSignIn;
 
 public class LogInActivity extends AppCompatActivity {
@@ -76,6 +77,10 @@ public class LogInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("[SUCCESS]", "signInWithCredential:success");
+                            // Prepares user DB collection (if it's not there yet)
+                            FBFirestore fb = new FBFirestore();
+                            fb.prepareUserDoc();
+                            // Starts MainActivity
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
                         } else {
