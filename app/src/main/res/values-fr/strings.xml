@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Puzzledroid</string>
+    <string name="Settings">LES OPTIONS</string>
+    <string name="app_version">v 0.5</string>
+
+    <string name="btn_toolbar_help">"?"</string>
+    <string name="btn_toolbar_config">"⚙"️</string>
+    <string name="btn_toolbar_classification">"🏅"</string>
+    <string name="flooterText">UOC Jesuïtes Educació 2020 · SPS Group · Puzzledroid</string>
+
+    <string name="btn_classification_popup">VÉRIFIER LA CLASSIFICATION</string>
+    <string name="btn_close_popup">FERMER</string>
+    <string name="btn_multiplayer">Multijoueur</string>
+    <string name="btn_single_player">JOUER</string>
+    <string name="music_background">Musique</string>
+    <string name="music_default">Musique Officielle</string>
+    <string name="popup">¡FÈLICITATIONS!</string>
+    <string name="rb_default">Défaut</string>
+    <string name="rb_select">Explorer</string>
+    <string name="save_settings">SAUVEGARDER LES MODIFICATIONS</string>
+    <string name="sound_pool">Effets Sonore</string>
+    <string name="title_classification">TOP DIX</string>
+    <string name="title_classification2">AIDER</string>
+    <string name="title_classification3">NIVEAUX</string>
+    <string name="vibrate">Vibration</string>
+</resources>

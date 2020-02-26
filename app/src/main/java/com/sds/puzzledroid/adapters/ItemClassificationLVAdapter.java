@@ -17,13 +17,15 @@ import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.pojos.Score;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ItemClassificationLVAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Score> scoreArrayList;
+    private List<Score> scoreArrayList;
 
-    public ItemClassificationLVAdapter(Context context, ArrayList<Score> scoreArrayList) {
+    public ItemClassificationLVAdapter(Context context, List<Score> scoreArrayList) {
         this.context = context;
         this.scoreArrayList = scoreArrayList;
     }
@@ -47,7 +49,19 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Score score = (Score) getItem(position);
-        String scoreText = score.getTotalScore() + " SEGUNDOS";
+
+        String L8= Locale.getDefault().toString();
+        switch(L8)
+        {
+            case "en_US":
+                String scoreText = score.getTotalScore() + " SECONDS";
+                break;
+            case "fr_FR":
+                String scoreText2 = score.getTotalScore() + " SECONDES";
+                break;
+            default:
+                String scoreText3 = score.getTotalScore() + " SEGUNDOS";
+        }
 
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
@@ -87,8 +101,23 @@ public class ItemClassificationLVAdapter extends BaseAdapter {
             tvTrophy.setTextSize(20);
         }
 
-        tvSeconds.setText(scoreText);
-        tvDate.setText(score.getDateTime());
+        String L9= Locale.getDefault().toString();
+        switch(L8)
+        {
+            case "en_US":
+                String scoreText = score.getTotalScore() + " SECONDS";
+                tvSeconds.setText(scoreText);
+                break;
+            case "fr_FR":
+                String scoreText2 = score.getTotalScore() + " SECONDES";
+                tvSeconds.setText(scoreText2);
+                break;
+            default:
+                String scoreText3 = score.getTotalScore() + " SEGUNDOS";
+                tvSeconds.setText(scoreText3);
+        }
+
+        tvDate.setText(score.getUserName());
 
         return convertView;
     }

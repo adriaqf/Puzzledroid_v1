@@ -5,16 +5,26 @@
 
 
     <string name="btn_single_player">JUGAR</string>
-    <string name="btn_multiplayer">Multijugador</string>
 
     <string name="btn_toolbar_help">"?"</string>
     <string name="btn_toolbar_config">"⚙"️</string>
     <string name="btn_toolbar_classification">"🏅"</string>
 
-    <string name="save_settings">Guardar cambios</string>
+    <string name="save_settings">GUARDAR CAMBIOS</string>
     <string name="music_background">Musica</string>
     <string name="sound_pool">Efectos de sonido</string>
     <string name="music_default">Musica oficial</string>
     <string name="vibrate">Vibracion</string>
+    <string name="btn_multiplayer">Multijugador</string>
+    <string name="title_classification">DIEZ MEJORES</string>
+    <string name="title_classification2">AYUDA</string>
+    <string name="popup">¡ENHORABUENA!</string>
+    <string name="btn_close_popup">CERRAR</string>
+    <string name="btn_classification_popup">VER CLASIFICACIÓN</string>
+    <string name="Settings">OPCIONES</string>
+    <string name="rb_default">Predeterminada</string>
+    <string name="rb_select">Explorar</string>
+    <string name="title_classification3">NIVELES</string>
+
 
 </resources>

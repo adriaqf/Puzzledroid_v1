@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.SoundPool;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -27,10 +24,9 @@ import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.services.MusicService;
 
 import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
-import com.sds.puzzledroid.pojos.InternalGallery;
-import com.sds.puzzledroid.pojos.LCalendarEvent;
-import com.sds.puzzledroid.pojos.LocalCalendar;
-import com.sds.puzzledroid.pojos.Permissions;
+import com.sds.puzzledroid.utils.LCalendarEvent;
+import com.sds.puzzledroid.utils.LocalCalendar;
+import com.sds.puzzledroid.utils.Permissions;
 
 import java.util.ArrayList;
 
@@ -85,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
         //Permission needed READ_EXTERNAL_STORAGE
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(!preferences.getBoolean("firstTime", false)) {
-            //Takes all gallery photos from the phone
-            InternalGallery internalGallery = new InternalGallery(this);
-            internalGallery.saveFullGallery();
             //Creates a new calendar to save later scores
             LocalCalendar localCalendar = new LocalCalendar(this);
             localCalendar.addNewCalendar();

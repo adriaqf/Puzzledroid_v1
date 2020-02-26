@@ -1,12 +1,19 @@
 package com.sds.puzzledroid.listeners;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.activities.JigsawActivity;
+import com.sds.puzzledroid.pojos.Jigsaw;
 import com.sds.puzzledroid.pojos.PuzzlePiece;
 
 import static java.lang.Math.sqrt;
@@ -14,19 +21,27 @@ import static java.lang.StrictMath.abs;
 
 public class TouchListener implements View.OnTouchListener {
 
+
     private float xDelta, yDelta;
     private JigsawActivity jigsawActivity;
+    SoundPool sp;
+    int sound_piece;
 
-    public TouchListener(JigsawActivity jigsawActivity) {
-        this.jigsawActivity = jigsawActivity;
+
+    public TouchListener(Context jigsawActivity) {
+        sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
+        sound_piece = sp.load(jigsawActivity, R.raw.piece, 1);
+        this.jigsawActivity = (JigsawActivity) jigsawActivity;
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        final double tolerance = sqrt(v.getWidth() * v.getHeight())/10; // (1/10) of the piece's square root
+        final double tolerance = sqrt(v.getWidth() * v.getHeight()) / 10; // (1/10) of the piece's square root
         PuzzlePiece piece = (PuzzlePiece) v;
+
 
         //The piece is already in the right jigsaw's position
         if (!piece.canMove) {
@@ -56,11 +71,16 @@ public class TouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_UP:
                 int xDifference = abs(piece.xCoord - layoutParams.leftMargin);
                 int yDifference = abs(piece.yCoord - layoutParams.topMargin);
+
                 if (xDifference <= tolerance && yDifference <= tolerance) {
                     layoutParams.leftMargin = piece.xCoord;
                     layoutParams.topMargin = piece.yCoord;
                     piece.setLayoutParams(layoutParams);
                     piece.canMove = false;
+
+                    // piece.startAnimation(animZoomIn);
+                    soundPoolPiece();
+                    vibrate();
                     sendViewToBack(piece);
                     jigsawActivity.checkGameOver();
                 }
@@ -76,5 +96,25 @@ public class TouchListener implements View.OnTouchListener {
             parent.removeView(child);
             parent.addView(child, 0);
         }
+    }
+
+    public void vibrate() {
+        SharedPreferences pref = jigsawActivity.getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+        boolean vibrate = pref.getBoolean("sw_vibrate", true);
+        Vibrator vibrator = (Vibrator) jigsawActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrate) {
+            vibrator.vibrate(50);
+        }
+
+    }
+
+    public void soundPoolPiece() {
+        SharedPreferences pref = jigsawActivity.getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
+        boolean value = pref.getBoolean("effects_sound", true);
+
+        if (value) {
+            sp.play(sound_piece, 1, 1, 1, 0, 0);
+        }
+
     }
 }

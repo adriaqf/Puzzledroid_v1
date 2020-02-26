@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -18,15 +19,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.sds.puzzledroid.R;
-import com.sds.puzzledroid.adapters.ItemClassificationLVAdapter;
-import com.sds.puzzledroid.pojos.Score;
-import com.sds.puzzledroid.sqlite.SQLiteScore;
-
-import java.util.ArrayList;
+import com.sds.puzzledroid.utils.FBFirestore;
 
 public class ClassificationActivity extends AppCompatActivity {
 
-    private int difficulty;
     SoundPool sp;
     int sound_clic;
 
@@ -35,15 +31,8 @@ public class ClassificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classification);
 
-        Intent i = getIntent();
-        difficulty = i.getIntExtra("difficulty", 1);
-
         FrameLayout frameLayout = findViewById(R.id.fl_header_classification);
         ViewCompat.setTranslationZ(frameLayout, 1);
-
-        ListView listView = findViewById(R.id.lv_classification);
-        ItemClassificationLVAdapter itemLVAdapter = new ItemClassificationLVAdapter(this, getScores());
-        listView.setAdapter(itemLVAdapter);
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_clic = sp.load(this,R.raw.clic,1);
@@ -64,14 +53,19 @@ public class ClassificationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("Cargando");
+        progress.setMessage("Este proceso puede tardar varios segundos ...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+        // Gets top ten scores
+        ListView listView = findViewById(R.id.lv_classification);
+        listView.setOnItemClickListener(null);
+        FBFirestore fb = new FBFirestore();
+        fb.getTopTenScores(this, listView, progress);
 
-    public ArrayList<Score> getScores() {
-        ArrayList<Score> scores;
-        SQLiteScore sqLiteScore = new SQLiteScore(this);
-
-        scores = sqLiteScore.getAllScores(difficulty);
-
-        return scores;
     }
-
 }
