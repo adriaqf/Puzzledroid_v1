@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "306601866279",
+    "firebase_url": "https://puzzledroid-4968a.firebaseio.com",
+    "project_id": "puzzledroid-4968a",
+    "storage_bucket": "puzzledroid-4968a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306601866279:android:23a5628657b1df09594a02",
+        "android_client_info": {
+          "package_name": "com.sds.puzzledroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306601866279-2uv278reiucvvb3trfopffc16n575jt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbmU4yEp6C1nIwcBIQsLI0EIzp7paPC9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306601866279-2uv278reiucvvb3trfopffc16n575jt5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

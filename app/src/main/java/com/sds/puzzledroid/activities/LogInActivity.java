@@ -31,6 +31,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.utils.FBFirestore;
 import com.sds.puzzledroid.utils.GoogleSignIn;
+import com.sds.puzzledroid.utils.Permissions;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,24 +54,31 @@ public class LogInActivity extends AppCompatActivity {
 
         tvGPS = findViewById(R.id.tvGPS);
 
-       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},1000);
-        }else{
-            LocationManager locationManager = (LocationManager) getSystemService((Context.LOCATION_SERVICE));
-            Location location = locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER));
-            try{
-                String city = hereLocation(location.getLatitude(),location.getLongitude());
-              //  String all = getResources().getConfiguration().locale.getCountry()+ city;
-                tvGPS.setText(city);
-             //   tvGPS.setText(getResources().getConfiguration().locale.getCountry());
-            }catch (Exception e){
+        Permissions permissions = new Permissions(this);
+        permissions.verifyPermissions();
+
+       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1000);
+        } else {
+        LocationManager locationManager = (LocationManager) getSystemService((Context.LOCATION_SERVICE));
+        Location location = locationManager.getLastKnownLocation((LocationManager.GPS_PROVIDER));
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+            try {
+                Geocoder gcd = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = gcd.getFromLocation(latitude, longitude, 1);
+                if (addresses.size() > 0) {
+                    System.out.println(addresses.get(0).getLocality());
+                }
+              tvGPS.setText(addresses.get(0).getCountryName());
+            } catch (Exception e){
                 System.out.println(e.getMessage());
                 Toast.makeText(this, "Not 55found!", Toast.LENGTH_SHORT).show();
             }
 
         }
-        String all = getResources().getConfiguration().locale.getCountry();
-       //tvGPS.setText(city);
+        //String all = getResources().getConfiguration().locale.getCountry();
+        //tvGPS.setText(all);
     }
 
     @Override
@@ -80,16 +88,20 @@ public class LogInActivity extends AppCompatActivity {
             case 1000:
                 if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
                     LocationManager locationManager = (LocationManager) getSystemService((Context.LOCATION_SERVICE));
-                    Location location = locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER));
-                    try{
-                        String city = hereLocation(location.getLatitude(),location.getLongitude());
-                      //  String all = getResources().getConfiguration().locale.getCountry()+ " "+city;
-                        tvGPS.setText(city);
+                    Location location = locationManager.getLastKnownLocation((LocationManager.GPS_PROVIDER));
+                    try {
+                        double longitude = location.getLongitude();
+                        double latitude = location.getLatitude();
+                        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+                        List<Address> addresses = gcd.getFromLocation(latitude, longitude, 1);
+                        if (addresses.size() > 0) {
+                            System.out.println(addresses.get(0).getLocality());
+                        }
+                        tvGPS.setText(addresses.get(0).getCountryName());
                     }catch (Exception e){
                         e.printStackTrace();
                         Toast.makeText(this, "Not found!", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
+                    } }else{
                     Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
                 }
                 break;
