@@ -36,18 +36,12 @@ public class Permissions {
         if (ContextCompat.checkSelfPermission(context, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(context, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(context, READ_CALENDAR) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(context, WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED ) {
             //Permission is not granted
             if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, READ_EXTERNAL_STORAGE) ||
                     ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, WRITE_EXTERNAL_STORAGE) ||
                     ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, READ_CALENDAR) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, WRITE_CALENDAR) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, ACCESS_FINE_LOCATION)||
-                    ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, ACCESS_NETWORK_STATE)||
-                    ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, ACCESS_COARSE_LOCATION)) {
+                    ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, WRITE_CALENDAR)) {
                 Toast.makeText(context, "Necesitas aceptar varios permisos para utilizar Puzzledroid.", Toast.LENGTH_SHORT).show();
             } else {
                 ActivityCompat.requestPermissions((Activity) context, permissions, MY_PERMISSIONS);
