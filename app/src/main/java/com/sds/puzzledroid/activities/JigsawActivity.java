@@ -1,17 +1,15 @@
 package com.sds.puzzledroid.activities;
 
 import android.annotation.SuppressLint;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-
-import android.content.Intent;
 
 import android.net.Uri;
 
@@ -23,20 +21,26 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.sds.puzzledroid.pojos.ImagePuzzle;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.google.firebase.storage.StorageReference;
+import com.sds.puzzledroid.GlideApp;
+import com.sds.puzzledroid.listeners.TouchListener;
 import com.sds.puzzledroid.pojos.Jigsaw;
-import com.sds.puzzledroid.pojos.LocalCalendar;
-import com.sds.puzzledroid.pojos.PuzzlePiece;
+import com.sds.puzzledroid.utils.FBFirestore;
+import com.sds.puzzledroid.utils.LocalCalendar;
+import com.sds.puzzledroid.pojos.PuzzleImage;
 import com.sds.puzzledroid.R;
 
-import com.sds.puzzledroid.pojos.TouchListener;
+import com.sds.puzzledroid.pojos.PuzzlePiece;
 import com.sds.puzzledroid.pojos.Score;
-import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
-import com.sds.puzzledroid.sqlite.SQLiteScore;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -52,14 +56,16 @@ public class JigsawActivity extends AppCompatActivity {
     private int localDifficulty;
     private Uri uImagePath;
 
-    ImageView ivPuzzle;
-    ImageView ivwin;
-    Animation animZoomInBlind, zoomOutIn;
-    Animation alpha;
+    private RelativeLayout layout;
+    private ImageView ivPuzzle;
+    private ImageView ivPuzzleBG;
+    private ImageView ivWin;
+    private Animation animZoomInBlind, zoomOutIn;
+    private Animation alpha;
 
-    SoundPool sp;
-    int succefullSound;
-    int clickSound;
+    private SoundPool sp;
+    private int succesfullSound;
+    private int clickSound;
 
     private NotificationManagerCompat managerCompat;
 
@@ -71,19 +77,17 @@ public class JigsawActivity extends AppCompatActivity {
         managerCompat = NotificationManagerCompat.from(this);
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
-        succefullSound = sp.load(this, R.raw.succefull, 1);
+        succesfullSound = sp.load(this, R.raw.succefull, 1);
         clickSound = sp.load(this, R.raw.clic, 1);
 
-        final RelativeLayout layout = findViewById(R.id.rLayoutPuzzleLevel);
-        final ImageView imageView = findViewById(R.id.ivPuzzle);
+        layout = findViewById(R.id.rLayoutPuzzleLevel);
+        ivPuzzle = findViewById(R.id.ivPuzzle);
         chronometer = findViewById(R.id.chrono);
 
-        // Gets randomized image
-        ImagePuzzle imagePuzzle = new ImagePuzzle(this, imageView);
-        uImagePath = imagePuzzle.randomizeJigsawImage();
+        loadImageView();
 
-        ivPuzzle = findViewById(R.id.ivPuzzle); // Alpha background (puzzle)
-        ivwin = findViewById(R.id.ivwin); // Victory stars (for animation)
+        ivPuzzleBG = findViewById(R.id.ivPuzzle); // Alpha background (puzzle)
+        ivWin = findViewById(R.id.ivwin); // Victory stars (for animation)
 
         animZoomInBlind = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.zoom_in_blind); // Parpadeo de stars
@@ -92,31 +96,10 @@ public class JigsawActivity extends AppCompatActivity {
         zoomOutIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.zoom_in); // Zoom out + in
 
-        ivwin.startAnimation(alpha); // Hides stars picture
+        ivWin.startAnimation(alpha); // Hides stars picture
 
         Intent intent = getIntent();
         this.localDifficulty = intent.getIntExtra("levelDifficulty", 1);
-
-        imageView.post(new Runnable() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public void run() {
-                jigsaw = new Jigsaw(getApplicationContext(), imageView, localDifficulty);
-                TouchListener touchListener = new TouchListener(JigsawActivity.this);
-                //Shuffle pieces order
-                Collections.shuffle(jigsaw.getPieces());
-                for (PuzzlePiece piece : jigsaw.getPieces()) {
-                    piece.setOnTouchListener(touchListener);
-                    layout.addView(piece);
-                    // randomize position, on the bottom of the screen
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                    lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
-                    piece.setLayoutParams(lParams);
-                }
-            }
-
-        });
 
         chronometer.start();
     }
@@ -131,7 +114,7 @@ public class JigsawActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("GlobalSettings", Context.MODE_PRIVATE);
         boolean value = pref.getBoolean("effects_sound", true);
         if (value) {
-            sp.play(succefullSound, 1, 1, 1, 0, 0);
+            sp.play(succesfullSound, 1, 1, 1, 0, 0);
         }
     }
 
@@ -141,6 +124,50 @@ public class JigsawActivity extends AppCompatActivity {
 
         if (value) {
             sp.play(clickSound, 1, 1, 1, 0, 0);
+        }
+    }
+
+    private void loadImageView() {
+        // Gets randomized image
+        PuzzleImage puzzleImage = new PuzzleImage(this, ivPuzzle, jigsaw, localDifficulty, layout, this);
+        StorageReference img = puzzleImage.randomizeJigsawImage();
+        // Loads randomized image to imageview (!!!Async task!!!)
+        GlideApp.with(this)
+                .load(img)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        ivPuzzle.post(new Runnable() {
+                            @SuppressLint("ClickableViewAccessibility")
+                            @Override
+                            public void run() {
+                                loadJigsawPieces();
+                            }
+
+                        });
+                        return false;
+                    }})
+                .into(ivPuzzle);
+    }
+
+    public void loadJigsawPieces() {
+        jigsaw = new Jigsaw(getApplicationContext(), ivPuzzle, localDifficulty);
+        TouchListener touchListener = new TouchListener(JigsawActivity.this);
+        //Shuffle pieces order
+        Collections.shuffle(jigsaw.getPieces());
+        for (PuzzlePiece piece : jigsaw.getPieces()) {
+            piece.setOnTouchListener(touchListener);
+            layout.addView(piece);
+            // randomize position, on the bottom of the screen
+            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+            lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+            lParams.topMargin = layout.getHeight() - piece.pieceHeight - 50;
+            piece.setLayoutParams(lParams);
         }
     }
 
@@ -219,15 +246,14 @@ public class JigsawActivity extends AppCompatActivity {
 */
     }
 
-
     public void checkGameOver() {
         if (jigsaw.isJigsawCompleted()) {
 
             //Hide puzzle animation
-            ivPuzzle.setAlpha(1f);
-            ivPuzzle.bringToFront();
-            ivPuzzle.startAnimation(zoomOutIn);
-            ivwin.startAnimation(animZoomInBlind);
+            ivPuzzleBG.setAlpha(1f);
+            ivPuzzleBG.bringToFront();
+            ivPuzzleBG.startAnimation(zoomOutIn);
+            ivWin.startAnimation(animZoomInBlind);
             //Completed puzzle sound
             soundPoolJigsawComplete();
 
@@ -238,17 +264,13 @@ public class JigsawActivity extends AppCompatActivity {
 
             Score score = new Score(totalScore, localDifficulty);
 
-            //Inserting the new score on the db
-            SQLiteScore sqLiteScore = new SQLiteScore(this, score);
-            sqLiteScore.insertScore();
-
             //Inserting the new score on the Calendar
             LocalCalendar calendar = new LocalCalendar(this);
             calendar.addEvent(score);
 
-            //Deleting puzzle image from data base
-            SQLiteGalleryPhoto sqLiteGalleryPhoto = new SQLiteGalleryPhoto(this);
-            sqLiteGalleryPhoto.deletePhoto(uImagePath);
+            //Inserting the new score on the Firestore
+            FBFirestore fb = new FBFirestore();
+            fb.addScoreDoc(score);
 
             final Intent iPopUp = new Intent(this, PopupCustomActivity.class);
             iPopUp.putExtra("totalScore", totalScore);
@@ -261,7 +283,7 @@ public class JigsawActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
-                        ivwin.startAnimation(alpha);
+                        ivWin.startAnimation(alpha);
                     }
                 }
             };

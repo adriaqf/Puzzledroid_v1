@@ -16,7 +16,7 @@
     <string name="music_default">Musica oficial</string>
     <string name="vibrate">Vibracion</string>
     <string name="btn_multiplayer">Multijugador</string>
-    <string name="title_classification">CLASIFICACION</string>
+    <string name="title_classification">DIEZ MEJORES</string>
     <string name="title_classification2">AYUDA</string>
     <string name="popup">¡ENHORABUENA!</string>
     <string name="btn_close_popup">CERRAR</string>
@@ -34,9 +34,5 @@
     <string name="dificil">DIFICIL</string>
     <string name="segundos2"> SEGUNDOS</string>
     <string name="sinfotos"> No hay fotos disponibles. Añade una foto para seguir jugando.</string>
-
-
-
-
 
 </resources>

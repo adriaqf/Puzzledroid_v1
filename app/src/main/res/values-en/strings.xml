@@ -15,7 +15,7 @@
     <string name="save_settings">SAVE CHANGES</string>
     <string name="sound_pool">Sound Effects</string>
     <string name="vibrate">Vibration</string>
-    <string name="title_classification">RANKING</string>
+    <string name="title_classification">TOP TEN</string>
     <string name="title_classification2">HELP</string>
     <string name="popup">¡CONGRATULATIONS!</string>
     <string name="btn_close_popup">CLOSE</string>
@@ -33,7 +33,5 @@
     <string name="dificil">HARD</string>
     <string name="segundos2"> SECONDS</string>
     <string name="sinfotos">No photos available. Add a photo to keep playing.</string>
-
-
 
 </resources>
