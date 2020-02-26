@@ -46,8 +46,9 @@ public class ItemMainLVAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LCalendarEvent event = (LCalendarEvent) getItem(position);
+        String scoreText = event.getTitle() + " " + context.getString(R.string.segundos2);
 
-        String L8= Locale.getDefault().toString();
+        /*String L8= Locale.getDefault().toString();
         switch(L8)
         {
             case "en_US":
@@ -58,7 +59,7 @@ public class ItemMainLVAdapter extends BaseAdapter {
                 break;
             default:
                 String scoreText3 = event.getTitle() + " SEGUNDOS";
-        }
+        }*/
 
 
         if (convertView == null) {
@@ -93,7 +94,7 @@ public class ItemMainLVAdapter extends BaseAdapter {
         tvTrophy.setText("▪️");
         tvTrophy.setTextSize(20);
 
-        String L9= Locale.getDefault().toString();
+        /*String L9= Locale.getDefault().toString();
         switch(L8)
         {
             case "en_US":
@@ -107,8 +108,8 @@ public class ItemMainLVAdapter extends BaseAdapter {
             default:
                 String scoreText3 = event.getTitle() + " SEGUNDOS";
                 tvSeconds.setText(scoreText3);
-        }
-
+        }*/
+        tvSeconds.setText(scoreText);
         tvSeconds.setTextSize(15);
 
         return convertView;

@@ -19,9 +19,9 @@ import android.widget.Toast;
 
 import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.activities.JigsawActivity;
-
 import java.util.ArrayList;
 import java.util.Locale;
+
 
 
 public class ButtonGVAdapter extends BaseAdapter {
@@ -73,53 +73,15 @@ public class ButtonGVAdapter extends BaseAdapter {
 
         if(buttonsTitles[position].equals("1")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level0);
-            String L8= Locale.getDefault().toString();
-
-            switch(L8)
-            {
-                case "en_US":
-                    btnText = "EASY";
-                    break;
-                case "fr_FR":
-                    btnText = "FACILE";
-                    break;
-                default:
-                    btnText = "FÁCIL";
-            }
-
-
+            btnText= mContext.getString(R.string.facil);
         }
         else if(buttonsTitles[position].equals("2")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level1);
-            String L8= Locale.getDefault().toString();
-
-            switch(L8)
-            {
-                case "en_US":
-                    btnText = "MEDIUM";
-                    break;
-                case "fr_FR":
-                    btnText = "MOYENE";
-                    break;
-                default:
-                    btnText = "MEDIO";
-            }
+            btnText= mContext.getString(R.string.medio)
         }
         else {
             btn.setBackgroundResource(R.drawable.button_single_player_level2);
-            String L8= Locale.getDefault().toString();
-
-            switch(L8)
-            {
-                case "en_US":
-                    btnText = "HARD";
-                    break;
-                case "fr_FR":
-                    btnText = "DIFFICILE";
-                    break;
-                default:
-                    btnText = "DIFÍCIL";
-            }
+            btnText= mContext.getString(R.string.dificil);
         }
 
         btn.setText(btnText);
