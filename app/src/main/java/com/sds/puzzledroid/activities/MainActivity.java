@@ -19,14 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.sds.puzzledroid.R;
 
 import com.sds.puzzledroid.services.MusicService;
 
 import com.sds.puzzledroid.adapters.ItemMainLVAdapter;
-import com.sds.puzzledroid.pojos.InternalGallery;
-import com.sds.puzzledroid.utils.FBFirestore;
 import com.sds.puzzledroid.utils.LCalendarEvent;
 import com.sds.puzzledroid.utils.LocalCalendar;
 import com.sds.puzzledroid.utils.Permissions;
@@ -84,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
         //Permission needed READ_EXTERNAL_STORAGE
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(!preferences.getBoolean("firstTime", false)) {
-            //Takes all gallery photos from the phone
-            InternalGallery internalGallery = new InternalGallery(this);
-            internalGallery.saveFullGallery();
             //Creates a new calendar to save later scores
             LocalCalendar localCalendar = new LocalCalendar(this);
             localCalendar.addNewCalendar();

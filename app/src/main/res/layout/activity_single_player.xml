@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/toolbar_dynamic"
-        layout="@layout/toolbar_bottom_sp"/>
+        layout="@layout/toolbar_bottom"/>
 
     <LinearLayout
         android:id="@+id/singlePlayerLinearL"

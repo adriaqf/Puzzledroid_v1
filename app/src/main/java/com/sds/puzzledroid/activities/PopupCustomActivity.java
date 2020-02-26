@@ -26,10 +26,9 @@ public class PopupCustomActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int totalScore = intent.getIntExtra("totalScore", 1);
-        System.out.println("SCORE 2: " + totalScore);
         difficulty = intent.getIntExtra("difficulty", 1);
 
-        String L8= Locale.getDefault().toString();
+        String L8 = Locale.getDefault().toString();
 
         switch(L8)
         {
@@ -77,19 +76,6 @@ public class PopupCustomActivity extends AppCompatActivity {
                 startActivity(i);
                 break;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), SinglePlayerActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        }, 500);
     }
 
 }

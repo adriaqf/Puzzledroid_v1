@@ -23,7 +23,6 @@ import com.sds.puzzledroid.utils.FBFirestore;
 
 public class ClassificationActivity extends AppCompatActivity {
 
-    private int difficulty;
     SoundPool sp;
     int sound_clic;
 
@@ -32,14 +31,8 @@ public class ClassificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classification);
 
-        Intent i = getIntent();
-        difficulty = i.getIntExtra("difficulty", 1);
-
         FrameLayout frameLayout = findViewById(R.id.fl_header_classification);
         ViewCompat.setTranslationZ(frameLayout, 1);
-
-        //ItemClassificationLVAdapter itemLVAdapter = new ItemClassificationLVAdapter(this, getScores());
-        //listView.setAdapter(itemLVAdapter);
 
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
         sound_clic = sp.load(this,R.raw.clic,1);

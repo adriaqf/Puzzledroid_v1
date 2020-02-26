@@ -41,7 +41,6 @@ import com.sds.puzzledroid.R;
 
 import com.sds.puzzledroid.pojos.PuzzlePiece;
 import com.sds.puzzledroid.pojos.Score;
-import com.sds.puzzledroid.sqlite.SQLiteGalleryPhoto;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -259,10 +258,6 @@ public class JigsawActivity extends AppCompatActivity {
             //Inserting the new score on the Firestore
             FBFirestore fb = new FBFirestore();
             fb.addScoreDoc(score);
-
-            //Deleting puzzle image from data base
-            SQLiteGalleryPhoto sqLiteGalleryPhoto = new SQLiteGalleryPhoto(this);
-            //ºsqLiteGalleryPhoto.deletePhoto(uImagePath);
 
             final Intent iPopUp = new Intent(this, PopupCustomActivity.class);
             iPopUp.putExtra("totalScore", totalScore);
