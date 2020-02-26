@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -99,7 +100,16 @@ public class LogInActivity extends AppCompatActivity {
                 if (!list.isEmpty()) {
                     Address DirCalle = list.get(0);
                   //  tvGPS.setText("Mi direccion es: \n"  + DirCalle.getAddressLine(0));
-                    tvGPS.setText(list.get(0).getCountryCode()+" " + list.get(0).getLocality()+"\n"+list.get(0).getAddressLine(0));
+                    tvGPS.setText(list.get(0).getCountryCode());
+                    //DIRECCION DE TU CASA//////////////////+" " + list.get(0).getLocality()+"\n"+list.get(0).getAddressLine(0)
+
+                    //Los valores de localizacion "list.get(0).getCountryCode()" si se cambia por un "fr" , la app se pone en frances.
+                    Locale localizacion = new Locale(list.get(0).getCountryCode());
+                    Locale.setDefault(localizacion);
+                    Configuration config = new Configuration();
+                    config.locale = localizacion;
+                    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
