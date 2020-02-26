@@ -77,7 +77,7 @@ public class ButtonGVAdapter extends BaseAdapter {
         }
         else if(buttonsTitles[position].equals("2")) {
             btn.setBackgroundResource(R.drawable.button_single_player_level1);
-            btnText= mContext.getString(R.string.medio)
+            btnText= mContext.getString(R.string.medio);
         }
         else {
             btn.setBackgroundResource(R.drawable.button_single_player_level2);
