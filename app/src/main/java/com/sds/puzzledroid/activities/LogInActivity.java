@@ -3,10 +3,19 @@ package com.sds.puzzledroid.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,10 +32,15 @@ import com.sds.puzzledroid.R;
 import com.sds.puzzledroid.utils.FBFirestore;
 import com.sds.puzzledroid.utils.GoogleSignIn;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class LogInActivity extends AppCompatActivity {
 
     public static FirebaseAuth auth;
     private static int RC_SIGN_IN = 10001;
+    private TextView tvGPS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +50,76 @@ public class LogInActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         GoogleSignIn.configGoogleSignIn(this);
 
+
+        tvGPS = findViewById(R.id.tvGPS);
+
+       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},1000);
+        }else{
+            LocationManager locationManager = (LocationManager) getSystemService((Context.LOCATION_SERVICE));
+            Location location = locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER));
+            try{
+                String city = hereLocation(location.getLatitude(),location.getLongitude());
+              //  String all = getResources().getConfiguration().locale.getCountry()+ city;
+                tvGPS.setText(city);
+             //   tvGPS.setText(getResources().getConfiguration().locale.getCountry());
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                Toast.makeText(this, "Not 55found!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        String all = getResources().getConfiguration().locale.getCountry();
+       //tvGPS.setText(city);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode){
+            case 1000:
+                if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    LocationManager locationManager = (LocationManager) getSystemService((Context.LOCATION_SERVICE));
+                    Location location = locationManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER));
+                    try{
+                        String city = hereLocation(location.getLatitude(),location.getLongitude());
+                      //  String all = getResources().getConfiguration().locale.getCountry()+ " "+city;
+                        tvGPS.setText(city);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(this, "Not found!", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    private String hereLocation(double lat, double lon) {
+        String cityName = "";
+        String algo = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> adresses;
+        try {
+            adresses = geocoder.getFromLocation(lat, lon, 10);
+            if(adresses.size()>0){
+                for (Address adr: adresses){
+                    if(adr.getLocality()!= null && adr.getLocality().length()>0){
+                        cityName = adr.getLocality();
+                        algo = adr.getCountryName();
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return cityName;
+    }
+
+
 
     public void onClickLogIn(View view) {
         signIn();
